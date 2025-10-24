@@ -65,15 +65,13 @@
         .header h1 {
             font-size: 3.5rem;
             font-weight: 800;
-            background: linear-gradient(135deg, #667eea, #764ba2, #f093fb);
-            background-clip: text;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-transform: uppercase;
-            letter-spacing: 3px;
+            color: #667eea;
+            letter-spacing: 2px;
         }
 
         .contact-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 50px; }
+        .contact-grid.single-column { grid-template-columns: 1fr; max-width: 700px; margin: 0 auto; }
+        .contact-grid.single-column .contact-card:nth-child(2) { display: none; }
 
         .contact-card {
             background: linear-gradient(135deg, rgba(30, 30, 60, 0.6), rgba(40, 35, 70, 0.6), rgba(35, 30, 65, 0.6));
@@ -81,16 +79,71 @@
             backdrop-filter: blur(10px);
             border-radius: 30px;
             padding: 50px 40px;
-            border: 2px solid rgba(102, 126, 234, 0.2);
+            position: relative;
+            overflow: hidden;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             animation: gradientShift 8s ease infinite, subtleGlow 4s ease-in-out infinite;
         }
+        
+        .contact-card::before {
+            content: '';
+            position: absolute;
+            inset: -3px;
+            border-radius: 30px;
+            padding: 3px;
+            background: linear-gradient(135deg, 
+                rgba(102, 126, 234, 0.3),
+                rgba(118, 75, 162, 0.3),
+                rgba(240, 147, 251, 0.3),
+                rgba(102, 126, 234, 0.3)
+            );
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0.3;
+            transition: all 0.4s ease;
+            z-index: -1;
+        }
+        
+        .contact-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 30px;
+            background: linear-gradient(135deg, 
+                rgba(102, 126, 234, 0.05),
+                rgba(118, 75, 162, 0.05),
+                rgba(240, 147, 251, 0.05)
+            );
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            pointer-events: none;
+            z-index: 0;
+        }
 
         .contact-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 60px rgba(102, 126, 234, 0.4), 0 0 40px rgba(102, 126, 234, 0.2);
-            border-color: rgba(102, 126, 234, 0.4);
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 
+                0 25px 70px rgba(102, 126, 234, 0.6), 
+                0 0 60px rgba(118, 75, 162, 0.4),
+                0 0 100px rgba(240, 147, 251, 0.3),
+                inset 0 0 50px rgba(102, 126, 234, 0.1);
             animation-play-state: paused;
+        }
+        
+        .contact-card:hover::before {
+            opacity: 1;
+            animation: rotateBorder 3s linear infinite;
+            background: linear-gradient(135deg, 
+                #667eea,
+                #764ba2,
+                #f093fb,
+                #667eea
+            );
+        }
+        
+        .contact-card:hover::after {
+            opacity: 1;
         }
 
         .avatar-wrapper {
@@ -98,6 +151,8 @@
             width: 180px;
             height: 180px;
             margin: 0 auto 30px;
+            z-index: 1;
+            overflow: visible;
         }
 
         .avatar-wrapper::before {
@@ -109,6 +164,14 @@
             animation: rotate 3s linear infinite;
             z-index: -1;
         }
+        
+        .contact-card:nth-child(1) .avatar-wrapper::before {
+            background: linear-gradient(135deg, #ff6b35, #f7931e, #ffd700);
+        }
+        
+        .contact-card:nth-child(2) .avatar-wrapper::before {
+            background: linear-gradient(135deg, #11998e, #38ef7d, #7bed9f);
+        }
 
         .avatar {
             width: 100%;
@@ -116,6 +179,18 @@
             border-radius: 50%;
             object-fit: cover;
             border: 5px solid rgba(15, 12, 41, 0.9);
+            transition: all 2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .contact-card:hover .avatar {
+            transform: scale(1.2);
+            border: 0;
+            border-radius: 20px;
+        }
+        
+        .contact-card:hover .avatar-wrapper::before {
+            opacity: 0;
+            transition: opacity 0.5s ease;
         }
 
         .contact-title {
@@ -124,6 +199,8 @@
             font-weight: 700;
             color: #fff;
             margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
         }
 
         .contact-description {
@@ -132,12 +209,16 @@
             line-height: 1.8;
             margin-bottom: 35px;
             font-size: 1.05rem;
+            position: relative;
+            z-index: 1;
         }
 
         .social-links {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 15px;
+            position: relative;
+            z-index: 1;
         }
 
         .social-link {
@@ -208,6 +289,166 @@
         .steam-game i { color: #1f6cab; }
         .steam-workshop { border-color: rgba(92, 151, 196, 0.3); background: rgba(92, 151, 196, 0.05); }
         .steam-workshop i { color: #5c97c4; }
+        .telegram { border-color: rgba(34, 158, 217, 0.3); background: rgba(34, 158, 217, 0.05); }
+        .telegram i { color: #229ED9; }
+        .shopee { border-color: rgba(238, 77, 45, 0.3); background: rgba(238, 77, 45, 0.05); }
+        .shopee i { color: #EE4D2D; }
+        .lazada { border-color: rgba(15, 21, 109, 0.3); background: rgba(15, 21, 109, 0.05); }
+        .lazada i { color: #0F156D; }
+        .zalo { border-color: rgba(0, 119, 255, 0.3); background: rgba(0, 119, 255, 0.05); }
+        .zalo i { color: #0077FF; }
+        .viber { border-color: rgba(124, 88, 179, 0.3); background: rgba(124, 88, 179, 0.05); }
+        .viber i { color: #7C58B3; }
+        .whatsapp { border-color: rgba(37, 211, 102, 0.3); background: rgba(37, 211, 102, 0.05); }
+        .whatsapp i { color: #25D366; }
+        .messenger { border-color: rgba(0, 132, 255, 0.3); background: rgba(0, 132, 255, 0.05); }
+        .messenger i { color: #0084FF; }
+        .threads { border-color: rgba(0, 0, 0, 0.3); background: rgba(0, 0, 0, 0.05); }
+        .threads i { color: #000000; }
+        .reddit { border-color: rgba(255, 69, 0, 0.3); background: rgba(255, 69, 0, 0.05); }
+        .reddit i { color: #FF4500; }
+        .pinterest { border-color: rgba(230, 0, 35, 0.3); background: rgba(230, 0, 35, 0.05); }
+        .pinterest i { color: #E60023; }
+        .snapchat { border-color: rgba(255, 252, 0, 0.3); background: rgba(255, 252, 0, 0.05); }
+        .snapchat i { color: #FFFC00; }
+        .spotify { border-color: rgba(30, 215, 96, 0.3); background: rgba(30, 215, 96, 0.05); }
+        .spotify i { color: #1DB954; }
+        .soundcloud { border-color: rgba(255, 85, 0, 0.3); background: rgba(255, 85, 0, 0.05); }
+        .soundcloud i { color: #FF5500; }
+        .apple-music { border-color: rgba(252, 61, 57, 0.3); background: rgba(252, 61, 57, 0.05); }
+        .apple-music i { color: #FC3D39; }
+        .youtube-music { border-color: rgba(255, 0, 0, 0.3); background: rgba(255, 0, 0, 0.05); }
+        .youtube-music i { color: #FF0000; }
+        .medium { border-color: rgba(0, 0, 0, 0.3); background: rgba(0, 0, 0, 0.05); }
+        .medium i { color: #000000; }
+        .wordpress { border-color: rgba(33, 117, 155, 0.3); background: rgba(33, 117, 155, 0.05); }
+        .wordpress i { color: #21759B; }
+        .blogger { border-color: rgba(255, 87, 34, 0.3); background: rgba(255, 87, 34, 0.05); }
+        .blogger i { color: #FF5722; }
+        .vimeo { border-color: rgba(26, 183, 234, 0.3); background: rgba(26, 183, 234, 0.05); }
+        .vimeo i { color: #1AB7EA; }
+        .netflix { border-color: rgba(229, 9, 20, 0.3); background: rgba(229, 9, 20, 0.05); }
+        .netflix i { color: #E50914; }
+        .xbox { border-color: rgba(16, 124, 16, 0.3); background: rgba(16, 124, 16, 0.05); }
+        .xbox i { color: #107C10; }
+        .playstation { border-color: rgba(0, 67, 156, 0.3); background: rgba(0, 67, 156, 0.05); }
+        .playstation i { color: #00439C; }
+        .nintendo { border-color: rgba(230, 0, 18, 0.3); background: rgba(230, 0, 18, 0.05); }
+        .nintendo i { color: #E60012; }
+        .epic-games { border-color: rgba(49, 49, 49, 0.3); background: rgba(49, 49, 49, 0.05); }
+        .epic-games i { color: #313131; }
+        .battle-net { border-color: rgba(0, 176, 240, 0.3); background: rgba(0, 176, 240, 0.05); }
+        .battle-net i { color: #00B0F0; }
+        .riot { border-color: rgba(235, 47, 64, 0.3); background: rgba(235, 47, 64, 0.05); }
+        .riot i { color: #EB2F40; }
+        .document { border-color: rgba(74, 144, 226, 0.3); background: rgba(74, 144, 226, 0.05); }
+        .document i { color: #4A90E2; }
+        .news { border-color: rgba(255, 159, 64, 0.3); background: rgba(255, 159, 64, 0.05); }
+        .news i { color: #FF9F40; }
+        .blog { border-color: rgba(156, 39, 176, 0.3); background: rgba(156, 39, 176, 0.05); }
+        .blog i { color: #9C27B0; }
+        .music { border-color: rgba(233, 30, 99, 0.3); background: rgba(233, 30, 99, 0.05); }
+        .music i { color: #E91E63; }
+        .video { border-color: rgba(244, 67, 54, 0.3); background: rgba(244, 67, 54, 0.05); }
+        .video i { color: #F44336; }
+        .game { border-color: rgba(103, 58, 183, 0.3); background: rgba(103, 58, 183, 0.05); }
+        .game i { color: #673AB7; }
+        .podcast { border-color: rgba(156, 39, 176, 0.3); background: rgba(156, 39, 176, 0.05); }
+        .podcast i { color: #9C27B0; }
+        .patreon { border-color: rgba(255, 66, 77, 0.3); background: rgba(255, 66, 77, 0.05); }
+        .patreon i { color: #FF424D; }
+        .ko-fi { border-color: rgba(255, 93, 177, 0.3); background: rgba(255, 93, 177, 0.05); }
+        .ko-fi i { color: #FF5DB1; }
+        .paypal { border-color: rgba(0, 48, 135, 0.3); background: rgba(0, 48, 135, 0.05); }
+        .paypal i { color: #003087; }
+        .donate { border-color: rgba(76, 175, 80, 0.3); background: rgba(76, 175, 80, 0.05); }
+        .donate i { color: #4CAF50; }
+        .phone { border-color: rgba(33, 150, 243, 0.3); background: rgba(33, 150, 243, 0.05); }
+        .phone i { color: #2196F3; }
+        .map { border-color: rgba(244, 81, 30, 0.3); background: rgba(244, 81, 30, 0.05); }
+        .map i { color: #F4511E; }
+        .calendar { border-color: rgba(66, 133, 244, 0.3); background: rgba(66, 133, 244, 0.05); }
+        .calendar i { color: #4285F4; }
+        .link { border-color: rgba(102, 126, 234, 0.3); background: rgba(102, 126, 234, 0.05); }
+        .link i { color: #667eea; }
+        
+        .icon-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: rgba(15, 12, 41, 0.98);
+            border: 2px solid rgba(102, 126, 234, 0.3);
+            border-radius: 10px;
+            max-height: 300px;
+            overflow-y: auto;
+            z-index: 1000;
+            display: none;
+            margin-top: 5px;
+        }
+        
+        .icon-dropdown.show {
+            display: block;
+        }
+        
+        .icon-option {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: #a8b2d1;
+        }
+        
+        .icon-option:hover {
+            background: rgba(102, 126, 234, 0.2);
+            color: #fff;
+        }
+        
+        .icon-option i {
+            font-size: 1.2rem;
+            width: 24px;
+            text-align: center;
+        }
+        
+        .icon-option.selected {
+            background: rgba(102, 126, 234, 0.3);
+            color: #667eea;
+            font-weight: 600;
+        }
+        
+        .icon-selector {
+            position: relative;
+        }
+        
+        .icon-selector-button {
+            width: 100%;
+            padding: 12px;
+            background: rgba(15, 12, 41, 0.6);
+            border: 1px solid rgba(102, 126, 234, 0.3);
+            border-radius: 8px;
+            color: #fff;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: border 0.3s;
+        }
+        
+        .icon-selector-button:hover {
+            border-color: #667eea;
+        }
+        
+        .icon-selector-button i {
+            font-size: 1.2rem;
+            width: 24px;
+            text-align: center;
+        }
+        
+        .icon-dropdown::-webkit-scrollbar { width: 6px; }
+        .icon-dropdown::-webkit-scrollbar-track { background: rgba(15, 12, 41, 0.5); }
+        .icon-dropdown::-webkit-scrollbar-thumb { background: rgba(102, 126, 234, 0.5); border-radius: 3px; }
 
         .top-bar {
             position: fixed;
@@ -492,6 +733,24 @@
 
         @keyframes rotate { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         
+        @keyframes rotateBorder {
+            0% { 
+                background: linear-gradient(0deg, #667eea, #764ba2, #f093fb, #667eea);
+            }
+            25% {
+                background: linear-gradient(90deg, #667eea, #764ba2, #f093fb, #667eea);
+            }
+            50% {
+                background: linear-gradient(180deg, #667eea, #764ba2, #f093fb, #667eea);
+            }
+            75% {
+                background: linear-gradient(270deg, #667eea, #764ba2, #f093fb, #667eea);
+            }
+            100% {
+                background: linear-gradient(360deg, #667eea, #764ba2, #f093fb, #667eea);
+            }
+        }
+        
         @keyframes gradientShift {
             0%, 100% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
@@ -655,6 +914,16 @@
         <p class="hint">💡 Thay đổi sẽ hiển thị ngay lập tức!</p>
 
         <div class="settings-section">
+            <h3>📐 Layout</h3>
+            <label>Số cột hiển thị:</label>
+            <select id="layoutSelect">
+                <option value="2col">2 Cột (Hiển thị cả 2 cards)</option>
+                <option value="1col">1 Cột (Chỉ hiển thị Card 1)</option>
+            </select>
+            <p style="color:#8892b0;font-size:0.85rem;margin-top:5px;font-style:italic">💡 Layout 1 cột phù hợp khi chỉ cần hiển thị ít thông tin</p>
+        </div>
+
+        <div class="settings-section">
             <h3>📏 Kích Cỡ Font</h3>
             <div class="font-size-grid">
                 <div>
@@ -678,10 +947,22 @@
 
         <div class="settings-section">
             <h3>📝 Tiêu Đề Chính</h3>
-            <label>Tiêu đề (Tiếng Việt):</label>
-            <input type="text" id="mainTitle_vi" placeholder="TIÊU ĐỀ LỚN">
-            <label>Title (English):</label>
-            <input type="text" id="mainTitle_en" placeholder="MAIN TITLE">
+            <label>Tiêu đề (Tiếng Việt): <span style="color:#667eea;font-size:0.85rem">✨ Hỗ trợ HTML: &lt;b&gt; &lt;br&gt; &lt;i&gt; &lt;span style="color:#..."&gt;</span></label>
+            <textarea id="mainTitle_vi" placeholder="TIÊU ĐỀ LỚN" rows="2"></textarea>
+            <label>Title (English): <span style="color:#667eea;font-size:0.85rem">✨ HTML: &lt;b&gt; &lt;br&gt; &lt;i&gt; &lt;span style="color:#..."&gt;</span></label>
+            <textarea id="mainTitle_en" placeholder="MAIN TITLE" rows="2"></textarea>
+            
+            <div class="font-size-grid" style="margin-top:15px">
+                <div>
+                    <label>Màu mặc định:</label>
+                    <input type="color" id="mainTitleColor" value="#667eea">
+                </div>
+                <div>
+                    <label>Kích cỡ: <span class="range-value" id="mainTitleSizeVal">3.5rem</span></label>
+                    <input type="range" id="mainTitleSize" min="2" max="6" step="0.1" value="3.5">
+                </div>
+            </div>
+            <p style="color:#8892b0;font-size:0.85rem;margin-top:5px;font-style:italic">💡 Màu mặc định áp dụng khi không dùng inline style trong HTML</p>
         </div>
 
         <div class="settings-section">
@@ -708,6 +989,23 @@
         <div class="settings-section">
             <h3>👤 Card 1</h3>
             <label>Avatar URL:</label><input type="text" id="avatar1" placeholder="IMG/avatar1.jpg">
+            
+            <div class="font-size-grid" style="margin:15px 0">
+                <div>
+                    <label>🎨 Màu viền Avatar 1:</label>
+                    <input type="color" id="avatarColor1_1" value="#ff6b35">
+                </div>
+                <div>
+                    <label>🎨 Màu viền Avatar 2:</label>
+                    <input type="color" id="avatarColor1_2" value="#f7931e">
+                </div>
+                <div>
+                    <label>🎨 Màu viền Avatar 3:</label>
+                    <input type="color" id="avatarColor1_3" value="#ffd700">
+                </div>
+            </div>
+            <p style="color:#8892b0;font-size:0.85rem;margin-bottom:15px;font-style:italic">💡 Gradient 3 màu cho viền xoay động của avatar</p>
+            
             <label>Title (Việt):</label><input type="text" id="title1_vi" placeholder="Thunder Gaming">
             <label>Title (English):</label><input type="text" id="title1_en" placeholder="Thunder Gaming">
             <label>Description (Việt): <span style="color:#667eea;font-size:0.85rem">✨ Hỗ trợ HTML: &lt;b&gt; &lt;br&gt; &lt;i&gt;</span></label><textarea id="desc1_vi" placeholder="Dùng <b>in đậm</b> và <br> xuống dòng"></textarea>
@@ -721,6 +1019,23 @@
         <div class="settings-section">
             <h3>👤 Card 2</h3>
             <label>Avatar URL:</label><input type="text" id="avatar2" placeholder="IMG/avatar2.jpg">
+            
+            <div class="font-size-grid" style="margin:15px 0">
+                <div>
+                    <label>🎨 Màu viền Avatar 1:</label>
+                    <input type="color" id="avatarColor2_1" value="#11998e">
+                </div>
+                <div>
+                    <label>🎨 Màu viền Avatar 2:</label>
+                    <input type="color" id="avatarColor2_2" value="#38ef7d">
+                </div>
+                <div>
+                    <label>🎨 Màu viền Avatar 3:</label>
+                    <input type="color" id="avatarColor2_3" value="#7bed9f">
+                </div>
+            </div>
+            <p style="color:#8892b0;font-size:0.85rem;margin-bottom:15px;font-style:italic">💡 Gradient 3 màu cho viền xoay động của avatar</p>
+            
             <label>Title (Việt):</label><input type="text" id="title2_vi" placeholder="Phoenix Rising">
             <label>Title (English):</label><input type="text" id="title2_en" placeholder="Phoenix Rising">
             <label>Description (Việt): <span style="color:#667eea;font-size:0.85rem">✨ Hỗ trợ HTML: &lt;b&gt; &lt;br&gt; &lt;i&gt;</span></label><textarea id="desc2_vi" placeholder="Dùng <b>in đậm</b> và <br> xuống dòng"></textarea>
@@ -772,14 +1087,58 @@
             steam: { icon: 'fab fa-steam', label: 'Steam', class: 'steam' },
             'steam-curator': { icon: 'fab fa-steam', label: 'Steam Curator', class: 'steam-curator' },
             'steam-game': { icon: 'fab fa-steam', label: 'Steam Game', class: 'steam-game' },
-            'steam-workshop': { icon: 'fab fa-steam', label: 'Steam Workshop', class: 'steam-workshop' }
+            'steam-workshop': { icon: 'fab fa-steam', label: 'Steam Workshop', class: 'steam-workshop' },
+            telegram: { icon: 'fab fa-telegram', label: 'Telegram', class: 'telegram' },
+            shopee: { icon: 'fas fa-shopping-bag', label: 'Shopee', class: 'shopee' },
+            lazada: { icon: 'fas fa-shopping-cart', label: 'Lazada', class: 'lazada' },
+            zalo: { icon: 'fas fa-comment', label: 'Zalo', class: 'zalo' },
+            viber: { icon: 'fab fa-viber', label: 'Viber', class: 'viber' },
+            whatsapp: { icon: 'fab fa-whatsapp', label: 'WhatsApp', class: 'whatsapp' },
+            messenger: { icon: 'fab fa-facebook-messenger', label: 'Messenger', class: 'messenger' },
+            threads: { icon: 'fab fa-threads', label: 'Threads', class: 'threads' },
+            reddit: { icon: 'fab fa-reddit', label: 'Reddit', class: 'reddit' },
+            pinterest: { icon: 'fab fa-pinterest', label: 'Pinterest', class: 'pinterest' },
+            snapchat: { icon: 'fab fa-snapchat', label: 'Snapchat', class: 'snapchat' },
+            spotify: { icon: 'fab fa-spotify', label: 'Spotify', class: 'spotify' },
+            soundcloud: { icon: 'fab fa-soundcloud', label: 'SoundCloud', class: 'soundcloud' },
+            'apple-music': { icon: 'fab fa-apple', label: 'Apple Music', class: 'apple-music' },
+            'youtube-music': { icon: 'fab fa-youtube', label: 'YouTube Music', class: 'youtube-music' },
+            medium: { icon: 'fab fa-medium', label: 'Medium', class: 'medium' },
+            wordpress: { icon: 'fab fa-wordpress', label: 'WordPress', class: 'wordpress' },
+            blogger: { icon: 'fab fa-blogger', label: 'Blogger', class: 'blogger' },
+            vimeo: { icon: 'fab fa-vimeo', label: 'Vimeo', class: 'vimeo' },
+            netflix: { icon: 'fas fa-film', label: 'Netflix', class: 'netflix' },
+            xbox: { icon: 'fab fa-xbox', label: 'Xbox', class: 'xbox' },
+            playstation: { icon: 'fab fa-playstation', label: 'PlayStation', class: 'playstation' },
+            nintendo: { icon: 'fas fa-gamepad', label: 'Nintendo Switch', class: 'nintendo' },
+            'epic-games': { icon: 'fas fa-shopping-bag', label: 'Epic Games', class: 'epic-games' },
+            'battle-net': { icon: 'fas fa-gamepad', label: 'Battle.net', class: 'battle-net' },
+            riot: { icon: 'fas fa-gamepad', label: 'Riot Games', class: 'riot' },
+            document: { icon: 'fas fa-file-alt', label: 'Tài liệu', class: 'document' },
+            news: { icon: 'fas fa-newspaper', label: 'Tin tức', class: 'news' },
+            blog: { icon: 'fas fa-blog', label: 'Blog', class: 'blog' },
+            music: { icon: 'fas fa-music', label: 'Âm nhạc', class: 'music' },
+            video: { icon: 'fas fa-video', label: 'Video', class: 'video' },
+            game: { icon: 'fas fa-gamepad', label: 'Game', class: 'game' },
+            podcast: { icon: 'fas fa-podcast', label: 'Podcast', class: 'podcast' },
+            patreon: { icon: 'fab fa-patreon', label: 'Patreon', class: 'patreon' },
+            'ko-fi': { icon: 'fas fa-coffee', label: 'Ko-fi', class: 'ko-fi' },
+            paypal: { icon: 'fab fa-paypal', label: 'PayPal', class: 'paypal' },
+            donate: { icon: 'fas fa-donate', label: 'Donate', class: 'donate' },
+            phone: { icon: 'fas fa-phone', label: 'Điện thoại', class: 'phone' },
+            map: { icon: 'fas fa-map-marker-alt', label: 'Địa chỉ', class: 'map' },
+            calendar: { icon: 'fas fa-calendar', label: 'Lịch', class: 'calendar' },
+            link: { icon: 'fas fa-link', label: 'Link', class: 'link' }
         };
 
         const D = {
-            lang: 'vi', font: "'Segoe UI', sans-serif",
+            lang: 'vi', font: "'Segoe UI', sans-serif", layout: '2col',
             title_vi: 'TIÊU ĐỀ LỚN', title_en: 'MAIN TITLE',
+            titleColor: '#667eea', titleSize: 3.5,
             fs: { main: 3.5, card: 2, desc: 1.05, social: 1 },
             bg: { img: 'IMG/BG-NguyeZ.webp', op: 30, ov: 50, bl: 0, c1: '#0f0c29', c2: '#302b63', c3: '#24243e' },
+            avatarColors1: { c1: '#ff6b35', c2: '#f7931e', c3: '#ffd700' },
+            avatarColors2: { c1: '#11998e', c2: '#38ef7d', c3: '#7bed9f' },
             c1: { 
                 av: 'IMG/AVT-NguyeZGaming.png', t_vi: 'Thunder Gaming', t_en: 'Thunder Gaming',
                 d_vi: 'Lorem Ipsum chỉ đơn giản là một đoạn văn bản giả<br> được dùng vào việc trình bày và dàn trang phục vụ cho in ấn.<br>Đây là ví dụ cho dòng mô tả ngắn.',
@@ -820,6 +1179,17 @@
         // Ensure main title fields exist
         if (!S.title_vi) S.title_vi = D.title_vi;
         if (!S.title_en) S.title_en = D.title_en;
+        
+        // Ensure layout field exists
+        if (!S.layout) S.layout = D.layout;
+        
+        // Ensure title color and size exist
+        if (!S.titleColor) S.titleColor = D.titleColor;
+        if (!S.titleSize) S.titleSize = D.titleSize;
+        
+        // Ensure avatar colors exist
+        if (!S.avatarColors1) S.avatarColors1 = D.avatarColors1;
+        if (!S.avatarColors2) S.avatarColors2 = D.avatarColors2;
 
         const g = id => document.getElementById(id);
         const $$ = s => document.querySelectorAll(s);
@@ -862,6 +1232,15 @@
             g('importBtn').onclick = () => g('importFile').click();
             g('importFile').onchange = imp;
 
+            g('layoutSelect').onchange = () => { S.layout = g('layoutSelect').value; applyLayout(); };
+            
+            g('mainTitleColor').oninput = upMainTitle;
+            g('mainTitleSize').oninput = upMainTitle;
+            
+            // Avatar colors
+            ['avatarColor1_1', 'avatarColor1_2', 'avatarColor1_3'].forEach(id => g(id).oninput = upAvatarColors);
+            ['avatarColor2_1', 'avatarColor2_2', 'avatarColor2_3'].forEach(id => g(id).oninput = upAvatarColors);
+            
             ['mainSize','cardSize','descSize','socialSize'].forEach(id => g(id).oninput = upFs);
             ['bgImage','bgOp','bgOv','bgBl','bgC1','bgC2','bgC3'].forEach(id => g(id).oninput = upBg);
             
@@ -869,7 +1248,9 @@
             g('bgOv').oninput = () => { g('bgOvVal').textContent = g('bgOv').value + '%'; upBg(); };
             g('bgBl').oninput = () => { g('bgBlVal').textContent = g('bgBl').value + 'px'; upBg(); };
 
-            ['mainTitle_vi','mainTitle_en','avatar1','avatar2','title1_vi','title1_en','title2_vi','title2_en','desc1_vi','desc1_en','desc2_vi','desc2_en'].forEach(id => g(id).oninput = upCt);
+            g('mainTitle_vi').oninput = upCt;
+            g('mainTitle_en').oninput = upCt;
+            ['avatar1','avatar2','title1_vi','title1_en','title2_vi','title2_en','desc1_vi','desc1_en','desc2_vi','desc2_en'].forEach(id => g(id).oninput = upCt);
             g('avatar1').oninput = () => { if(g('avatar1').value) g('avatarImg1').src = g('avatar1').value; };
             g('avatar2').oninput = () => { if(g('avatar2').value) g('avatarImg2').src = g('avatar2').value; };
 
@@ -883,6 +1264,16 @@
             upCt();
         }
 
+        function applyLayout() {
+            const grid = document.querySelector('.contact-grid');
+            
+            if (S.layout === '1col') {
+                grid.classList.add('single-column');
+            } else {
+                grid.classList.remove('single-column');
+            }
+        }
+
         function load() {
             document.body.style.fontFamily = S.font;
             document.querySelectorAll('.font-option').forEach(opt => {
@@ -891,6 +1282,19 @@
 
             g('mainTitle_vi').value = S.title_vi || 'TIÊU ĐỀ LỚN';
             g('mainTitle_en').value = S.title_en || 'MAIN TITLE';
+            g('mainTitleColor').value = S.titleColor || '#667eea';
+            g('mainTitleSize').value = S.titleSize || 3.5;
+            g('mainTitleSizeVal').textContent = (S.titleSize || 3.5) + 'rem';
+            
+            g('layoutSelect').value = S.layout || '2col';
+            
+            // Load avatar colors
+            g('avatarColor1_1').value = S.avatarColors1.c1;
+            g('avatarColor1_2').value = S.avatarColors1.c2;
+            g('avatarColor1_3').value = S.avatarColors1.c3;
+            g('avatarColor2_1').value = S.avatarColors2.c1;
+            g('avatarColor2_2').value = S.avatarColors2.c2;
+            g('avatarColor2_3').value = S.avatarColors2.c3;
 
             g('mainSize').value = S.fs.main; g('cardSize').value = S.fs.card;
             g('descSize').value = S.fs.desc; g('socialSize').value = S.fs.social;
@@ -913,6 +1317,9 @@
             renderSocialLinks(2);
 
             sw(S.lang);
+            applyLayout();
+            upMainTitle(); // Apply title color and size
+            upAvatarColors(); // Apply avatar colors
             upCt(); // Update main title on load
         }
 
@@ -927,17 +1334,56 @@
                 
                 const selLbl = document.createElement('label');
                 selLbl.textContent = 'Icon:';
-                const sel = document.createElement('select');
-                sel.style.width = '100%';
-                sel.style.marginBottom = '10px';
+                
+                // Custom icon selector
+                const iconSelector = document.createElement('div');
+                iconSelector.className = 'icon-selector';
+                iconSelector.style.marginBottom = '10px';
+                
+                const selBtn = document.createElement('button');
+                selBtn.type = 'button';
+                selBtn.className = 'icon-selector-button';
+                const currentIcon = ICONS[s.type];
+                selBtn.innerHTML = '<i class="' + currentIcon.icon + '"></i><span>' + currentIcon.label + '</span>';
+                
+                const dropdown = document.createElement('div');
+                dropdown.className = 'icon-dropdown';
+                
                 Object.keys(ICONS).forEach(k => {
-                    const opt = document.createElement('option');
-                    opt.value = k;
-                    opt.textContent = ICONS[k].label;
-                    if (k === s.type) opt.selected = true;
-                    sel.appendChild(opt);
+                    const opt = document.createElement('div');
+                    opt.className = 'icon-option' + (k === s.type ? ' selected' : '');
+                    const ico = ICONS[k];
+                    opt.innerHTML = '<i class="' + ico.icon + '"></i><span>' + ico.label + '</span>';
+                    opt.onclick = () => {
+                        card.soc[i].type = k;
+                        selBtn.innerHTML = '<i class="' + ico.icon + '"></i><span>' + ico.label + '</span>';
+                        dropdown.classList.remove('show');
+                        renderSocialLinks(cardNum);
+                        // Update selected state
+                        dropdown.querySelectorAll('.icon-option').forEach(o => o.classList.remove('selected'));
+                        opt.classList.add('selected');
+                    };
+                    dropdown.appendChild(opt);
                 });
-                sel.onchange = () => { card.soc[i].type = sel.value; renderSocialLinks(cardNum); };
+                
+                selBtn.onclick = (e) => {
+                    e.stopPropagation();
+                    // Close all other dropdowns
+                    document.querySelectorAll('.icon-dropdown.show').forEach(d => {
+                        if (d !== dropdown) d.classList.remove('show');
+                    });
+                    dropdown.classList.toggle('show');
+                };
+                
+                // Close dropdown when clicking outside
+                document.addEventListener('click', (e) => {
+                    if (!iconSelector.contains(e.target)) {
+                        dropdown.classList.remove('show');
+                    }
+                });
+                
+                iconSelector.appendChild(selBtn);
+                iconSelector.appendChild(dropdown);
                 
                 const urlLbl = document.createElement('label');
                 urlLbl.textContent = 'URL:';
@@ -957,7 +1403,7 @@
                 lblIn.oninput = () => { card.soc[i].label = lblIn.value; renderSocialLinks(cardNum); };
                 
                 div.appendChild(selLbl);
-                div.appendChild(sel);
+                div.appendChild(iconSelector);
                 div.appendChild(urlLbl);
                 div.appendChild(urlIn);
                 div.appendChild(lblLbl);
@@ -1021,10 +1467,41 @@
             S.bg = { img: i, op: +g('bgOp').value, ov: +g('bgOv').value, bl: +b, c1, c2, c3 };
         }
 
+        function upMainTitle() {
+            const color = g('mainTitleColor').value;
+            const size = g('mainTitleSize').value;
+            g('mainTitleSizeVal').textContent = size + 'rem';
+            g('mainTitle').style.color = color;
+            g('mainTitle').style.fontSize = size + 'rem';
+            S.titleColor = color;
+            S.titleSize = +size;
+            upCt();
+        }
+        
+        function upAvatarColors() {
+            // Update state
+            S.avatarColors1.c1 = g('avatarColor1_1').value;
+            S.avatarColors1.c2 = g('avatarColor1_2').value;
+            S.avatarColors1.c3 = g('avatarColor1_3').value;
+            S.avatarColors2.c1 = g('avatarColor2_1').value;
+            S.avatarColors2.c2 = g('avatarColor2_2').value;
+            S.avatarColors2.c3 = g('avatarColor2_3').value;
+            
+            // Apply to CSS
+            let style = g('avatarColorStyle');
+            if (!style) {
+                style = document.createElement('style');
+                style.id = 'avatarColorStyle';
+                document.head.appendChild(style);
+            }
+            style.textContent = '.contact-card:nth-child(1) .avatar-wrapper::before { background: linear-gradient(135deg, ' + S.avatarColors1.c1 + ', ' + S.avatarColors1.c2 + ', ' + S.avatarColors1.c3 + '); } ' +
+                                '.contact-card:nth-child(2) .avatar-wrapper::before { background: linear-gradient(135deg, ' + S.avatarColors2.c1 + ', ' + S.avatarColors2.c2 + ', ' + S.avatarColors2.c3 + '); }';
+        }
+
         function upCt() {
             const k = L === 'vi' ? '_vi' : '_en';
             const mt = g('mainTitle' + k).value;
-            if (mt) g('mainTitle').textContent = mt;
+            if (mt) g('mainTitle').innerHTML = mt;
             
             g('avatarImg1').src = g('avatar1').value || S.c1.av;
             g('avatarImg2').src = g('avatar2').value || S.c2.av;
@@ -1039,6 +1516,14 @@
         function save() {
             S.title_vi = g('mainTitle_vi').value || S.title_vi;
             S.title_en = g('mainTitle_en').value || S.title_en;
+            S.titleColor = g('mainTitleColor').value || S.titleColor;
+            S.titleSize = +g('mainTitleSize').value || S.titleSize;
+            S.avatarColors1.c1 = g('avatarColor1_1').value;
+            S.avatarColors1.c2 = g('avatarColor1_2').value;
+            S.avatarColors1.c3 = g('avatarColor1_3').value;
+            S.avatarColors2.c1 = g('avatarColor2_1').value;
+            S.avatarColors2.c2 = g('avatarColor2_2').value;
+            S.avatarColors2.c3 = g('avatarColor2_3').value;
             S.c1.av = g('avatar1').value || S.c1.av; S.c1.t_vi = g('title1_vi').value || S.c1.t_vi;
             S.c1.t_en = g('title1_en').value || S.c1.t_en; S.c1.d_vi = g('desc1_vi').value || S.c1.d_vi;
             S.c1.d_en = g('desc1_en').value || S.c1.d_en;
@@ -1071,16 +1556,26 @@
             h += 'body::before{content:\'\';position:fixed;top:0;left:0;width:100vw;height:100vh;background:url(\'' + S.bg.img + '\') center/cover;opacity:' + (S.bg.op/100) + ';filter:blur(' + S.bg.bl + 'px);z-index:0;animation:kenBurns 30s ease-in-out infinite alternate;will-change:transform}';
             h += 'body::after{content:\'\';position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,' + (S.bg.ov/100) + ');z-index:0;animation:overlayPulse 15s ease-in-out infinite alternate}';
             h += '.container{max-width:1400px;width:100%;position:relative;z-index:1}';
-            h += '.header{text-align:center;margin-bottom:60px}.header h1{font-size:' + S.fs.main + 'rem;color:#667eea;text-transform:uppercase;font-weight:800}';
-            h += '.contact-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:50px}';
-            h += '.contact-card{background:linear-gradient(135deg,rgba(30,30,60,0.6),rgba(40,35,70,0.6),rgba(35,30,65,0.6));background-size:200% 200%;border-radius:30px;padding:50px 40px;border:2px solid rgba(102,126,234,0.2);transition:all 0.4s cubic-bezier(0.4,0,0.2,1);animation:gradientShift 8s ease infinite,subtleGlow 4s ease-in-out infinite}';
-            h += '.contact-card:hover{transform:translateY(-10px);box-shadow:0 20px 60px rgba(102,126,234,0.4),0 0 40px rgba(102,126,234,0.2);border-color:rgba(102,126,234,0.4);animation-play-state:paused}';
-            h += '.avatar-wrapper{position:relative;width:180px;height:180px;margin:0 auto 30px}';
+            h += '.header{text-align:center;margin-bottom:60px}.header h1{font-size:' + (S.titleSize || S.fs.main) + 'rem;color:' + (S.titleColor || '#667eea') + ';letter-spacing:2px;font-weight:800}';
+            h += '.contact-grid{display:grid;grid-template-columns:' + (S.layout === '1col' ? '1fr' : 'repeat(2,1fr)') + ';gap:50px' + (S.layout === '1col' ? ';max-width:700px;margin:0 auto' : '') + '}';
+            h += '.contact-card{background:linear-gradient(135deg,rgba(30,30,60,0.6),rgba(40,35,70,0.6),rgba(35,30,65,0.6));background-size:200% 200%;backdrop-filter:blur(10px);border-radius:30px;padding:50px 40px;position:relative;overflow:hidden;transition:all 0.4s cubic-bezier(0.4,0,0.2,1);animation:gradientShift 8s ease infinite,subtleGlow 4s ease-in-out infinite}';
+            h += '.contact-card::before{content:"";position:absolute;inset:-3px;border-radius:30px;padding:3px;background:linear-gradient(135deg,rgba(102,126,234,0.3),rgba(118,75,162,0.3),rgba(240,147,251,0.3),rgba(102,126,234,0.3));-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:0.3;transition:all 0.4s ease;z-index:-1}';
+            h += '.contact-card::after{content:"";position:absolute;inset:0;border-radius:30px;background:linear-gradient(135deg,rgba(102,126,234,0.05),rgba(118,75,162,0.05),rgba(240,147,251,0.05));opacity:0;transition:opacity 0.4s ease;pointer-events:none;z-index:0}';
+            h += '.contact-card:hover{transform:translateY(-10px) scale(1.02);box-shadow:0 25px 70px rgba(102,126,234,0.6),0 0 60px rgba(118,75,162,0.4),0 0 100px rgba(240,147,251,0.3),inset 0 0 50px rgba(102,126,234,0.1);animation-play-state:paused}';
+            h += '.contact-card:hover::before{opacity:1;animation:rotateBorder 3s linear infinite;background:linear-gradient(135deg,#667eea,#764ba2,#f093fb,#667eea)}';
+            h += '.contact-card:hover::after{opacity:1}';
+            h += '.avatar-wrapper{position:relative;width:180px;height:180px;margin:0 auto 30px;z-index:1;overflow:visible}';
             h += '.avatar-wrapper::before{content:"";position:absolute;inset:-5px;background:linear-gradient(135deg,#667eea,#764ba2,#f093fb);border-radius:50%;animation:rotate 3s linear infinite;z-index:-1}';
-            h += '.avatar{width:100%;height:100%;border-radius:50%;object-fit:cover;border:5px solid rgba(15,12,41,0.9)}';
-            h += '.contact-title{text-align:center;font-size:' + S.fs.card + 'rem;color:#fff;margin-bottom:20px;}';
-            h += '.contact-description{text-align:center;color:#a8b2d1;line-height:1.8;margin-bottom:35px;font-size:' + S.fs.desc + 'rem}';
-            h += '.social-links{display:grid;grid-template-columns:repeat(2,1fr);gap:15px}';
+            h += '.contact-card:nth-child(1) .avatar-wrapper::before{background:linear-gradient(135deg,' + S.avatarColors1.c1 + ',' + S.avatarColors1.c2 + ',' + S.avatarColors1.c3 + ')}';
+            if (S.layout === '2col') {
+                h += '.contact-card:nth-child(2) .avatar-wrapper::before{background:linear-gradient(135deg,' + S.avatarColors2.c1 + ',' + S.avatarColors2.c2 + ',' + S.avatarColors2.c3 + ')}';
+            }
+            h += '.avatar{width:100%;height:100%;border-radius:50%;object-fit:cover;border:5px solid rgba(15,12,41,0.9);transition:all 2s cubic-bezier(0.4,0,0.2,1)}';
+            h += '.contact-card:hover .avatar{transform:scale(1.2);border:0;border-radius:20px}';
+            h += '.contact-card:hover .avatar-wrapper::before{opacity:0;transition:opacity 0.5s ease}';
+            h += '.contact-title{text-align:center;font-size:' + S.fs.card + 'rem;color:#fff;margin-bottom:20px;position:relative;z-index:1}';
+            h += '.contact-description{text-align:center;color:#a8b2d1;line-height:1.8;margin-bottom:35px;font-size:' + S.fs.desc + 'rem;position:relative;z-index:1}';
+            h += '.social-links{display:grid;grid-template-columns:repeat(2,1fr);gap:15px;position:relative;z-index:1}';
             h += '.social-link{display:flex;align-items:center;justify-content:center;gap:12px;padding:15px 20px;background:rgba(102,126,234,0.1);border:2px solid rgba(102,126,234,0.3);border-radius:15px;color:#fff;text-decoration:none;font-size:' + S.fs.social + 'rem;transition:all 0.3s cubic-bezier(0.4,0,0.2,1)}';
             h += '.social-link i{font-size:1.3rem;transition:all 0.3s cubic-bezier(0.4,0,0.2,1)}';
             h += '.social-link:hover{transform:translateY(-5px) scale(1.05);border-color:rgba(102,126,234,1);box-shadow:0 10px 30px rgba(102,126,234,0.4),0 0 20px rgba(102,126,234,0.2);background:rgba(102,126,234,0.15)}';
@@ -1103,7 +1598,49 @@
             h += '.steam-curator{border-color:rgba(102,192,244,0.3);background:rgba(102,192,244,0.05)}.steam-curator i{color:#66c0f4}';
             h += '.steam-game{border-color:rgba(31,108,171,0.3);background:rgba(31,108,171,0.05)}.steam-game i{color:#1f6cab}';
             h += '.steam-workshop{border-color:rgba(92,151,196,0.3);background:rgba(92,151,196,0.05)}.steam-workshop i{color:#5c97c4}';
+            h += '.telegram{border-color:rgba(34,158,217,0.3);background:rgba(34,158,217,0.05)}.telegram i{color:#229ED9}';
+            h += '.shopee{border-color:rgba(238,77,45,0.3);background:rgba(238,77,45,0.05)}.shopee i{color:#EE4D2D}';
+            h += '.lazada{border-color:rgba(15,21,109,0.3);background:rgba(15,21,109,0.05)}.lazada i{color:#0F156D}';
+            h += '.zalo{border-color:rgba(0,119,255,0.3);background:rgba(0,119,255,0.05)}.zalo i{color:#0077FF}';
+            h += '.viber{border-color:rgba(124,88,179,0.3);background:rgba(124,88,179,0.05)}.viber i{color:#7C58B3}';
+            h += '.whatsapp{border-color:rgba(37,211,102,0.3);background:rgba(37,211,102,0.05)}.whatsapp i{color:#25D366}';
+            h += '.messenger{border-color:rgba(0,132,255,0.3);background:rgba(0,132,255,0.05)}.messenger i{color:#0084FF}';
+            h += '.threads{border-color:rgba(0,0,0,0.3);background:rgba(0,0,0,0.05)}.threads i{color:#000000}';
+            h += '.reddit{border-color:rgba(255,69,0,0.3);background:rgba(255,69,0,0.05)}.reddit i{color:#FF4500}';
+            h += '.pinterest{border-color:rgba(230,0,35,0.3);background:rgba(230,0,35,0.05)}.pinterest i{color:#E60023}';
+            h += '.snapchat{border-color:rgba(255,252,0,0.3);background:rgba(255,252,0,0.05)}.snapchat i{color:#FFFC00}';
+            h += '.spotify{border-color:rgba(30,215,96,0.3);background:rgba(30,215,96,0.05)}.spotify i{color:#1DB954}';
+            h += '.soundcloud{border-color:rgba(255,85,0,0.3);background:rgba(255,85,0,0.05)}.soundcloud i{color:#FF5500}';
+            h += '.apple-music{border-color:rgba(252,61,57,0.3);background:rgba(252,61,57,0.05)}.apple-music i{color:#FC3D39}';
+            h += '.youtube-music{border-color:rgba(255,0,0,0.3);background:rgba(255,0,0,0.05)}.youtube-music i{color:#FF0000}';
+            h += '.medium{border-color:rgba(0,0,0,0.3);background:rgba(0,0,0,0.05)}.medium i{color:#000000}';
+            h += '.wordpress{border-color:rgba(33,117,155,0.3);background:rgba(33,117,155,0.05)}.wordpress i{color:#21759B}';
+            h += '.blogger{border-color:rgba(255,87,34,0.3);background:rgba(255,87,34,0.05)}.blogger i{color:#FF5722}';
+            h += '.vimeo{border-color:rgba(26,183,234,0.3);background:rgba(26,183,234,0.05)}.vimeo i{color:#1AB7EA}';
+            h += '.netflix{border-color:rgba(229,9,20,0.3);background:rgba(229,9,20,0.05)}.netflix i{color:#E50914}';
+            h += '.xbox{border-color:rgba(16,124,16,0.3);background:rgba(16,124,16,0.05)}.xbox i{color:#107C10}';
+            h += '.playstation{border-color:rgba(0,67,156,0.3);background:rgba(0,67,156,0.05)}.playstation i{color:#00439C}';
+            h += '.nintendo{border-color:rgba(230,0,18,0.3);background:rgba(230,0,18,0.05)}.nintendo i{color:#E60012}';
+            h += '.epic-games{border-color:rgba(49,49,49,0.3);background:rgba(49,49,49,0.05)}.epic-games i{color:#313131}';
+            h += '.battle-net{border-color:rgba(0,176,240,0.3);background:rgba(0,176,240,0.05)}.battle-net i{color:#00B0F0}';
+            h += '.riot{border-color:rgba(235,47,64,0.3);background:rgba(235,47,64,0.05)}.riot i{color:#EB2F40}';
+            h += '.document{border-color:rgba(74,144,226,0.3);background:rgba(74,144,226,0.05)}.document i{color:#4A90E2}';
+            h += '.news{border-color:rgba(255,159,64,0.3);background:rgba(255,159,64,0.05)}.news i{color:#FF9F40}';
+            h += '.blog{border-color:rgba(156,39,176,0.3);background:rgba(156,39,176,0.05)}.blog i{color:#9C27B0}';
+            h += '.music{border-color:rgba(233,30,99,0.3);background:rgba(233,30,99,0.05)}.music i{color:#E91E63}';
+            h += '.video{border-color:rgba(244,67,54,0.3);background:rgba(244,67,54,0.05)}.video i{color:#F44336}';
+            h += '.game{border-color:rgba(103,58,183,0.3);background:rgba(103,58,183,0.05)}.game i{color:#673AB7}';
+            h += '.podcast{border-color:rgba(156,39,176,0.3);background:rgba(156,39,176,0.05)}.podcast i{color:#9C27B0}';
+            h += '.patreon{border-color:rgba(255,66,77,0.3);background:rgba(255,66,77,0.05)}.patreon i{color:#FF424D}';
+            h += '.ko-fi{border-color:rgba(255,93,177,0.3);background:rgba(255,93,177,0.05)}.ko-fi i{color:#FF5DB1}';
+            h += '.paypal{border-color:rgba(0,48,135,0.3);background:rgba(0,48,135,0.05)}.paypal i{color:#003087}';
+            h += '.donate{border-color:rgba(76,175,80,0.3);background:rgba(76,175,80,0.05)}.donate i{color:#4CAF50}';
+            h += '.phone{border-color:rgba(33,150,243,0.3);background:rgba(33,150,243,0.05)}.phone i{color:#2196F3}';
+            h += '.map{border-color:rgba(244,81,30,0.3);background:rgba(244,81,30,0.05)}.map i{color:#F4511E}';
+            h += '.calendar{border-color:rgba(66,133,244,0.3);background:rgba(66,133,244,0.05)}.calendar i{color:#4285F4}';
+            h += '.link{border-color:rgba(102,126,234,0.3);background:rgba(102,126,234,0.05)}.link i{color:#667eea}';
             h += '@keyframes rotate{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}';
+            h += '@keyframes rotateBorder{0%{background:linear-gradient(0deg,#667eea,#764ba2,#f093fb,#667eea)}25%{background:linear-gradient(90deg,#667eea,#764ba2,#f093fb,#667eea)}50%{background:linear-gradient(180deg,#667eea,#764ba2,#f093fb,#667eea)}75%{background:linear-gradient(270deg,#667eea,#764ba2,#f093fb,#667eea)}100%{background:linear-gradient(360deg,#667eea,#764ba2,#f093fb,#667eea)}}';
             h += '@keyframes gradientShift{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}';
             h += '@keyframes subtleGlow{0%,100%{box-shadow:0 0 20px rgba(102,126,234,0.1)}50%{box-shadow:0 0 30px rgba(102,126,234,0.2)}}';
             h += '@keyframes kenBurns{0%{transform:scale(1) translate(0,0)}50%{transform:scale(1.1) translate(-2%,-2%)}100%{transform:scale(1.05) translate(2%,1%)}}';
@@ -1172,7 +1709,7 @@
             h += '<button class="font-option' + (S.font === "'Inter', sans-serif" ? ' active' : '') + '" data-font="\'Inter\', sans-serif">Inter</button>';
             h += '<button class="font-option' + (S.font === "'Roboto', sans-serif" ? ' active' : '') + '" data-font="\'Roboto\', sans-serif">Roboto</button>';
             h += '</div></div></div>';
-            h += '<div class="container"><div class="header"><h1 id="mainTitle">' + (L === 'vi' ? S.title_vi : S.title_en) + '</h1></div><div class="contact-grid">';
+            h += '<div class="container"><div class="header"><h1 id="mainTitle" style="color:' + (S.titleColor || '#667eea') + ';font-size:' + (S.titleSize || S.fs.main) + 'rem">' + (L === 'vi' ? S.title_vi : S.title_en) + '</h1></div><div class="contact-grid' + (S.layout === '1col' ? ' single-column' : '') + '">';
             
             // Card 1
             h += '<div class="contact-card"><div class="avatar-wrapper"><img src="' + S.c1.av + '" class="avatar"></div>';
@@ -1187,18 +1724,20 @@
             });
             h += '</div></div>';
             
-            // Card 2
-            h += '<div class="contact-card"><div class="avatar-wrapper"><img src="' + S.c2.av + '" class="avatar"></div>';
-            h += '<h2 class="contact-title">' + S.c2[t1] + '</h2><p class="contact-description">' + S.c2[d1] + '</p>';
-            h += '<div class="social-links">';
-            S.c2.soc.forEach(s => {
-                const ico = ICONS[s.type];
-                if (ico && s.url) {
-                    const lbl = s.label || ico.label;
-                    h += '<a href="' + s.url + '" target="_blank" class="social-link ' + ico.class + '"><i class="' + ico.icon + '"></i><span>' + lbl + '</span></a>';
-                }
-            });
-            h += '</div></div>';
+            // Card 2 (only if 2-column layout)
+            if (S.layout === '2col') {
+                h += '<div class="contact-card"><div class="avatar-wrapper"><img src="' + S.c2.av + '" class="avatar"></div>';
+                h += '<h2 class="contact-title">' + S.c2[t1] + '</h2><p class="contact-description">' + S.c2[d1] + '</p>';
+                h += '<div class="social-links">';
+                S.c2.soc.forEach(s => {
+                    const ico = ICONS[s.type];
+                    if (ico && s.url) {
+                        const lbl = s.label || ico.label;
+                        h += '<a href="' + s.url + '" target="_blank" class="social-link ' + ico.class + '"><i class="' + ico.icon + '"></i><span>' + lbl + '</span></a>';
+                    }
+                });
+                h += '</div></div>';
+            }
             
             h += '</div></div>';
             h += '<script>';
@@ -1230,7 +1769,7 @@
             h += 'document.getElementById("btnVi").classList.toggle("active",l==="vi");';
             h += 'document.getElementById("btnEn").classList.toggle("active",l==="en");';
             h += 'const k=l==="vi"?"_vi":"_en";';
-            h += 'document.getElementById("mainTitle").textContent=l==="vi"?cfg.title_vi:cfg.title_en;';
+            h += 'document.getElementById("mainTitle").innerHTML=l==="vi"?cfg.title_vi:cfg.title_en;';
             h += 'document.querySelectorAll(".contact-description")[0].innerHTML=cfg.c1["d"+k];';
             h += 'document.querySelectorAll(".contact-description")[1].innerHTML=cfg.c2["d"+k];';
             h += 'document.querySelectorAll(".contact-title")[0].textContent=cfg.c1["t"+k];';
