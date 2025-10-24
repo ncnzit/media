@@ -14,7 +14,7 @@
             overflow-x: hidden;
             width: 100%;
         }
-        
+
         body {
             overflow-x: hidden;
             overflow-y: auto;
@@ -638,14 +638,14 @@
                 <button class="font-option" data-font="'Roboto', sans-serif">Roboto</button>
             </div>
         </div>
-    </div>
+        </div>
 
     <button class="settings-btn" id="settingsBtn"><i class="fas fa-cog"></i></button>
 
     <div class="bottom-bar">
         <button class="action-btn import-btn" id="importBtn"><i class="fas fa-upload"></i> Tải Cài Đặt</button>
         <button class="action-btn export-btn" id="exportBtn"><i class="fas fa-download"></i> Xuất HTML</button>
-    </div>
+                </div>
 
     <input type="file" id="importFile" accept=".json,.html">
 
@@ -673,7 +673,15 @@
                     <label>Social: <span class="range-value" id="socialSizeVal">1rem</span></label>
                     <input type="range" id="socialSize" min="0.8" max="1.3" step="0.05" value="1">
                 </div>
+                </div>
             </div>
+
+        <div class="settings-section">
+            <h3>📝 Tiêu Đề Chính</h3>
+            <label>Tiêu đề (Tiếng Việt):</label>
+            <input type="text" id="mainTitle_vi" placeholder="TIÊU ĐỀ LỚN">
+            <label>Title (English):</label>
+            <input type="text" id="mainTitle_en" placeholder="MAIN TITLE">
         </div>
 
         <div class="settings-section">
@@ -694,8 +702,8 @@
                 <div><label>Color 1:</label><input type="color" id="bgC1" value="#0f0c29"></div>
                 <div><label>Color 2:</label><input type="color" id="bgC2" value="#302b63"></div>
                 <div><label>Color 3:</label><input type="color" id="bgC3" value="#24243e"></div>
-            </div>
-        </div>
+                </div>
+                </div>
 
         <div class="settings-section">
             <h3>👤 Card 1</h3>
@@ -708,7 +716,7 @@
             <h4 style="color:#a8b2d1;margin:20px 0 15px">🔗 Social Links</h4>
             <div id="social1List"></div>
             <button class="add-social-btn" onclick="addSocial(1)">+ Thêm Social Link</button>
-        </div>
+            </div>
 
         <div class="settings-section">
             <h3>👤 Card 2</h3>
@@ -728,7 +736,7 @@
     </div>
 
     <div class="container">
-        <div class="header"><h1 id="mainTitle">NguyeZ Gaming - Media Kit</h1></div>
+        <div class="header"><h1 id="mainTitle">TIÊU ĐỀ LỚN</h1></div>
         <div class="contact-grid">
             <div class="contact-card">
                 <div class="avatar-wrapper"><img src="IMG/AVT-NguyeZGaming.png" class="avatar" id="avatarImg1"></div>
@@ -769,6 +777,7 @@
 
         const D = {
             lang: 'vi', font: "'Segoe UI', sans-serif",
+            title_vi: 'TIÊU ĐỀ LỚN', title_en: 'MAIN TITLE',
             fs: { main: 3.5, card: 2, desc: 1.05, social: 1 },
             bg: { img: 'IMG/BG-NguyeZ.webp', op: 30, ov: 50, bl: 0, c1: '#0f0c29', c2: '#302b63', c3: '#24243e' },
             c1: { 
@@ -807,6 +816,10 @@
         // Ensure label field exists in social links
         S.c1.soc.forEach(s => { if (s.label === undefined) s.label = ''; });
         S.c2.soc.forEach(s => { if (s.label === undefined) s.label = ''; });
+        
+        // Ensure main title fields exist
+        if (!S.title_vi) S.title_vi = D.title_vi;
+        if (!S.title_en) S.title_en = D.title_en;
 
         const g = id => document.getElementById(id);
         const $$ = s => document.querySelectorAll(s);
@@ -856,7 +869,7 @@
             g('bgOv').oninput = () => { g('bgOvVal').textContent = g('bgOv').value + '%'; upBg(); };
             g('bgBl').oninput = () => { g('bgBlVal').textContent = g('bgBl').value + 'px'; upBg(); };
 
-            ['avatar1','avatar2','title1_vi','title1_en','title2_vi','title2_en','desc1_vi','desc1_en','desc2_vi','desc2_en'].forEach(id => g(id).oninput = upCt);
+            ['mainTitle_vi','mainTitle_en','avatar1','avatar2','title1_vi','title1_en','title2_vi','title2_en','desc1_vi','desc1_en','desc2_vi','desc2_en'].forEach(id => g(id).oninput = upCt);
             g('avatar1').oninput = () => { if(g('avatar1').value) g('avatarImg1').src = g('avatar1').value; };
             g('avatar2').oninput = () => { if(g('avatar2').value) g('avatarImg2').src = g('avatar2').value; };
 
@@ -875,6 +888,9 @@
             document.querySelectorAll('.font-option').forEach(opt => {
                 opt.classList.toggle('active', opt.dataset.font === S.font);
             });
+
+            g('mainTitle_vi').value = S.title_vi || 'TIÊU ĐỀ LỚN';
+            g('mainTitle_en').value = S.title_en || 'MAIN TITLE';
 
             g('mainSize').value = S.fs.main; g('cardSize').value = S.fs.card;
             g('descSize').value = S.fs.desc; g('socialSize').value = S.fs.social;
@@ -897,6 +913,7 @@
             renderSocialLinks(2);
 
             sw(S.lang);
+            upCt(); // Update main title on load
         }
 
         function renderSocialInputs(cardNum) {
@@ -1006,6 +1023,9 @@
 
         function upCt() {
             const k = L === 'vi' ? '_vi' : '_en';
+            const mt = g('mainTitle' + k).value;
+            if (mt) g('mainTitle').textContent = mt;
+            
             g('avatarImg1').src = g('avatar1').value || S.c1.av;
             g('avatarImg2').src = g('avatar2').value || S.c2.av;
             const t1 = g('title1' + k).value, t2 = g('title2' + k).value;
@@ -1017,6 +1037,8 @@
         }
 
         function save() {
+            S.title_vi = g('mainTitle_vi').value || S.title_vi;
+            S.title_en = g('mainTitle_en').value || S.title_en;
             S.c1.av = g('avatar1').value || S.c1.av; S.c1.t_vi = g('title1_vi').value || S.c1.t_vi;
             S.c1.t_en = g('title1_en').value || S.c1.t_en; S.c1.d_vi = g('desc1_vi').value || S.c1.d_vi;
             S.c1.d_en = g('desc1_en').value || S.c1.d_en;
@@ -1039,7 +1061,7 @@
         function exp() {
             const k = L === 'vi' ? '_vi' : '_en';
             const t1 = 't' + k, d1 = 'd' + k;
-            let h = '<!DOCTYPE html><html lang="' + L + '"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>NguyeZ Gaming - Media Kit</title>';
+            let h = '<!DOCTYPE html><html lang="' + L + '"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>' + (L === 'vi' ? S.title_vi : S.title_en) + '</title>';
             h += '<link rel="icon" href="' + S.c1.av + '">';
             h += '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">';
             h += '<link href="https://fonts.googleapis.com/css2?family=Play:wght@400;700&family=Exo+2:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">';
@@ -1150,7 +1172,7 @@
             h += '<button class="font-option' + (S.font === "'Inter', sans-serif" ? ' active' : '') + '" data-font="\'Inter\', sans-serif">Inter</button>';
             h += '<button class="font-option' + (S.font === "'Roboto', sans-serif" ? ' active' : '') + '" data-font="\'Roboto\', sans-serif">Roboto</button>';
             h += '</div></div></div>';
-            h += '<div class="container"><div class="header"><h1>NguyeZ Gaming - Media Kit</h1></div><div class="contact-grid">';
+            h += '<div class="container"><div class="header"><h1 id="mainTitle">' + (L === 'vi' ? S.title_vi : S.title_en) + '</h1></div><div class="contact-grid">';
             
             // Card 1
             h += '<div class="contact-card"><div class="avatar-wrapper"><img src="' + S.c1.av + '" class="avatar"></div>';
@@ -1208,6 +1230,7 @@
             h += 'document.getElementById("btnVi").classList.toggle("active",l==="vi");';
             h += 'document.getElementById("btnEn").classList.toggle("active",l==="en");';
             h += 'const k=l==="vi"?"_vi":"_en";';
+            h += 'document.getElementById("mainTitle").textContent=l==="vi"?cfg.title_vi:cfg.title_en;';
             h += 'document.querySelectorAll(".contact-description")[0].innerHTML=cfg.c1["d"+k];';
             h += 'document.querySelectorAll(".contact-description")[1].innerHTML=cfg.c2["d"+k];';
             h += 'document.querySelectorAll(".contact-title")[0].textContent=cfg.c1["t"+k];';
