@@ -78,24 +78,30 @@
         .contact-grid.single-column .contact-card:nth-child(2) { display: none; }
         
         /* Layout wrapper for 1-column mode with bank cards */
-        .container.layout-1col {
+        .container.layout-1col.has-banks {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 50px;
             align-items: start;
         }
         
-        .container.layout-1col .header {
+        .container.layout-1col.has-banks .header {
             grid-column: 1 / -1;
         }
         
-        .container.layout-1col .bank-cards-container {
+        .container.layout-1col.has-banks .bank-cards-container {
             margin-top: 0;
             grid-template-columns: 1fr;
         }
         
-        .container.layout-1col .contact-grid {
+        .container.layout-1col.has-banks .contact-grid {
             grid-template-columns: 1fr;
+        }
+        
+        /* Layout 1 cột không có bank cards - center card1 */
+        .container.layout-1col:not(.has-banks) .contact-grid {
+            max-width: 700px;
+            margin: 0 auto;
         }
 
         .contact-card {
@@ -421,7 +427,13 @@
             border: 2px solid rgba(102, 126, 234, 0.3);
             display: flex;
             flex-direction: column;
-            height: 100%;
+            min-height: 100%;
+        }
+        
+        /* Match height with contact-card */
+        .container.layout-1col.has-banks .bank-card,
+        .container.layout-1col.has-banks .contact-card {
+            align-self: stretch;
         }
         
         .bank-card:hover {
@@ -431,8 +443,8 @@
         }
         
         .bank-qr {
-            width: 360px;
-            height: 360px;
+            width: 350px;
+            height: 350px;
             margin: 0 auto 25px;
             border-radius: 20px;
             overflow: hidden;
@@ -477,10 +489,11 @@
         .bank-info {
             background: rgba(15, 12, 41, 0.5);
             border-radius: 12px;
-            padding: 15px 18px;
+            padding: 14px 17px;
             display: flex;
+            flex-direction: row;
             align-items: center;
-            justify-content: space-between;
+            justify-content: center;
             gap: 12px;
             border: 1px solid rgba(102, 126, 234, 0.3);
             transition: all 0.3s;
@@ -493,11 +506,12 @@
         }
         
         .bank-number {
-            flex: 1;
             color: #fff;
-            font-size: 1.05rem;
+            font-size: 1.15rem;
             font-weight: 600;
             word-break: break-all;
+            text-align: center;
+            flex: 1;
         }
         
         .copy-btn {
@@ -528,19 +542,20 @@
             position: absolute;
             bottom: calc(100% + 10px);
             left: 50%;
-            transform: translateX(-50%) translateY(-5px);
-            background: rgba(16, 185, 129, 0.95);
+            transform: translateX(-50%) translateY(-10px) scale(0.8);
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
             color: white;
-            padding: 8px 16px;
-            border-radius: 8px;
-            font-size: 0.85rem;
-            font-weight: 600;
+            padding: 10px 18px;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            font-weight: 700;
             white-space: nowrap;
             opacity: 0;
             pointer-events: none;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-            z-index: 1000;
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.4), 0 4px 12px rgba(0, 0, 0, 0.3);
+            z-index: 10000;
+            border: 2px solid rgba(255, 255, 255, 0.3);
         }
         
         .copy-tooltip::after {
@@ -549,25 +564,34 @@
             top: 100%;
             left: 50%;
             transform: translateX(-50%);
-            border: 6px solid transparent;
-            border-top-color: rgba(16, 185, 129, 0.95);
+            border: 7px solid transparent;
+            border-top-color: #059669;
         }
         
         .copy-tooltip.show {
             opacity: 1;
-            transform: translateX(-50%) translateY(0);
+            transform: translateX(-50%) translateY(0) scale(1);
+            animation: tooltipBounce 0.5s ease;
+        }
+        
+        @keyframes tooltipBounce {
+            0% { transform: translateX(-50%) translateY(-10px) scale(0.8); opacity: 0; }
+            50% { transform: translateX(-50%) translateY(-5px) scale(1.1); }
+            100% { transform: translateX(-50%) translateY(0) scale(1); opacity: 1; }
+        }
+        
+        .copy-btn.copied i {
+            color: #10b981;
+            animation: checkPulse 0.5s ease;
+        }
+        
+        @keyframes checkPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.3); }
         }
         
         .bank-card-number {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: rgba(102, 126, 234, 0.3);
-            color: #667eea;
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 700;
+            display: none;
         }
         
         .icon-dropdown {
@@ -1278,7 +1302,7 @@
                 </div>
             <div class="contact-card">
                 <div class="avatar-wrapper"><img src="IMG/AVT-NguyeZGaming.png" class="avatar" id="avatarImg2"></div>
-                <h2 class="contact-title" id="cardTitle2">Phoenix Rising</h2>
+                <h2 class="contact-title" id="cardTitle2">NguyeZ Gaming 2</h2>
                 <p class="contact-description" id="cardDesc2">Lorem Ipsum chỉ đơn giản là một đoạn văn bản giả<br> được dùng vào việc trình bày và dàn trang phục vụ cho in ấn.<br>Đây là ví dụ cho dòng mô tả ngắn.</p>
                 <div class="social-links" id="socialLinks2"></div>
             </div>
@@ -1370,7 +1394,7 @@
                 ]
             },
             c2: { 
-                av: 'IMG/AVT-NguyeZGaming.png', t_vi: 'Phoenix Rising', t_en: 'Phoenix Rising',
+                av: 'IMG/AVT-NguyeZGaming.png', t_vi: 'NguyeZ Gaming 2', t_en: 'NguyeZ Gaming 2',
                 d_vi: 'Lorem Ipsum chỉ đơn giản là một đoạn văn bản giả<br> được dùng vào việc trình bày và dàn trang phục vụ cho in ấn.<br>Đây là ví dụ cho dòng mô tả ngắn.',
                 d_en: 'Lorem Ipsum is simply dummy text<br> of the printing and typesetting industry.<br>This is an example of a short description line.',
                 soc: [
@@ -1493,9 +1517,17 @@
             if (S.layout === '1col') {
                 grid.classList.add('single-column');
                 container.classList.add('layout-1col');
+                
+                // Check if has bank cards
+                if (S.bankCards && S.bankCards.length > 0) {
+                    container.classList.add('has-banks');
+                } else {
+                    container.classList.remove('has-banks');
+                }
             } else {
                 grid.classList.remove('single-column');
                 container.classList.remove('layout-1col');
+                container.classList.remove('has-banks');
             }
         }
 
@@ -1672,8 +1704,8 @@
                 qrUrl: 'IMG/QR1.jpg',
                 name_vi: 'Tên Ngân Hàng',
                 name_en: 'Bank Name',
-                desc_vi: '',
-                desc_en: '',
+                desc_vi: 'Nguyễn Văn A',
+                desc_en: 'Ria Sakurai',
                 accountInfo: '',
                 colors: {
                     qrBorder: '#667eea',
@@ -1876,24 +1908,22 @@
                 numSpan.textContent = card.accountInfo || 'Chưa có thông tin';
                 numSpan.style.color = card.colors.infoText;
                 
-                const copyBtn = document.createElement('button');
-                copyBtn.className = 'copy-btn';
-                copyBtn.innerHTML = '<i class="fas fa-copy"></i>';
-                
-                const tooltip = document.createElement('div');
-                tooltip.className = 'copy-tooltip';
-                tooltip.textContent = L === 'vi' ? '✓ Đã sao chép!' : '✓ Copied!';
-                copyBtn.appendChild(tooltip);
-                
-                copyBtn.onclick = () => {
+                // Function to handle copy action
+                const handleCopy = (btn) => {
                     if (!card.accountInfo) return;
                     
+                    const icon = btn.querySelector('i');
+                    const tooltip = btn.querySelector('.copy-tooltip');
+                    
                     navigator.clipboard.writeText(card.accountInfo).then(() => {
-                        const oldHtml = copyBtn.innerHTML;
-                        copyBtn.innerHTML = '<i class="fas fa-check"></i><div class="copy-tooltip show">' + (L === 'vi' ? '✓ Đã sao chép!' : '✓ Copied!') + '</div>';
+                        btn.classList.add('copied');
+                        icon.className = 'fas fa-check';
+                        tooltip.classList.add('show');
                         
                         setTimeout(() => { 
-                            copyBtn.innerHTML = oldHtml;
+                            btn.classList.remove('copied');
+                            icon.className = 'fas fa-copy';
+                            tooltip.classList.remove('show');
                         }, 2000);
                     }).catch(err => {
                         // Fallback for older browsers or mobile
@@ -1905,9 +1935,14 @@
                         textArea.select();
                         try {
                             document.execCommand('copy');
-                            const oldHtml = copyBtn.innerHTML;
-                            copyBtn.innerHTML = '<i class="fas fa-check"></i><div class="copy-tooltip show">' + (L === 'vi' ? '✓ Đã sao chép!' : '✓ Copied!') + '</div>';
-                            setTimeout(() => { copyBtn.innerHTML = oldHtml; }, 2000);
+                            btn.classList.add('copied');
+                            icon.className = 'fas fa-check';
+                            tooltip.classList.add('show');
+                            setTimeout(() => { 
+                                btn.classList.remove('copied');
+                                icon.className = 'fas fa-copy';
+                                tooltip.classList.remove('show');
+                            }, 2000);
                         } catch (err) {
                             console.error('Copy failed:', err);
                         }
@@ -1915,6 +1950,27 @@
                     });
                 };
                 
+                // Left copy button
+                const copyBtnLeft = document.createElement('button');
+                copyBtnLeft.className = 'copy-btn';
+                copyBtnLeft.innerHTML = '<i class="fas fa-copy"></i>';
+                const tooltipLeft = document.createElement('div');
+                tooltipLeft.className = 'copy-tooltip';
+                tooltipLeft.textContent = L === 'vi' ? '✓ Đã sao chép!' : '✓ Copied!';
+                copyBtnLeft.appendChild(tooltipLeft);
+                copyBtnLeft.onclick = () => handleCopy(copyBtnLeft);
+                
+                // Right copy button
+                const copyBtn = document.createElement('button');
+                copyBtn.className = 'copy-btn';
+                copyBtn.innerHTML = '<i class="fas fa-copy"></i>';
+                const tooltip = document.createElement('div');
+                tooltip.className = 'copy-tooltip';
+                tooltip.textContent = L === 'vi' ? '✓ Đã sao chép!' : '✓ Copied!';
+                copyBtn.appendChild(tooltip);
+                copyBtn.onclick = () => handleCopy(copyBtn);
+                
+                infoDiv.appendChild(copyBtnLeft);
                 infoDiv.appendChild(numSpan);
                 infoDiv.appendChild(copyBtn);
                 
@@ -2069,10 +2125,15 @@
             h += '.contact-grid.single-column{grid-template-columns:1fr}';
             h += '.contact-grid.single-column .contact-card:nth-child(2){display:none}';
             if (S.layout === '1col') {
-                h += '.container.layout-1col{display:grid;grid-template-columns:repeat(2,1fr);gap:50px;align-items:start}';
-                h += '.container.layout-1col .header{grid-column:1/-1}';
-                h += '.container.layout-1col .bank-cards-container{margin-top:0;grid-template-columns:1fr}';
-                h += '.container.layout-1col .contact-grid{grid-template-columns:1fr}';
+                const hasBanks = S.bankCards && S.bankCards.length > 0;
+                if (hasBanks) {
+                    h += '.container.layout-1col.has-banks{display:grid;grid-template-columns:repeat(2,1fr);gap:50px;align-items:start}';
+                    h += '.container.layout-1col.has-banks .header{grid-column:1/-1}';
+                    h += '.container.layout-1col.has-banks .bank-cards-container{margin-top:0;grid-template-columns:1fr}';
+                    h += '.container.layout-1col.has-banks .contact-grid{grid-template-columns:1fr}';
+                } else {
+                    h += '.container.layout-1col:not(.has-banks) .contact-grid{max-width:700px;margin:0 auto}';
+                }
             }
             h += '.bank-cards-container:empty{display:none}';
             h += '.contact-card{background:linear-gradient(135deg,rgba(30,30,60,0.6),rgba(40,35,70,0.6),rgba(35,30,65,0.6));background-size:200% 200%;backdrop-filter:blur(10px);border-radius:30px;padding:50px 40px;position:relative;overflow:hidden;transition:all 0.4s cubic-bezier(0.4,0,0.2,1);animation:gradientShift 8s ease infinite,subtleGlow 4s ease-in-out infinite}';
@@ -2158,24 +2219,30 @@
             h += '.link{border-color:rgba(102,126,234,0.3);background:rgba(102,126,234,0.05)}.link i{color:#667eea}';
             // Bank Cards CSS
             h += '.bank-cards-container{display:grid;grid-template-columns:repeat(2,1fr);gap:50px;margin-top:50px}';
-            h += '.bank-card{background:linear-gradient(135deg,rgba(30,30,60,0.7),rgba(40,35,70,0.7));backdrop-filter:blur(10px);border-radius:25px;padding:40px 35px;position:relative;overflow:hidden;transition:all 0.4s cubic-bezier(0.4,0,0.2,1);border:2px solid rgba(102,126,234,0.3);display:flex;flex-direction:column;height:100%}';
+            h += '.bank-card{background:linear-gradient(135deg,rgba(30,30,60,0.7),rgba(40,35,70,0.7));backdrop-filter:blur(10px);border-radius:25px;padding:40px 35px;position:relative;overflow:hidden;transition:all 0.4s cubic-bezier(0.4,0,0.2,1);border:2px solid rgba(102,126,234,0.3);display:flex;flex-direction:column;min-height:100%}';
+            if (S.layout === '1col' && S.bankCards && S.bankCards.length > 0) {
+                h += '.container.layout-1col.has-banks .bank-card,.container.layout-1col.has-banks .contact-card{align-self:stretch}';
+            }
             h += '.bank-card:hover{transform:translateY(-8px);box-shadow:0 20px 60px rgba(102,126,234,0.5);border-color:rgba(102,126,234,0.6)}';
-            h += '.bank-qr{width:360px;height:360px;margin:0 auto 25px;border-radius:20px;overflow:hidden;border:4px solid rgba(102,126,234,0.4);transition:all 0.3s}';
+            h += '.bank-qr{width:350px;height:350px;margin:0 auto 25px;border-radius:20px;overflow:hidden;border:4px solid rgba(102,126,234,0.4);transition:all 0.3s}';
             h += '.bank-card:hover .bank-qr{transform:scale(1.03);border-color:rgba(102,126,234,0.8)}';
             h += '.bank-qr img{width:100%;height:100%;object-fit:cover}';
             h += '.bank-name{text-align:center;font-size:1.8rem;font-weight:700;color:#fff;margin-bottom:12px}';
             h += '.bank-desc{text-align:center;color:#a8b2d1;font-size:1rem;margin-bottom:20px;min-height:24px;flex-shrink:0}';
             h += '.bank-desc:empty{display:none;min-height:0;margin-bottom:0}';
-            h += '.bank-info{background:rgba(15,12,41,0.5);border-radius:12px;padding:15px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;border:1px solid rgba(102,126,234,0.3);transition:all 0.3s;margin-top:auto}';
+            h += '.bank-info{background:rgba(15,12,41,0.5);border-radius:12px;padding:14px 17px;display:flex;flex-direction:row;align-items:center;justify-content:center;gap:12px;border:1px solid rgba(102,126,234,0.3);transition:all 0.3s;margin-top:auto}';
             h += '.bank-info:hover{border-color:rgba(102,126,234,0.6);background:rgba(15,12,41,0.7)}';
-            h += '.bank-number{flex:1;color:#fff;font-size:1.05rem;font-weight:600;word-break:break-all}';
+            h += '.bank-number{color:#fff;font-size:1.15rem;font-weight:600;word-break:break-all;text-align:center;flex:1}';
             h += '.copy-btn{background:rgba(102,126,234,0.2);border:1px solid rgba(102,126,234,0.4);color:#667eea;padding:10px 14px;border-radius:8px;cursor:pointer;transition:all 0.3s;display:flex;align-items:center;gap:5px;font-size:1rem;position:relative}';
             h += '.copy-btn:hover{background:rgba(102,126,234,0.4);transform:scale(1.05)}';
             h += '.copy-btn i{font-size:1.1rem}';
-            h += '.copy-tooltip{position:absolute;bottom:calc(100% + 10px);left:50%;transform:translateX(-50%) translateY(-5px);background:rgba(16,185,129,0.95);color:white;padding:8px 16px;border-radius:8px;font-size:0.85rem;font-weight:600;white-space:nowrap;opacity:0;pointer-events:none;transition:all 0.3s ease;box-shadow:0 4px 12px rgba(0,0,0,0.3);z-index:1000}';
-            h += '.copy-tooltip::after{content:"";position:absolute;top:100%;left:50%;transform:translateX(-50%);border:6px solid transparent;border-top-color:rgba(16,185,129,0.95)}';
-            h += '.copy-tooltip.show{opacity:1;transform:translateX(-50%) translateY(0)}';
-            h += '.bank-card-number{position:absolute;top:15px;right:15px;background:rgba(102,126,234,0.3);color:#667eea;padding:5px 12px;border-radius:20px;font-size:0.85rem;font-weight:700}';
+            h += '.copy-tooltip{position:absolute;bottom:calc(100% + 10px);left:50%;transform:translateX(-50%) translateY(-10px) scale(0.8);background:linear-gradient(135deg,#10b981 0%,#059669 100%);color:white;padding:10px 18px;border-radius:10px;font-size:0.9rem;font-weight:700;white-space:nowrap;opacity:0;pointer-events:none;transition:all 0.3s cubic-bezier(0.68,-0.55,0.265,1.55);box-shadow:0 8px 20px rgba(16,185,129,0.4),0 4px 12px rgba(0,0,0,0.3);z-index:10000;border:2px solid rgba(255,255,255,0.3)}';
+            h += '.copy-tooltip::after{content:"";position:absolute;top:100%;left:50%;transform:translateX(-50%);border:7px solid transparent;border-top-color:#059669}';
+            h += '.copy-tooltip.show{opacity:1;transform:translateX(-50%) translateY(0) scale(1);animation:tooltipBounce 0.5s ease}';
+            h += '.copy-btn.copied i{color:#10b981;animation:checkPulse 0.5s ease}';
+            h += '.bank-card-number{display:none}';
+            h += '@keyframes tooltipBounce{0%{transform:translateX(-50%) translateY(-10px) scale(0.8);opacity:0}50%{transform:translateX(-50%) translateY(-5px) scale(1.1)}100%{transform:translateX(-50%) translateY(0) scale(1);opacity:1}}';
+            h += '@keyframes checkPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.3)}}';
             h += '@keyframes rotate{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}';
             h += '@keyframes rotateBorder{0%{background:linear-gradient(0deg,#667eea,#764ba2,#f093fb,#667eea)}25%{background:linear-gradient(90deg,#667eea,#764ba2,#f093fb,#667eea)}50%{background:linear-gradient(180deg,#667eea,#764ba2,#f093fb,#667eea)}75%{background:linear-gradient(270deg,#667eea,#764ba2,#f093fb,#667eea)}100%{background:linear-gradient(360deg,#667eea,#764ba2,#f093fb,#667eea)}}';
             h += '@keyframes gradientShift{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}';
@@ -2255,7 +2322,9 @@
             h += '<button class="font-option' + (S.font === "'Inter', sans-serif" ? ' active' : '') + '" data-font="\'Inter\', sans-serif">Inter</button>';
             h += '<button class="font-option' + (S.font === "'Roboto', sans-serif" ? ' active' : '') + '" data-font="\'Roboto\', sans-serif">Roboto</button>';
             h += '</div></div></div>';
-            h += '<div class="container' + (S.layout === '1col' ? ' layout-1col' : '') + '"><div class="header"><h1 id="mainTitle" style="color:' + (S.titleColor || '#667eea') + ';font-size:' + (S.titleSize || S.fs.main) + 'rem">' + (L === 'vi' ? S.title_vi : S.title_en) + '</h1></div>';
+            const hasBanks = S.bankCards && S.bankCards.length > 0;
+            const containerClasses = S.layout === '1col' ? ' layout-1col' + (hasBanks ? ' has-banks' : '') : '';
+            h += '<div class="container' + containerClasses + '"><div class="header"><h1 id="mainTitle" style="color:' + (S.titleColor || '#667eea') + ';font-size:' + (S.titleSize || S.fs.main) + 'rem">' + (L === 'vi' ? S.title_vi : S.title_en) + '</h1></div>';
             h += '<div class="contact-grid' + (S.layout === '1col' ? ' single-column' : '') + '">';
             
             // Card 1
@@ -2301,9 +2370,11 @@
                     if (desc) {
                         h += '<div class="bank-desc" style="color:' + card.colors.desc + '">' + desc + '</div>';
                     }
+                    const tooltipMsg = L === 'vi' ? '✓ Đã sao chép!' : '✓ Copied!';
                     h += '<div class="bank-info" style="background:' + card.colors.infoBg + ';border-color:' + card.colors.infoBorder + '">';
+                    h += '<button class="copy-btn" onclick="copyToClipboard(\'' + card.accountInfo.replace(/'/g, "\\'") + '\',this)"><i class="fas fa-copy"></i><div class="copy-tooltip">' + tooltipMsg + '</div></button>';
                     h += '<span class="bank-number" style="color:' + card.colors.infoText + '">' + (card.accountInfo || 'Chưa có thông tin') + '</span>';
-                    h += '<button class="copy-btn" onclick="copyToClipboard(\'' + card.accountInfo.replace(/'/g, "\\'") + '\',this,\'' + (L === 'vi' ? '✓ Đã sao chép!' : '✓ Copied!') + '\')"><i class="fas fa-copy"></i></button>';
+                    h += '<button class="copy-btn" onclick="copyToClipboard(\'' + card.accountInfo.replace(/'/g, "\\'") + '\',this)"><i class="fas fa-copy"></i><div class="copy-tooltip">' + tooltipMsg + '</div></button>';
                     h += '</div></div>';
                 });
                 h += '</div>';
@@ -2311,7 +2382,7 @@
             
             h += '</div>'; // close container
             h += '<script>';
-            h += 'function copyToClipboard(t,btn,msg){if(!t)return;navigator.clipboard.writeText(t).then(()=>{const old=btn.innerHTML;btn.innerHTML=\'<i class="fas fa-check"></i><div class="copy-tooltip show">\'+msg+\'</div>\';setTimeout(()=>{btn.innerHTML=old},2000)}).catch(()=>{const ta=document.createElement("textarea");ta.value=t;ta.style.position="fixed";ta.style.left="-999999px";document.body.appendChild(ta);ta.select();try{document.execCommand("copy");const old=btn.innerHTML;btn.innerHTML=\'<i class="fas fa-check"></i><div class="copy-tooltip show">\'+msg+\'</div>\';setTimeout(()=>{btn.innerHTML=old},2000)}catch(e){console.error(e)}document.body.removeChild(ta)})};';
+            h += 'function copyToClipboard(t,btn){if(!t)return;const icon=btn.querySelector("i");const tooltip=btn.querySelector(".copy-tooltip");navigator.clipboard.writeText(t).then(()=>{btn.classList.add("copied");icon.className="fas fa-check";tooltip.classList.add("show");setTimeout(()=>{btn.classList.remove("copied");icon.className="fas fa-copy";tooltip.classList.remove("show")},2000)}).catch(()=>{const ta=document.createElement("textarea");ta.value=t;ta.style.position="fixed";ta.style.left="-999999px";document.body.appendChild(ta);ta.select();try{document.execCommand("copy");btn.classList.add("copied");icon.className="fas fa-check";tooltip.classList.add("show");setTimeout(()=>{btn.classList.remove("copied");icon.className="fas fa-copy";tooltip.classList.remove("show")},2000)}catch(e){console.error(e)}document.body.removeChild(ta)})};';
             h += 'const cfg=JSON.parse(document.getElementById("cfg").textContent);';
             h += 'let cL="' + L + '";';
             h += 'document.getElementById("btnVi").onclick=()=>sw("vi");';
