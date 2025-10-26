@@ -70,8 +70,33 @@
         }
 
         .contact-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 50px; }
-        .contact-grid.single-column { grid-template-columns: 1fr; max-width: 700px; margin: 0 auto; }
+        .contact-grid.single-column { 
+            grid-template-columns: 1fr; 
+            max-width: 100%; 
+            margin: 0;
+        }
         .contact-grid.single-column .contact-card:nth-child(2) { display: none; }
+        
+        /* Layout wrapper for 1-column mode with bank cards */
+        .container.layout-1col {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 50px;
+            align-items: start;
+        }
+        
+        .container.layout-1col .header {
+            grid-column: 1 / -1;
+        }
+        
+        .container.layout-1col .bank-cards-container {
+            margin-top: 0;
+            grid-template-columns: 1fr;
+        }
+        
+        .container.layout-1col .contact-grid {
+            grid-template-columns: 1fr;
+        }
 
         .contact-card {
             background: linear-gradient(135deg, rgba(30, 30, 60, 0.6), rgba(40, 35, 70, 0.6), rgba(35, 30, 65, 0.6));
@@ -99,6 +124,7 @@
             );
             -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
             -webkit-mask-composite: xor;
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
             mask-composite: exclude;
             opacity: 0.3;
             transition: all 0.4s ease;
@@ -371,6 +397,178 @@
         .calendar i { color: #4285F4; }
         .link { border-color: rgba(102, 126, 234, 0.3); background: rgba(102, 126, 234, 0.05); }
         .link i { color: #667eea; }
+        
+        /* Bank Cards */
+        .bank-cards-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 50px;
+            margin-top: 50px;
+        }
+        
+        .bank-cards-container:empty {
+            display: none;
+        }
+        
+        .bank-card {
+            background: linear-gradient(135deg, rgba(30, 30, 60, 0.7), rgba(40, 35, 70, 0.7));
+            backdrop-filter: blur(10px);
+            border-radius: 25px;
+            padding: 40px 35px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 2px solid rgba(102, 126, 234, 0.3);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        
+        .bank-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 60px rgba(102, 126, 234, 0.5);
+            border-color: rgba(102, 126, 234, 0.6);
+        }
+        
+        .bank-qr {
+            width: 360px;
+            height: 360px;
+            margin: 0 auto 25px;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 4px solid rgba(102, 126, 234, 0.4);
+            transition: all 0.3s;
+        }
+        
+        .bank-card:hover .bank-qr {
+            transform: scale(1.03);
+            border-color: rgba(102, 126, 234, 0.8);
+        }
+        
+        .bank-qr img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .bank-name {
+            text-align: center;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 12px;
+        }
+        
+        .bank-desc {
+            text-align: center;
+            color: #a8b2d1;
+            font-size: 1rem;
+            margin-bottom: 20px;
+            min-height: 24px;
+            flex-shrink: 0;
+        }
+        
+        .bank-desc:empty {
+            display: none;
+            min-height: 0;
+            margin-bottom: 0;
+        }
+        
+        .bank-info {
+            background: rgba(15, 12, 41, 0.5);
+            border-radius: 12px;
+            padding: 15px 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            border: 1px solid rgba(102, 126, 234, 0.3);
+            transition: all 0.3s;
+            margin-top: auto;
+        }
+        
+        .bank-info:hover {
+            border-color: rgba(102, 126, 234, 0.6);
+            background: rgba(15, 12, 41, 0.7);
+        }
+        
+        .bank-number {
+            flex: 1;
+            color: #fff;
+            font-size: 1.05rem;
+            font-weight: 600;
+            word-break: break-all;
+        }
+        
+        .copy-btn {
+            background: rgba(102, 126, 234, 0.2);
+            border: 1px solid rgba(102, 126, 234, 0.4);
+            color: #667eea;
+            padding: 10px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 1rem;
+            position: relative;
+        }
+        
+        .copy-btn:hover {
+            background: rgba(102, 126, 234, 0.4);
+            transform: scale(1.05);
+        }
+        
+        .copy-btn i {
+            font-size: 1.1rem;
+        }
+        
+        .copy-tooltip {
+            position: absolute;
+            bottom: calc(100% + 10px);
+            left: 50%;
+            transform: translateX(-50%) translateY(-5px);
+            background: rgba(16, 185, 129, 0.95);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+        }
+        
+        .copy-tooltip::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 6px solid transparent;
+            border-top-color: rgba(16, 185, 129, 0.95);
+        }
+        
+        .copy-tooltip.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+        
+        .bank-card-number {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(102, 126, 234, 0.3);
+            color: #667eea;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+        }
         
         .icon-dropdown {
             position: absolute;
@@ -861,6 +1059,14 @@
             .font-option { padding: 8px 12px; font-size: 0.85rem; }
             .bottom-bar { bottom: 80px; right: 15px; flex-direction: column; }
             .action-btn { padding: 10px 15px; font-size: 0.9rem; }
+            
+            .contact-grid, .contact-grid.single-column { grid-template-columns: 1fr; max-width: 100%; }
+            .contact-grid.single-column .contact-card:nth-child(2) { display: block; }
+            .container.layout-1col { display: block; }
+            .bank-cards-container { grid-template-columns: 1fr; gap: 30px; margin-top: 30px; }
+            .bank-card { padding: 30px 25px; }
+            .bank-qr { width: 240px; height: 240px; }
+            .bank-name { font-size: 1.5rem; }
         }
 
         @media (max-width: 480px) {
@@ -876,6 +1082,10 @@
             .font-btn { width: 28px; height: 28px; font-size: 0.9rem; }
             .font-dropdown { min-width: 100px; }
             .font-option { padding: 6px 10px; font-size: 0.8rem; }
+            
+            .bank-qr { width: 180px; height: 180px; }
+            .bank-name { font-size: 1.3rem; }
+            .bank-desc { font-size: 0.9rem; }
         }
         
         .settings-panel::-webkit-scrollbar { width: 8px; }
@@ -1046,6 +1256,13 @@
             <button class="add-social-btn" onclick="addSocial(2)">+ Thêm Social Link</button>
         </div>
 
+        <div class="settings-section">
+            <h3>💳 Thẻ Ngân Hàng / QR Code</h3>
+            <p style="color:#8892b0;font-size:0.9rem;margin-bottom:15px;font-style:italic">💡 Thêm thẻ ngân hàng với QR code để nhận donate/thanh toán</p>
+            <div id="bankCardsList"></div>
+            <button class="add-social-btn" onclick="addBankCard()">+ Thêm Thẻ Ngân Hàng</button>
+        </div>
+
         <button class="save-btn" id="saveBtn">💾 Lưu Cài Đặt</button>
         <button class="reset-btn" id="resetBtn">🔄 Reset Mặc Định</button>
     </div>
@@ -1055,7 +1272,7 @@
         <div class="contact-grid">
             <div class="contact-card">
                 <div class="avatar-wrapper"><img src="IMG/AVT-NguyeZGaming.png" class="avatar" id="avatarImg1"></div>
-                <h2 class="contact-title" id="cardTitle1">Thunder Gaming</h2>
+                <h2 class="contact-title" id="cardTitle1">NguyeZ Gaming</h2>
                 <p class="contact-description" id="cardDesc1">Lorem Ipsum chỉ đơn giản là một đoạn văn bản giả<br> được dùng vào việc trình bày và dàn trang phục vụ cho in ấn.<br>Đây là ví dụ cho dòng mô tả ngắn.</p>
                 <div class="social-links" id="socialLinks1"></div>
                 </div>
@@ -1066,6 +1283,7 @@
                 <div class="social-links" id="socialLinks2"></div>
             </div>
         </div>
+        <div class="bank-cards-container" id="bankCardsContainer"></div>
     </div>
 
     <script>
@@ -1139,8 +1357,9 @@
             bg: { img: 'IMG/BG-NguyeZ.webp', op: 30, ov: 50, bl: 0, c1: '#0f0c29', c2: '#302b63', c3: '#24243e' },
             avatarColors1: { c1: '#ff6b35', c2: '#f7931e', c3: '#ffd700' },
             avatarColors2: { c1: '#11998e', c2: '#38ef7d', c3: '#7bed9f' },
+            bankCards: [],
             c1: { 
-                av: 'IMG/AVT-NguyeZGaming.png', t_vi: 'Thunder Gaming', t_en: 'Thunder Gaming',
+                av: 'IMG/AVT-NguyeZGaming.png', t_vi: 'NguyeZ Gaming', t_en: 'NguyeZ Gaming',
                 d_vi: 'Lorem Ipsum chỉ đơn giản là một đoạn văn bản giả<br> được dùng vào việc trình bày và dàn trang phục vụ cho in ấn.<br>Đây là ví dụ cho dòng mô tả ngắn.',
                 d_en: 'Lorem Ipsum is simply dummy text<br> of the printing and typesetting industry.<br>This is an example of a short description line.',
                 soc: [
@@ -1190,6 +1409,9 @@
         // Ensure avatar colors exist
         if (!S.avatarColors1) S.avatarColors1 = D.avatarColors1;
         if (!S.avatarColors2) S.avatarColors2 = D.avatarColors2;
+        
+        // Ensure bank cards array exists
+        if (!S.bankCards) S.bankCards = [];
 
         const g = id => document.getElementById(id);
         const $$ = s => document.querySelectorAll(s);
@@ -1266,11 +1488,14 @@
 
         function applyLayout() {
             const grid = document.querySelector('.contact-grid');
+            const container = document.querySelector('.container');
             
             if (S.layout === '1col') {
                 grid.classList.add('single-column');
+                container.classList.add('layout-1col');
             } else {
                 grid.classList.remove('single-column');
+                container.classList.remove('layout-1col');
             }
         }
 
@@ -1315,6 +1540,8 @@
             renderSocialInputs(2);
             renderSocialLinks(1);
             renderSocialLinks(2);
+            renderBankCardsInputs();
+            renderBankCards();
 
             sw(S.lang);
             applyLayout();
@@ -1429,6 +1656,283 @@
         // Make functions globally accessible
         window.addSocial = addSocial;
         window.removeSocial = removeSocial;
+        
+        // Bank Cards Management
+        let nextBankCardId = 11;
+        
+        // Initialize nextBankCardId based on existing cards
+        if (S.bankCards && S.bankCards.length > 0) {
+            const maxId = Math.max(...S.bankCards.map(c => c.id));
+            nextBankCardId = maxId + 1;
+        }
+        
+        function addBankCard() {
+            S.bankCards.push({
+                id: nextBankCardId++,
+                qrUrl: 'IMG/QR1.jpg',
+                name_vi: 'Tên Ngân Hàng',
+                name_en: 'Bank Name',
+                desc_vi: '',
+                desc_en: '',
+                accountInfo: '',
+                colors: {
+                    qrBorder: '#667eea',
+                    name: '#ffffff',
+                    desc: '#a8b2d1',
+                    infoBg: 'rgba(15, 12, 41, 0.5)',
+                    infoBorder: 'rgba(102, 126, 234, 0.3)',
+                    infoText: '#ffffff'
+                }
+            });
+            renderBankCardsInputs();
+            renderBankCards();
+        }
+        
+        function removeBankCard(idx) {
+            S.bankCards.splice(idx, 1);
+            renderBankCardsInputs();
+            renderBankCards();
+        }
+        
+        function renderBankCardsInputs() {
+            const list = g('bankCardsList');
+            list.innerHTML = '';
+            
+            S.bankCards.forEach((card, i) => {
+                const div = document.createElement('div');
+                div.className = 'social-item';
+                div.style.marginBottom = '25px';
+                div.innerHTML = `
+                    <div class="social-item-header">
+                        <span class="social-item-title">💳 Thẻ ${card.id}</span>
+                        <button class="remove-social-btn" onclick="removeBankCard(${i})">Xóa</button>
+                    </div>
+                `;
+                
+                // QR Image URL
+                const qrLbl = document.createElement('label');
+                qrLbl.textContent = 'QR Code Image URL:';
+                const qrIn = document.createElement('input');
+                qrIn.type = 'text';
+                qrIn.placeholder = 'IMG/qr-bank.png';
+                qrIn.value = card.qrUrl || '';
+                qrIn.oninput = () => { S.bankCards[i].qrUrl = qrIn.value; renderBankCards(); };
+                
+                // Bank Name
+                const nameLblVi = document.createElement('label');
+                nameLblVi.textContent = 'Tên ngân hàng (Việt):';
+                const nameInVi = document.createElement('input');
+                nameInVi.type = 'text';
+                nameInVi.placeholder = 'VD: Techcombank, Vietcombank...';
+                nameInVi.value = card.name_vi || '';
+                nameInVi.oninput = () => { S.bankCards[i].name_vi = nameInVi.value; renderBankCards(); };
+                
+                const nameLblEn = document.createElement('label');
+                nameLblEn.textContent = 'Bank Name (English):';
+                const nameInEn = document.createElement('input');
+                nameInEn.type = 'text';
+                nameInEn.placeholder = 'Ex: Techcombank, Vietcombank...';
+                nameInEn.value = card.name_en || '';
+                nameInEn.oninput = () => { S.bankCards[i].name_en = nameInEn.value; renderBankCards(); };
+                
+                // Description
+                const descLblVi = document.createElement('label');
+                descLblVi.textContent = 'Mô tả (Việt) - có thể để trống:';
+                const descInVi = document.createElement('input');
+                descInVi.type = 'text';
+                descInVi.placeholder = 'VD: Chuyển khoản nhanh, Hỗ trợ donate...';
+                descInVi.value = card.desc_vi || '';
+                descInVi.oninput = () => { S.bankCards[i].desc_vi = descInVi.value; renderBankCards(); };
+                
+                const descLblEn = document.createElement('label');
+                descLblEn.textContent = 'Description (English) - optional:';
+                const descInEn = document.createElement('input');
+                descInEn.type = 'text';
+                descInEn.placeholder = 'Ex: Fast transfer, Support donate...';
+                descInEn.value = card.desc_en || '';
+                descInEn.oninput = () => { S.bankCards[i].desc_en = descInEn.value; renderBankCards(); };
+                
+                // Account Info
+                const infoLbl = document.createElement('label');
+                infoLbl.textContent = 'Số TK / Tên TK / Thông tin:';
+                const infoIn = document.createElement('input');
+                infoIn.type = 'text';
+                infoIn.placeholder = '1234567890 - NGUYEN VAN A';
+                infoIn.value = card.accountInfo || '';
+                infoIn.oninput = () => { S.bankCards[i].accountInfo = infoIn.value; renderBankCards(); };
+                
+                // Color customization
+                const colorLbl = document.createElement('label');
+                colorLbl.innerHTML = '🎨 Tuỳ chỉnh màu sắc:';
+                colorLbl.style.marginTop = '15px';
+                colorLbl.style.marginBottom = '10px';
+                
+                const colorGrid = document.createElement('div');
+                colorGrid.className = 'font-size-grid';
+                colorGrid.style.gridTemplateColumns = 'repeat(3, 1fr)';
+                
+                const colors = [
+                    { key: 'qrBorder', label: 'Viền QR', val: card.colors.qrBorder },
+                    { key: 'name', label: 'Tên NH', val: card.colors.name },
+                    { key: 'desc', label: 'Mô tả', val: card.colors.desc },
+                    { key: 'infoBg', label: 'Nền Info', val: card.colors.infoBg, isRgba: true },
+                    { key: 'infoBorder', label: 'Viền Info', val: card.colors.infoBorder, isRgba: true },
+                    { key: 'infoText', label: 'Text Info', val: card.colors.infoText }
+                ];
+                
+                colors.forEach(c => {
+                    const colDiv = document.createElement('div');
+                    const lbl = document.createElement('label');
+                    lbl.textContent = c.label + ':';
+                    lbl.style.marginBottom = '5px';
+                    
+                    if (c.isRgba) {
+                        const inp = document.createElement('input');
+                        inp.type = 'text';
+                        inp.placeholder = c.val;
+                        inp.value = c.val;
+                        inp.style.fontSize = '0.85rem';
+                        inp.oninput = () => {
+                            S.bankCards[i].colors[c.key] = inp.value;
+                            renderBankCards();
+                        };
+                        colDiv.appendChild(lbl);
+                        colDiv.appendChild(inp);
+                    } else {
+                        const inp = document.createElement('input');
+                        inp.type = 'color';
+                        inp.value = c.val;
+                        inp.oninput = () => {
+                            S.bankCards[i].colors[c.key] = inp.value;
+                            renderBankCards();
+                        };
+                        colDiv.appendChild(lbl);
+                        colDiv.appendChild(inp);
+                    }
+                    
+                    colorGrid.appendChild(colDiv);
+                });
+                
+                div.appendChild(qrLbl);
+                div.appendChild(qrIn);
+                div.appendChild(nameLblVi);
+                div.appendChild(nameInVi);
+                div.appendChild(nameLblEn);
+                div.appendChild(nameInEn);
+                div.appendChild(descLblVi);
+                div.appendChild(descInVi);
+                div.appendChild(descLblEn);
+                div.appendChild(descInEn);
+                div.appendChild(infoLbl);
+                div.appendChild(infoIn);
+                div.appendChild(colorLbl);
+                div.appendChild(colorGrid);
+                
+                list.appendChild(div);
+            });
+        }
+        
+        function renderBankCards() {
+            const container = g('bankCardsContainer');
+            container.innerHTML = '';
+            
+            S.bankCards.forEach(card => {
+                const k = L === 'vi' ? '_vi' : '_en';
+                const name = card['name' + k] || card.name_vi;
+                const desc = card['desc' + k] || '';
+                
+                const cardDiv = document.createElement('div');
+                cardDiv.className = 'bank-card';
+                
+                const cardNumBadge = document.createElement('div');
+                cardNumBadge.className = 'bank-card-number';
+                cardNumBadge.textContent = '#' + card.id;
+                
+                const qrDiv = document.createElement('div');
+                qrDiv.className = 'bank-qr';
+                qrDiv.style.borderColor = card.colors.qrBorder;
+                const qrImg = document.createElement('img');
+                qrImg.src = card.qrUrl || 'https://via.placeholder.com/180?text=QR+Code';
+                qrImg.alt = 'QR Code';
+                qrDiv.appendChild(qrImg);
+                
+                const nameDiv = document.createElement('div');
+                nameDiv.className = 'bank-name';
+                nameDiv.textContent = name;
+                nameDiv.style.color = card.colors.name;
+                
+                const descDiv = document.createElement('div');
+                descDiv.className = 'bank-desc';
+                descDiv.textContent = desc;
+                descDiv.style.color = card.colors.desc;
+                
+                const infoDiv = document.createElement('div');
+                infoDiv.className = 'bank-info';
+                infoDiv.style.background = card.colors.infoBg;
+                infoDiv.style.borderColor = card.colors.infoBorder;
+                
+                const numSpan = document.createElement('span');
+                numSpan.className = 'bank-number';
+                numSpan.textContent = card.accountInfo || 'Chưa có thông tin';
+                numSpan.style.color = card.colors.infoText;
+                
+                const copyBtn = document.createElement('button');
+                copyBtn.className = 'copy-btn';
+                copyBtn.innerHTML = '<i class="fas fa-copy"></i>';
+                
+                const tooltip = document.createElement('div');
+                tooltip.className = 'copy-tooltip';
+                tooltip.textContent = L === 'vi' ? '✓ Đã sao chép!' : '✓ Copied!';
+                copyBtn.appendChild(tooltip);
+                
+                copyBtn.onclick = () => {
+                    if (!card.accountInfo) return;
+                    
+                    navigator.clipboard.writeText(card.accountInfo).then(() => {
+                        const oldHtml = copyBtn.innerHTML;
+                        copyBtn.innerHTML = '<i class="fas fa-check"></i><div class="copy-tooltip show">' + (L === 'vi' ? '✓ Đã sao chép!' : '✓ Copied!') + '</div>';
+                        
+                        setTimeout(() => { 
+                            copyBtn.innerHTML = oldHtml;
+                        }, 2000);
+                    }).catch(err => {
+                        // Fallback for older browsers or mobile
+                        const textArea = document.createElement('textarea');
+                        textArea.value = card.accountInfo;
+                        textArea.style.position = 'fixed';
+                        textArea.style.left = '-999999px';
+                        document.body.appendChild(textArea);
+                        textArea.select();
+                        try {
+                            document.execCommand('copy');
+                            const oldHtml = copyBtn.innerHTML;
+                            copyBtn.innerHTML = '<i class="fas fa-check"></i><div class="copy-tooltip show">' + (L === 'vi' ? '✓ Đã sao chép!' : '✓ Copied!') + '</div>';
+                            setTimeout(() => { copyBtn.innerHTML = oldHtml; }, 2000);
+                        } catch (err) {
+                            console.error('Copy failed:', err);
+                        }
+                        document.body.removeChild(textArea);
+                    });
+                };
+                
+                infoDiv.appendChild(numSpan);
+                infoDiv.appendChild(copyBtn);
+                
+                cardDiv.appendChild(cardNumBadge);
+                cardDiv.appendChild(qrDiv);
+                cardDiv.appendChild(nameDiv);
+                cardDiv.appendChild(descDiv);
+                cardDiv.appendChild(infoDiv);
+                
+                container.appendChild(cardDiv);
+            });
+            
+            // Re-apply layout after rendering bank cards
+            applyLayout();
+        }
+        
+        window.addBankCard = addBankCard;
+        window.removeBankCard = removeBankCard;
 
         function renderSocialLinks(cardNum) {
             const card = S['c' + cardNum];
@@ -1511,6 +2015,9 @@
             if (t2) g('cardTitle2').textContent = t2;
             if (d1) g('cardDesc1').innerHTML = d1;
             if (d2) g('cardDesc2').innerHTML = d2;
+            
+            // Update bank cards language
+            renderBankCards();
         }
 
         function save() {
@@ -1530,6 +2037,7 @@
             S.c2.av = g('avatar2').value || S.c2.av; S.c2.t_vi = g('title2_vi').value || S.c2.t_vi;
             S.c2.t_en = g('title2_en').value || S.c2.t_en; S.c2.d_vi = g('desc2_vi').value || S.c2.d_vi;
             S.c2.d_en = g('desc2_en').value || S.c2.d_en;
+            // Bank cards are already saved in S.bankCards via renderBankCardsInputs
             localStorage.setItem('ngZ', JSON.stringify(S));
             g('settingsPanel').classList.remove('active');
             alert('✓ Đã lưu!');
@@ -1557,7 +2065,16 @@
             h += 'body::after{content:\'\';position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,' + (S.bg.ov/100) + ');z-index:0;animation:overlayPulse 15s ease-in-out infinite alternate}';
             h += '.container{max-width:1400px;width:100%;position:relative;z-index:1}';
             h += '.header{text-align:center;margin-bottom:60px}.header h1{font-size:' + (S.titleSize || S.fs.main) + 'rem;color:' + (S.titleColor || '#667eea') + ';letter-spacing:2px;font-weight:800}';
-            h += '.contact-grid{display:grid;grid-template-columns:' + (S.layout === '1col' ? '1fr' : 'repeat(2,1fr)') + ';gap:50px' + (S.layout === '1col' ? ';max-width:700px;margin:0 auto' : '') + '}';
+            h += '.contact-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:50px}';
+            h += '.contact-grid.single-column{grid-template-columns:1fr}';
+            h += '.contact-grid.single-column .contact-card:nth-child(2){display:none}';
+            if (S.layout === '1col') {
+                h += '.container.layout-1col{display:grid;grid-template-columns:repeat(2,1fr);gap:50px;align-items:start}';
+                h += '.container.layout-1col .header{grid-column:1/-1}';
+                h += '.container.layout-1col .bank-cards-container{margin-top:0;grid-template-columns:1fr}';
+                h += '.container.layout-1col .contact-grid{grid-template-columns:1fr}';
+            }
+            h += '.bank-cards-container:empty{display:none}';
             h += '.contact-card{background:linear-gradient(135deg,rgba(30,30,60,0.6),rgba(40,35,70,0.6),rgba(35,30,65,0.6));background-size:200% 200%;backdrop-filter:blur(10px);border-radius:30px;padding:50px 40px;position:relative;overflow:hidden;transition:all 0.4s cubic-bezier(0.4,0,0.2,1);animation:gradientShift 8s ease infinite,subtleGlow 4s ease-in-out infinite}';
             h += '.contact-card::before{content:"";position:absolute;inset:-3px;border-radius:30px;padding:3px;background:linear-gradient(135deg,rgba(102,126,234,0.3),rgba(118,75,162,0.3),rgba(240,147,251,0.3),rgba(102,126,234,0.3));-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:0.3;transition:all 0.4s ease;z-index:-1}';
             h += '.contact-card::after{content:"";position:absolute;inset:0;border-radius:30px;background:linear-gradient(135deg,rgba(102,126,234,0.05),rgba(118,75,162,0.05),rgba(240,147,251,0.05));opacity:0;transition:opacity 0.4s ease;pointer-events:none;z-index:0}';
@@ -1639,6 +2156,26 @@
             h += '.map{border-color:rgba(244,81,30,0.3);background:rgba(244,81,30,0.05)}.map i{color:#F4511E}';
             h += '.calendar{border-color:rgba(66,133,244,0.3);background:rgba(66,133,244,0.05)}.calendar i{color:#4285F4}';
             h += '.link{border-color:rgba(102,126,234,0.3);background:rgba(102,126,234,0.05)}.link i{color:#667eea}';
+            // Bank Cards CSS
+            h += '.bank-cards-container{display:grid;grid-template-columns:repeat(2,1fr);gap:50px;margin-top:50px}';
+            h += '.bank-card{background:linear-gradient(135deg,rgba(30,30,60,0.7),rgba(40,35,70,0.7));backdrop-filter:blur(10px);border-radius:25px;padding:40px 35px;position:relative;overflow:hidden;transition:all 0.4s cubic-bezier(0.4,0,0.2,1);border:2px solid rgba(102,126,234,0.3);display:flex;flex-direction:column;height:100%}';
+            h += '.bank-card:hover{transform:translateY(-8px);box-shadow:0 20px 60px rgba(102,126,234,0.5);border-color:rgba(102,126,234,0.6)}';
+            h += '.bank-qr{width:360px;height:360px;margin:0 auto 25px;border-radius:20px;overflow:hidden;border:4px solid rgba(102,126,234,0.4);transition:all 0.3s}';
+            h += '.bank-card:hover .bank-qr{transform:scale(1.03);border-color:rgba(102,126,234,0.8)}';
+            h += '.bank-qr img{width:100%;height:100%;object-fit:cover}';
+            h += '.bank-name{text-align:center;font-size:1.8rem;font-weight:700;color:#fff;margin-bottom:12px}';
+            h += '.bank-desc{text-align:center;color:#a8b2d1;font-size:1rem;margin-bottom:20px;min-height:24px;flex-shrink:0}';
+            h += '.bank-desc:empty{display:none;min-height:0;margin-bottom:0}';
+            h += '.bank-info{background:rgba(15,12,41,0.5);border-radius:12px;padding:15px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;border:1px solid rgba(102,126,234,0.3);transition:all 0.3s;margin-top:auto}';
+            h += '.bank-info:hover{border-color:rgba(102,126,234,0.6);background:rgba(15,12,41,0.7)}';
+            h += '.bank-number{flex:1;color:#fff;font-size:1.05rem;font-weight:600;word-break:break-all}';
+            h += '.copy-btn{background:rgba(102,126,234,0.2);border:1px solid rgba(102,126,234,0.4);color:#667eea;padding:10px 14px;border-radius:8px;cursor:pointer;transition:all 0.3s;display:flex;align-items:center;gap:5px;font-size:1rem;position:relative}';
+            h += '.copy-btn:hover{background:rgba(102,126,234,0.4);transform:scale(1.05)}';
+            h += '.copy-btn i{font-size:1.1rem}';
+            h += '.copy-tooltip{position:absolute;bottom:calc(100% + 10px);left:50%;transform:translateX(-50%) translateY(-5px);background:rgba(16,185,129,0.95);color:white;padding:8px 16px;border-radius:8px;font-size:0.85rem;font-weight:600;white-space:nowrap;opacity:0;pointer-events:none;transition:all 0.3s ease;box-shadow:0 4px 12px rgba(0,0,0,0.3);z-index:1000}';
+            h += '.copy-tooltip::after{content:"";position:absolute;top:100%;left:50%;transform:translateX(-50%);border:6px solid transparent;border-top-color:rgba(16,185,129,0.95)}';
+            h += '.copy-tooltip.show{opacity:1;transform:translateX(-50%) translateY(0)}';
+            h += '.bank-card-number{position:absolute;top:15px;right:15px;background:rgba(102,126,234,0.3);color:#667eea;padding:5px 12px;border-radius:20px;font-size:0.85rem;font-weight:700}';
             h += '@keyframes rotate{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}';
             h += '@keyframes rotateBorder{0%{background:linear-gradient(0deg,#667eea,#764ba2,#f093fb,#667eea)}25%{background:linear-gradient(90deg,#667eea,#764ba2,#f093fb,#667eea)}50%{background:linear-gradient(180deg,#667eea,#764ba2,#f093fb,#667eea)}75%{background:linear-gradient(270deg,#667eea,#764ba2,#f093fb,#667eea)}100%{background:linear-gradient(360deg,#667eea,#764ba2,#f093fb,#667eea)}}';
             h += '@keyframes gradientShift{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}';
@@ -1684,6 +2221,12 @@
             h += '.social-links{gap:10px}';
             h += '.social-link{padding:12px 15px;font-size:0.9rem!important}';
             h += '.social-link i{font-size:1.1rem!important}';
+            h += '.contact-grid{grid-template-columns:1fr}';
+            h += '.container.layout-1col{display:block}';
+            h += '.bank-cards-container{grid-template-columns:1fr;gap:30px;margin-top:30px}';
+            h += '.bank-card{padding:30px 25px}';
+            h += '.bank-qr{width:240px;height:240px}';
+            h += '.bank-name{font-size:1.5rem}';
             h += '}';
             h += '@media(max-width:480px){';
             h += '.header h1{font-size:1.5rem!important}';
@@ -1694,6 +2237,9 @@
             h += '.font-btn{width:28px;height:28px;font-size:0.9rem}';
             h += '.font-dropdown{min-width:100px}';
             h += '.font-option{padding:6px 10px;font-size:0.8rem}';
+            h += '.bank-qr{width:180px;height:180px}';
+            h += '.bank-name{font-size:1.3rem}';
+            h += '.bank-desc{font-size:0.9rem}';
             h += '}';
             h += '</style>';
             h += '<script type="application/json" id="cfg">' + JSON.stringify(S) + '<\/script></head><body>';
@@ -1709,7 +2255,8 @@
             h += '<button class="font-option' + (S.font === "'Inter', sans-serif" ? ' active' : '') + '" data-font="\'Inter\', sans-serif">Inter</button>';
             h += '<button class="font-option' + (S.font === "'Roboto', sans-serif" ? ' active' : '') + '" data-font="\'Roboto\', sans-serif">Roboto</button>';
             h += '</div></div></div>';
-            h += '<div class="container"><div class="header"><h1 id="mainTitle" style="color:' + (S.titleColor || '#667eea') + ';font-size:' + (S.titleSize || S.fs.main) + 'rem">' + (L === 'vi' ? S.title_vi : S.title_en) + '</h1></div><div class="contact-grid' + (S.layout === '1col' ? ' single-column' : '') + '">';
+            h += '<div class="container' + (S.layout === '1col' ? ' layout-1col' : '') + '"><div class="header"><h1 id="mainTitle" style="color:' + (S.titleColor || '#667eea') + ';font-size:' + (S.titleSize || S.fs.main) + 'rem">' + (L === 'vi' ? S.title_vi : S.title_en) + '</h1></div>';
+            h += '<div class="contact-grid' + (S.layout === '1col' ? ' single-column' : '') + '">';
             
             // Card 1
             h += '<div class="contact-card"><div class="avatar-wrapper"><img src="' + S.c1.av + '" class="avatar"></div>';
@@ -1739,8 +2286,32 @@
                 h += '</div></div>';
             }
             
-            h += '</div></div>';
+            h += '</div>'; // close contact-grid
+            
+            // Bank Cards
+            if (S.bankCards && S.bankCards.length > 0) {
+                h += '<div class="bank-cards-container">';
+                S.bankCards.forEach(card => {
+                    const name = card['name' + k] || card.name_vi;
+                    const desc = card['desc' + k] || '';
+                    h += '<div class="bank-card">';
+                    h += '<div class="bank-card-number">#' + card.id + '</div>';
+                    h += '<div class="bank-qr" style="border-color:' + card.colors.qrBorder + '"><img src="' + (card.qrUrl || 'https://via.placeholder.com/180?text=QR+Code') + '" alt="QR Code"></div>';
+                    h += '<div class="bank-name" style="color:' + card.colors.name + '">' + name + '</div>';
+                    if (desc) {
+                        h += '<div class="bank-desc" style="color:' + card.colors.desc + '">' + desc + '</div>';
+                    }
+                    h += '<div class="bank-info" style="background:' + card.colors.infoBg + ';border-color:' + card.colors.infoBorder + '">';
+                    h += '<span class="bank-number" style="color:' + card.colors.infoText + '">' + (card.accountInfo || 'Chưa có thông tin') + '</span>';
+                    h += '<button class="copy-btn" onclick="copyToClipboard(\'' + card.accountInfo.replace(/'/g, "\\'") + '\',this,\'' + (L === 'vi' ? '✓ Đã sao chép!' : '✓ Copied!') + '\')"><i class="fas fa-copy"></i></button>';
+                    h += '</div></div>';
+                });
+                h += '</div>';
+            }
+            
+            h += '</div>'; // close container
             h += '<script>';
+            h += 'function copyToClipboard(t,btn,msg){if(!t)return;navigator.clipboard.writeText(t).then(()=>{const old=btn.innerHTML;btn.innerHTML=\'<i class="fas fa-check"></i><div class="copy-tooltip show">\'+msg+\'</div>\';setTimeout(()=>{btn.innerHTML=old},2000)}).catch(()=>{const ta=document.createElement("textarea");ta.value=t;ta.style.position="fixed";ta.style.left="-999999px";document.body.appendChild(ta);ta.select();try{document.execCommand("copy");const old=btn.innerHTML;btn.innerHTML=\'<i class="fas fa-check"></i><div class="copy-tooltip show">\'+msg+\'</div>\';setTimeout(()=>{btn.innerHTML=old},2000)}catch(e){console.error(e)}document.body.removeChild(ta)})};';
             h += 'const cfg=JSON.parse(document.getElementById("cfg").textContent);';
             h += 'let cL="' + L + '";';
             h += 'document.getElementById("btnVi").onclick=()=>sw("vi");';
@@ -1774,6 +2345,14 @@
             h += 'document.querySelectorAll(".contact-description")[1].innerHTML=cfg.c2["d"+k];';
             h += 'document.querySelectorAll(".contact-title")[0].textContent=cfg.c1["t"+k];';
             h += 'document.querySelectorAll(".contact-title")[1].textContent=cfg.c2["t"+k];';
+            h += 'if(cfg.bankCards&&cfg.bankCards.length>0){';
+            h += 'const banks=document.querySelectorAll(".bank-name");';
+            h += 'const descs=document.querySelectorAll(".bank-desc");';
+            h += 'cfg.bankCards.forEach((c,i)=>{';
+            h += 'if(banks[i])banks[i].textContent=c["name"+k]||c.name_vi;';
+            h += 'if(descs[i]){const d=c["desc"+k]||"";descs[i].textContent=d;descs[i].style.display=d?"block":"none"}';
+            h += '})';
+            h += '}';
             h += '}';
             h += 'function createWeather(){';
             h += 'const fx=["snow","rain","wind"][Math.floor(Math.random()*3)];';
