@@ -8,17 +8,23 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Play:wght@400;700&family=Exo+2:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+        }
         
         html {
             overflow-x: hidden;
             width: 100%;
+            max-width: 100vw;
         }
 
         body {
             overflow-x: hidden;
             overflow-y: auto;
             width: 100%;
+            max-width: 100vw;
             margin: 0;
             font-family: 'Segoe UI', sans-serif;
             background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
@@ -59,7 +65,12 @@
             animation: overlayPulse 15s ease-in-out infinite alternate;
         }
 
-        .container { max-width: 1400px; width: 100%; position: relative; z-index: 1; }
+        .container { 
+            max-width: 1400px; 
+            width: 100%; 
+            position: relative; 
+            z-index: 1; 
+        }
         
         .header { text-align: center; margin-bottom: 60px; }
         .header h1 {
@@ -266,6 +277,8 @@
             text-decoration: none;
             font-weight: 600;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            word-break: break-word;
+            overflow-wrap: break-word;
         }
 
         .social-link:hover {
@@ -1049,67 +1062,360 @@
         }
         
         @media (max-width: 968px) { 
-            body { padding: 20px 15px; }
-            .container { padding: 0; }
-            .header { margin-bottom: 30px; }
-            .header h1 { font-size: 2rem !important; }
-            .contact-grid { grid-template-columns: 1fr; gap: 30px; }
-            .contact-card { padding: 30px 20px; }
-            .avatar-wrapper { width: 140px; height: 140px; }
-            .contact-title { font-size: 1.5rem !important; }
-            .contact-description { font-size: 0.95rem !important; }
-            .social-links { gap: 10px; }
-            .social-link { padding: 12px 15px; font-size: 0.9rem !important; }
-            .social-link i { font-size: 1.1rem !important; }
-            .settings-panel { width: 100%; left: -100%; }
-            .settings-btn { top: 15px; left: 15px; width: 45px; height: 45px; }
+            body { 
+                padding: 20px 10px; 
+                min-height: 100vh;
+            }
+            .container { 
+                padding: 0; 
+                max-width: 100%;
+            }
+            .header { 
+                margin-bottom: 25px; 
+            }
+            .header h1 { 
+                font-size: 2rem !important; 
+                letter-spacing: 1px;
+            }
+            .contact-grid { 
+                grid-template-columns: 1fr !important; 
+                gap: 25px; 
+            }
+            .contact-card { 
+                padding: 30px 20px; 
+                border-radius: 20px;
+            }
+            .avatar-wrapper { 
+                width: 120px; 
+                height: 120px; 
+                margin-bottom: 20px;
+            }
+            .contact-title { 
+                font-size: 1.5rem !important; 
+                margin-bottom: 15px;
+            }
+            .contact-description { 
+                font-size: 0.95rem !important; 
+                margin-bottom: 25px;
+            }
+            .social-links { 
+                gap: 10px; 
+                grid-template-columns: 1fr;
+            }
+            .social-link { 
+                padding: 12px 15px; 
+                font-size: 0.9rem !important; 
+                border-radius: 12px;
+            }
+            .social-link i { 
+                font-size: 1.1rem !important; 
+            }
+            .settings-panel { 
+                width: 100%; 
+                left: -100%; 
+                padding: 20px;
+            }
+            .settings-btn { 
+                top: 15px; 
+                left: 15px; 
+                width: 45px; 
+                height: 45px; 
+                font-size: 1.1rem;
+            }
             .top-bar { 
                 top: auto; 
-                bottom: 20px; 
+                bottom: 15px; 
                 right: 15px; 
                 left: auto;
                 flex-direction: row; 
                 padding: 8px 12px;
                 gap: 8px;
+                border-radius: 20px;
             }
-            .lang-btn { width: 32px; height: 32px; }
-            .font-btn { width: 32px; height: 32px; font-size: 1rem; }
+            .lang-btn { 
+                width: 32px; 
+                height: 32px; 
+            }
+            .font-btn { 
+                width: 32px; 
+                height: 32px; 
+                font-size: 1rem; 
+            }
             .font-dropdown { 
                 top: auto;
                 bottom: 50px; 
                 right: 0;
                 min-width: 120px;
             }
-            .font-option { padding: 8px 12px; font-size: 0.85rem; }
-            .bottom-bar { bottom: 80px; right: 15px; flex-direction: column; }
-            .action-btn { padding: 10px 15px; font-size: 0.9rem; }
+            .font-option { 
+                padding: 8px 12px; 
+                font-size: 0.85rem; 
+            }
+            .bottom-bar { 
+                bottom: 75px; 
+                right: 15px; 
+                flex-direction: column; 
+                gap: 10px;
+            }
+            .action-btn { 
+                padding: 10px 15px; 
+                font-size: 0.85rem; 
+                white-space: nowrap;
+            }
             
-            .contact-grid, .contact-grid.single-column { grid-template-columns: 1fr; max-width: 100%; }
-            .contact-grid.single-column .contact-card:nth-child(2) { display: block; }
-            .container.layout-1col { display: block; }
-            .bank-cards-container { grid-template-columns: 1fr; gap: 30px; margin-top: 30px; }
-            .bank-card { padding: 30px 25px; }
-            .bank-qr { width: 240px; height: 240px; }
-            .bank-name { font-size: 1.5rem; }
+            /* Fix layout 1 column on mobile */
+            .contact-grid.single-column { 
+                grid-template-columns: 1fr !important; 
+                max-width: 100%; 
+            }
+            .contact-grid.single-column .contact-card:nth-child(2) { 
+                display: none !important; 
+            }
+            .container.layout-1col { 
+                display: block !important; 
+                grid-template-columns: 1fr !important;
+            }
+            .container.layout-1col.has-banks {
+                display: block !important;
+                grid-template-columns: 1fr !important;
+            }
+            
+            /* Bank Cards Responsive */
+            .bank-cards-container { 
+                grid-template-columns: 1fr !important; 
+                gap: 25px !important; 
+                margin-top: 25px !important; 
+            }
+            .bank-card { 
+                padding: 25px 20px; 
+                border-radius: 20px;
+            }
+            .bank-qr { 
+                width: 200px !important; 
+                height: 200px !important; 
+                margin-bottom: 20px;
+            }
+            .bank-name { 
+                font-size: 1.4rem !important; 
+                margin-bottom: 10px;
+            }
+            .bank-desc { 
+                font-size: 0.95rem !important; 
+                margin-bottom: 15px;
+            }
+            .bank-info {
+                padding: 12px 15px;
+                gap: 10px;
+                flex-wrap: wrap;
+            }
+            .bank-number {
+                font-size: 1rem !important;
+            }
+            .copy-btn {
+                padding: 8px 12px;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 600px) {
+            body { 
+                padding: 15px 8px; 
+            }
+            .header h1 { 
+                font-size: 1.6rem !important; 
+            }
+            .contact-card { 
+                padding: 25px 15px; 
+            }
+            .avatar-wrapper { 
+                width: 100px; 
+                height: 100px; 
+            }
+            .contact-title { 
+                font-size: 1.3rem !important; 
+            }
+            .contact-description { 
+                font-size: 0.9rem !important; 
+            }
+            .social-link { 
+                padding: 10px 12px; 
+                font-size: 0.85rem !important; 
+            }
+            .bank-qr { 
+                width: 160px !important; 
+                height: 160px !important; 
+            }
+            .bank-name { 
+                font-size: 1.2rem !important; 
+            }
+            .bank-desc { 
+                font-size: 0.9rem !important; 
+            }
         }
 
         @media (max-width: 480px) {
-            .header h1 { font-size: 1.5rem !important; }
-            .contact-title { font-size: 1.3rem !important; }
-            .social-links { grid-template-columns: 1fr; }
+            body {
+                padding: 12px 6px;
+            }
+            .header { 
+                margin-bottom: 20px; 
+            }
+            .header h1 { 
+                font-size: 1.4rem !important; 
+                letter-spacing: 0.5px;
+            }
+            .contact-card {
+                padding: 20px 12px;
+                border-radius: 15px;
+            }
+            .avatar-wrapper { 
+                width: 90px; 
+                height: 90px; 
+                margin-bottom: 15px;
+            }
+            .contact-title { 
+                font-size: 1.2rem !important; 
+                margin-bottom: 12px;
+            }
+            .contact-description { 
+                font-size: 0.85rem !important; 
+                line-height: 1.6;
+                margin-bottom: 20px;
+            }
+            .social-links { 
+                grid-template-columns: 1fr; 
+                gap: 8px;
+            }
+            .social-link {
+                padding: 10px 12px;
+                font-size: 0.8rem !important;
+                border-radius: 10px;
+            }
+            .social-link i {
+                font-size: 1rem !important;
+            }
+            .settings-panel {
+                padding: 15px;
+            }
+            .settings-btn {
+                top: 10px;
+                left: 10px;
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+            }
             .top-bar { 
-                bottom: 15px;
+                bottom: 10px;
+                right: 10px;
                 padding: 6px 10px;
                 gap: 6px;
+                border-radius: 15px;
             }
-            .lang-btn { width: 28px; height: 28px; }
-            .font-btn { width: 28px; height: 28px; font-size: 0.9rem; }
-            .font-dropdown { min-width: 100px; }
-            .font-option { padding: 6px 10px; font-size: 0.8rem; }
+            .lang-btn { 
+                width: 28px; 
+                height: 28px; 
+            }
+            .font-btn { 
+                width: 28px; 
+                height: 28px; 
+                font-size: 0.9rem; 
+            }
+            .font-dropdown { 
+                min-width: 100px;
+                bottom: 45px;
+            }
+            .font-option { 
+                padding: 6px 10px; 
+                font-size: 0.8rem; 
+            }
+            .bottom-bar {
+                bottom: 60px;
+                right: 10px;
+                gap: 8px;
+            }
+            .action-btn {
+                padding: 8px 12px;
+                font-size: 0.75rem;
+            }
             
-            .bank-qr { width: 180px; height: 180px; }
-            .bank-name { font-size: 1.3rem; }
-            .bank-desc { font-size: 0.9rem; }
+            /* Bank Cards Extra Small Mobile */
+            .bank-cards-container {
+                gap: 20px !important;
+                margin-top: 20px !important;
+            }
+            .bank-card {
+                padding: 20px 15px;
+            }
+            .bank-qr { 
+                width: 140px !important; 
+                height: 140px !important; 
+                margin-bottom: 15px;
+            }
+            .bank-name { 
+                font-size: 1.1rem !important; 
+            }
+            .bank-desc { 
+                font-size: 0.85rem !important; 
+                margin-bottom: 12px;
+            }
+            .bank-info {
+                padding: 10px 12px;
+                gap: 8px;
+            }
+            .bank-number {
+                font-size: 0.9rem !important;
+                word-break: break-all;
+            }
+            .copy-btn {
+                padding: 6px 10px;
+                font-size: 0.85rem;
+            }
+            .copy-btn i {
+                font-size: 1rem !important;
+            }
+            .copy-tooltip {
+                font-size: 0.8rem;
+                padding: 8px 14px;
+            }
+        }
+        
+        @media (max-width: 360px) {
+            body {
+                padding: 10px 5px;
+            }
+            .header h1 { 
+                font-size: 1.2rem !important; 
+            }
+            .contact-card {
+                padding: 15px 10px;
+            }
+            .avatar-wrapper { 
+                width: 80px; 
+                height: 80px; 
+            }
+            .contact-title { 
+                font-size: 1.1rem !important; 
+            }
+            .contact-description { 
+                font-size: 0.8rem !important; 
+            }
+            .social-link {
+                padding: 8px 10px;
+                font-size: 0.75rem !important;
+            }
+            .bank-qr { 
+                width: 120px !important; 
+                height: 120px !important; 
+            }
+            .bank-name { 
+                font-size: 1rem !important; 
+            }
+            .bank-desc { 
+                font-size: 0.8rem !important; 
+            }
+            .bank-number {
+                font-size: 0.85rem !important;
+            }
         }
         
         .settings-panel::-webkit-scrollbar { width: 8px; }
@@ -2115,8 +2421,8 @@
             h += '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">';
             h += '<link href="https://fonts.googleapis.com/css2?family=Play:wght@400;700&family=Exo+2:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">';
             h += '<style>*{margin:0;padding:0;box-sizing:border-box}';
-            h += 'html{overflow-x:hidden;width:100%}';
-            h += 'body{overflow-x:hidden;overflow-y:auto;width:100%;margin:0;font-family:' + S.font + ';background:linear-gradient(135deg,' + S.bg.c1 + ',' + S.bg.c2 + ',' + S.bg.c3 + ');min-height:100vh;display:flex;justify-content:center;align-items:center;padding:40px 20px;position:relative}';
+            h += 'html{overflow-x:hidden;width:100%;max-width:100vw}';
+            h += 'body{overflow-x:hidden;overflow-y:auto;width:100%;max-width:100vw;margin:0;font-family:' + S.font + ';background:linear-gradient(135deg,' + S.bg.c1 + ',' + S.bg.c2 + ',' + S.bg.c3 + ');min-height:100vh;display:flex;justify-content:center;align-items:center;padding:40px 20px;position:relative}';
             h += 'body::before{content:\'\';position:fixed;top:0;left:0;width:100vw;height:100vh;background:url(\'' + S.bg.img + '\') center/cover;opacity:' + (S.bg.op/100) + ';filter:blur(' + S.bg.bl + 'px);z-index:0;animation:kenBurns 30s ease-in-out infinite alternate;will-change:transform}';
             h += 'body::after{content:\'\';position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,' + (S.bg.ov/100) + ');z-index:0;animation:overlayPulse 15s ease-in-out infinite alternate}';
             h += '.container{max-width:1400px;width:100%;position:relative;z-index:1}';
@@ -2154,7 +2460,7 @@
             h += '.contact-title{text-align:center;font-size:' + S.fs.card + 'rem;color:#fff;margin-bottom:20px;position:relative;z-index:1}';
             h += '.contact-description{text-align:center;color:#a8b2d1;line-height:1.8;margin-bottom:35px;font-size:' + S.fs.desc + 'rem;position:relative;z-index:1}';
             h += '.social-links{display:grid;grid-template-columns:repeat(2,1fr);gap:15px;position:relative;z-index:1}';
-            h += '.social-link{display:flex;align-items:center;justify-content:center;gap:12px;padding:15px 20px;background:rgba(102,126,234,0.1);border:2px solid rgba(102,126,234,0.3);border-radius:15px;color:#fff;text-decoration:none;font-size:' + S.fs.social + 'rem;transition:all 0.3s cubic-bezier(0.4,0,0.2,1)}';
+            h += '.social-link{display:flex;align-items:center;justify-content:center;gap:12px;padding:15px 20px;background:rgba(102,126,234,0.1);border:2px solid rgba(102,126,234,0.3);border-radius:15px;color:#fff;text-decoration:none;font-size:' + S.fs.social + 'rem;transition:all 0.3s cubic-bezier(0.4,0,0.2,1);word-break:break-word;overflow-wrap:break-word}';
             h += '.social-link i{font-size:1.3rem;transition:all 0.3s cubic-bezier(0.4,0,0.2,1)}';
             h += '.social-link:hover{transform:translateY(-5px) scale(1.05);border-color:rgba(102,126,234,1);box-shadow:0 10px 30px rgba(102,126,234,0.4),0 0 20px rgba(102,126,234,0.2);background:rgba(102,126,234,0.15)}';
             h += '.social-link:hover i{transform:scale(1.2) rotate(5deg);filter:brightness(1.3)}';
@@ -2271,42 +2577,87 @@
             h += '.font-option:hover{background:rgba(102,126,234,0.2);color:#fff}';
             h += '.font-option.active{background:rgba(102,126,234,0.3);color:#667eea;font-weight:600}';
             h += '@media(max-width:968px){';
-            h += '.top-bar{top:auto;bottom:20px;right:15px;left:auto;flex-direction:row;padding:8px 12px;gap:8px}';
+            h += 'body{padding:20px 10px;min-height:100vh}';
+            h += '.container{padding:0;max-width:100%}';
+            h += '.header{margin-bottom:25px}';
+            h += '.header h1{font-size:2rem!important;letter-spacing:1px}';
+            h += '.contact-grid{grid-template-columns:1fr!important;gap:25px}';
+            h += '.contact-card{padding:30px 20px;border-radius:20px}';
+            h += '.avatar-wrapper{width:120px;height:120px;margin-bottom:20px}';
+            h += '.contact-title{font-size:1.5rem!important;margin-bottom:15px}';
+            h += '.contact-description{font-size:0.95rem!important;margin-bottom:25px}';
+            h += '.social-links{gap:10px;grid-template-columns:1fr}';
+            h += '.social-link{padding:12px 15px;font-size:0.9rem!important;border-radius:12px}';
+            h += '.social-link i{font-size:1.1rem!important}';
+            h += '.top-bar{top:auto;bottom:15px;right:15px;left:auto;flex-direction:row;padding:8px 12px;gap:8px;border-radius:20px}';
             h += '.lang-btn{width:32px;height:32px}';
             h += '.font-btn{width:32px;height:32px;font-size:1rem}';
             h += '.font-dropdown{top:auto;bottom:50px;right:0;min-width:120px}';
             h += '.font-option{padding:8px 12px;font-size:0.85rem}';
-            h += 'body{padding:20px 15px}';
-            h += '.container{padding:0}';
-            h += '.header{margin-bottom:30px}';
-            h += '.header h1{font-size:2rem!important}';
-            h += '.contact-grid{grid-template-columns:1fr;gap:30px}';
-            h += '.contact-card{padding:30px 20px}';
-            h += '.avatar-wrapper{width:140px;height:140px}';
-            h += '.contact-title{font-size:1.5rem!important}';
-            h += '.contact-description{font-size:0.95rem!important}';
-            h += '.social-links{gap:10px}';
-            h += '.social-link{padding:12px 15px;font-size:0.9rem!important}';
-            h += '.social-link i{font-size:1.1rem!important}';
-            h += '.contact-grid{grid-template-columns:1fr}';
-            h += '.container.layout-1col{display:block}';
-            h += '.bank-cards-container{grid-template-columns:1fr;gap:30px;margin-top:30px}';
-            h += '.bank-card{padding:30px 25px}';
-            h += '.bank-qr{width:240px;height:240px}';
-            h += '.bank-name{font-size:1.5rem}';
+            h += '.contact-grid.single-column{grid-template-columns:1fr!important;max-width:100%}';
+            h += '.contact-grid.single-column .contact-card:nth-child(2){display:none!important}';
+            h += '.container.layout-1col{display:block!important;grid-template-columns:1fr!important}';
+            h += '.container.layout-1col.has-banks{display:block!important;grid-template-columns:1fr!important}';
+            h += '.bank-cards-container{grid-template-columns:1fr!important;gap:25px!important;margin-top:25px!important}';
+            h += '.bank-card{padding:25px 20px;border-radius:20px}';
+            h += '.bank-qr{width:200px!important;height:200px!important;margin-bottom:20px}';
+            h += '.bank-name{font-size:1.4rem!important;margin-bottom:10px}';
+            h += '.bank-desc{font-size:0.95rem!important;margin-bottom:15px}';
+            h += '.bank-info{padding:12px 15px;gap:10px;flex-wrap:wrap}';
+            h += '.bank-number{font-size:1rem!important}';
+            h += '.copy-btn{padding:8px 12px;font-size:0.9rem}';
+            h += '}';
+            h += '@media(max-width:600px){';
+            h += 'body{padding:15px 8px}';
+            h += '.header h1{font-size:1.6rem!important}';
+            h += '.contact-card{padding:25px 15px}';
+            h += '.avatar-wrapper{width:100px;height:100px}';
+            h += '.contact-title{font-size:1.3rem!important}';
+            h += '.contact-description{font-size:0.9rem!important}';
+            h += '.social-link{padding:10px 12px;font-size:0.85rem!important}';
+            h += '.bank-qr{width:160px!important;height:160px!important}';
+            h += '.bank-name{font-size:1.2rem!important}';
+            h += '.bank-desc{font-size:0.9rem!important}';
             h += '}';
             h += '@media(max-width:480px){';
-            h += '.header h1{font-size:1.5rem!important}';
-            h += '.contact-title{font-size:1.3rem!important}';
-            h += '.social-links{grid-template-columns:1fr}';
-            h += '.top-bar{bottom:15px;padding:6px 10px;gap:6px}';
+            h += 'body{padding:12px 6px}';
+            h += '.header{margin-bottom:20px}';
+            h += '.header h1{font-size:1.4rem!important;letter-spacing:0.5px}';
+            h += '.contact-card{padding:20px 12px;border-radius:15px}';
+            h += '.avatar-wrapper{width:90px;height:90px;margin-bottom:15px}';
+            h += '.contact-title{font-size:1.2rem!important;margin-bottom:12px}';
+            h += '.contact-description{font-size:0.85rem!important;line-height:1.6;margin-bottom:20px}';
+            h += '.social-links{grid-template-columns:1fr;gap:8px}';
+            h += '.social-link{padding:10px 12px;font-size:0.8rem!important;border-radius:10px}';
+            h += '.social-link i{font-size:1rem!important}';
+            h += '.top-bar{bottom:10px;right:10px;padding:6px 10px;gap:6px;border-radius:15px}';
             h += '.lang-btn{width:28px;height:28px}';
             h += '.font-btn{width:28px;height:28px;font-size:0.9rem}';
-            h += '.font-dropdown{min-width:100px}';
+            h += '.font-dropdown{min-width:100px;bottom:45px}';
             h += '.font-option{padding:6px 10px;font-size:0.8rem}';
-            h += '.bank-qr{width:180px;height:180px}';
-            h += '.bank-name{font-size:1.3rem}';
-            h += '.bank-desc{font-size:0.9rem}';
+            h += '.bank-cards-container{gap:20px!important;margin-top:20px!important}';
+            h += '.bank-card{padding:20px 15px}';
+            h += '.bank-qr{width:140px!important;height:140px!important;margin-bottom:15px}';
+            h += '.bank-name{font-size:1.1rem!important}';
+            h += '.bank-desc{font-size:0.85rem!important;margin-bottom:12px}';
+            h += '.bank-info{padding:10px 12px;gap:8px}';
+            h += '.bank-number{font-size:0.9rem!important;word-break:break-all}';
+            h += '.copy-btn{padding:6px 10px;font-size:0.85rem}';
+            h += '.copy-btn i{font-size:1rem!important}';
+            h += '.copy-tooltip{font-size:0.8rem;padding:8px 14px}';
+            h += '}';
+            h += '@media(max-width:360px){';
+            h += 'body{padding:10px 5px}';
+            h += '.header h1{font-size:1.2rem!important}';
+            h += '.contact-card{padding:15px 10px}';
+            h += '.avatar-wrapper{width:80px;height:80px}';
+            h += '.contact-title{font-size:1.1rem!important}';
+            h += '.contact-description{font-size:0.8rem!important}';
+            h += '.social-link{padding:8px 10px;font-size:0.75rem!important}';
+            h += '.bank-qr{width:120px!important;height:120px!important}';
+            h += '.bank-name{font-size:1rem!important}';
+            h += '.bank-desc{font-size:0.8rem!important}';
+            h += '.bank-number{font-size:0.85rem!important}';
             h += '}';
             h += '</style>';
             h += '<script type="application/json" id="cfg">' + JSON.stringify(S) + '<\/script></head><body>';
