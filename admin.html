@@ -2647,16 +2647,13 @@
                 
                 const handleCopy = (btn) => {
                     if (!card.accountInfo) return;
-                    
                     const icon = btn.querySelector('i');
                     const tooltip = btn.querySelector('.copy-tooltip');
-                    
                     navigator.clipboard.writeText(card.accountInfo).then(() => {
                         btn.classList.add('copied');
                         icon.className = 'fas fa-check';
                         tooltip.classList.add('show');
-                        
-                        setTimeout(() => { 
+                        setTimeout(() => {
                             btn.classList.remove('copied');
                             icon.className = 'fas fa-copy';
                             tooltip.classList.remove('show');
@@ -2664,13 +2661,29 @@
                     });
                 };
                 
-                const copyBtn = document.createElement('button');
-                copyBtn.className = 'copy-btn';
-                copyBtn.innerHTML = '<i class="fas fa-copy"></i><span class="copy-tooltip">Đã copy!</span>';
-                copyBtn.onclick = (e) => { e.stopPropagation(); handleCopy(copyBtn); };
+                // Left copy button
+                const copyBtnLeft = document.createElement('button');
+                copyBtnLeft.className = 'copy-btn';
+                copyBtnLeft.innerHTML = '<i class="fas fa-copy"></i>';
+                const tooltipLeft = document.createElement('div');
+                tooltipLeft.className = 'copy-tooltip';
+                tooltipLeft.textContent = L === 'vi' ? '✓ Đã sao chép!' : '✓ Copied!';
+                copyBtnLeft.appendChild(tooltipLeft);
+                copyBtnLeft.onclick = (e) => { e.stopPropagation(); handleCopy(copyBtnLeft); };
                 
+                // Right copy button
+                const copyBtnRight = document.createElement('button');
+                copyBtnRight.className = 'copy-btn';
+                copyBtnRight.innerHTML = '<i class="fas fa-copy"></i>';
+                const tooltipRight = document.createElement('div');
+                tooltipRight.className = 'copy-tooltip';
+                tooltipRight.textContent = L === 'vi' ? '✓ Đã sao chép!' : '✓ Copied!';
+                copyBtnRight.appendChild(tooltipRight);
+                copyBtnRight.onclick = (e) => { e.stopPropagation(); handleCopy(copyBtnRight); };
+                
+                infoDiv.appendChild(copyBtnLeft);
                 infoDiv.appendChild(numSpan);
-                infoDiv.appendChild(copyBtn);
+                infoDiv.appendChild(copyBtnRight);
                 
                 cardDiv.appendChild(cardNumBadge);
                 cardDiv.appendChild(qrDiv);
