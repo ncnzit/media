@@ -80,37 +80,16 @@
             letter-spacing: 2px;
         }
 
-        .contact-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 50px; }
-        .contact-grid.single-column { 
-            grid-template-columns: 1fr; 
-            max-width: 100%; 
-            margin: 0;
-        }
-        .contact-grid.single-column .contact-card:nth-child(2) { display: none; }
-        
-        /* Layout wrapper for 1-column mode with bank cards */
-        .container.layout-1col.has-banks {
+        /* Wrapper chung cho tất cả cards (avatar + bank) */
+        .all-cards-container {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 50px;
-            align-items: start;
         }
         
-        .container.layout-1col.has-banks .header {
-            grid-column: 1 / -1;
-        }
-        
-        .container.layout-1col.has-banks .bank-cards-container {
-            margin-top: 0;
+        /* Layout 1 cột - Tất cả nằm giữa, mỗi dòng 1 card */
+        .container.layout-1col .all-cards-container {
             grid-template-columns: 1fr;
-        }
-        
-        .container.layout-1col.has-banks .contact-grid {
-            grid-template-columns: 1fr;
-        }
-        
-        /* Layout 1 cột không có bank cards - center card1 */
-        .container.layout-1col:not(.has-banks) .contact-grid {
             max-width: 700px;
             margin: 0 auto;
         }
@@ -417,17 +396,7 @@
         .link { border-color: rgba(102, 126, 234, 0.3); background: rgba(102, 126, 234, 0.05); }
         .link i { color: #667eea; }
         
-        /* Bank Cards */
-        .bank-cards-container {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 50px;
-            margin-top: 50px;
-        }
-        
-        .bank-cards-container:empty {
-            display: none;
-        }
+        /* Bank Cards - giờ sẽ nằm trong all-cards-container chung với avatar cards */
         
         .bank-card {
             background: linear-gradient(135deg, rgba(30, 30, 60, 0.7), rgba(40, 35, 70, 0.7));
@@ -861,6 +830,34 @@
             border-radius: 15px;
             border: 1px solid rgba(102, 126, 234, 0.2);
         }
+        
+        /* Phân nhóm settings theo màu */
+        .settings-section.general-settings {
+            background: rgba(102, 126, 234, 0.08);
+            border: 2px solid rgba(102, 126, 234, 0.3);
+        }
+        
+        .settings-section.general-settings h3 {
+            color: #667eea;
+        }
+        
+        .settings-section.card-settings {
+            background: rgba(16, 185, 129, 0.08);
+            border: 2px solid rgba(16, 185, 129, 0.3);
+        }
+        
+        .settings-section.card-settings h3 {
+            color: #10b981;
+        }
+        
+        .settings-section.bank-settings {
+            background: rgba(251, 146, 60, 0.08);
+            border: 2px solid rgba(251, 146, 60, 0.3);
+        }
+        
+        .settings-section.bank-settings h3 {
+            color: #fb923c;
+        }
 
         .settings-section h3 { color: #a8b2d1; font-size: 1.1rem; margin-bottom: 15px; }
         .settings-section label { display: block; color: #8892b0; font-size: 0.9rem; margin-bottom: 8px; font-weight: 600; }
@@ -1077,7 +1074,7 @@
                 font-size: 2rem !important; 
                 letter-spacing: 1px;
             }
-            .contact-grid { 
+            .all-cards-container { 
                 grid-template-columns: 1fr !important; 
                 gap: 25px; 
             }
@@ -1166,25 +1163,27 @@
             /* Fix layout 1 column on mobile */
             .contact-grid.single-column { 
                 grid-template-columns: 1fr !important; 
-                max-width: 100%; 
+                max-width: 100% !important; 
             }
             .contact-grid.single-column .contact-card:nth-child(2) { 
                 display: none !important; 
             }
             .container.layout-1col { 
                 display: block !important; 
-                grid-template-columns: 1fr !important;
             }
-            .container.layout-1col.has-banks {
-                display: block !important;
-                grid-template-columns: 1fr !important;
+            /* Mobile: tất cả thành 1 cột */
+            .container.layout-1col .contact-grid {
+                max-width: 100% !important;
+            }
+            .container.layout-1col .bank-cards-container {
+                max-width: 100% !important;
             }
             
             /* Bank Cards Responsive */
             .bank-cards-container { 
-                grid-template-columns: 1fr !important; 
-                gap: 25px !important; 
-                margin-top: 25px !important; 
+                gap: 25px; 
+                margin-top: 25px;
+                grid-template-columns: 1fr !important;
             }
             .bank-card { 
                 padding: 25px 20px; 
@@ -1240,6 +1239,9 @@
             .social-link { 
                 padding: 10px 12px; 
                 font-size: 0.85rem !important; 
+            }
+            .bank-cards-container {
+                grid-template-columns: 1fr !important;
             }
             .bank-qr { 
                 width: 160px !important; 
@@ -1453,17 +1455,17 @@
         <h2>⚙️ Cài Đặt</h2>
         <p class="hint">💡 Thay đổi sẽ hiển thị ngay lập tức!</p>
 
-        <div class="settings-section">
+        <div class="settings-section general-settings">
             <h3>📐 Layout</h3>
             <label>Số cột hiển thị:</label>
             <select id="layoutSelect">
-                <option value="2col">2 Cột (Hiển thị cả 2 cards)</option>
-                <option value="1col">1 Cột (Chỉ hiển thị Card 1)</option>
+                <option value="2col">2 Cột (PC: 2 cards/dòng, Mobile: 1 card/dòng)</option>
+                <option value="1col">1 Cột (Tất cả nằm giữa, 1 card/dòng)</option>
             </select>
-            <p style="color:#8892b0;font-size:0.85rem;margin-top:5px;font-style:italic">💡 Layout 1 cột phù hợp khi chỉ cần hiển thị ít thông tin</p>
+            <p style="color:#8892b0;font-size:0.85rem;margin-top:5px;font-style:italic">💡 Layout 1 cột: tất cả nằm giữa. Layout 2 cột: PC hiển thị 2 cards/dòng, mobile 1 card/dòng</p>
         </div>
 
-        <div class="settings-section">
+        <div class="settings-section general-settings">
             <h3>📏 Kích Cỡ Font</h3>
             <div class="font-size-grid">
                 <div>
@@ -1485,7 +1487,7 @@
                 </div>
             </div>
 
-        <div class="settings-section">
+        <div class="settings-section general-settings">
             <h3>📝 Tiêu Đề Chính</h3>
             <label>Tiêu đề (Tiếng Việt): <span style="color:#667eea;font-size:0.85rem">✨ Hỗ trợ HTML: &lt;b&gt; &lt;br&gt; &lt;i&gt; &lt;span style="color:#..."&gt;</span></label>
             <textarea id="mainTitle_vi" placeholder="TIÊU ĐỀ LỚN" rows="2"></textarea>
@@ -1505,7 +1507,7 @@
             <p style="color:#8892b0;font-size:0.85rem;margin-top:5px;font-style:italic">💡 Màu mặc định áp dụng khi không dùng inline style trong HTML</p>
         </div>
 
-        <div class="settings-section">
+        <div class="settings-section general-settings">
             <h3>🎨 Background</h3>
             <label>Image URL:</label>
             <input type="text" id="bgImage" placeholder="IMG/background.jpg">
@@ -1526,67 +1528,14 @@
                 </div>
                 </div>
 
-        <div class="settings-section">
-            <h3>👤 Card 1</h3>
-            <label>Avatar URL:</label><input type="text" id="avatar1" placeholder="IMG/avatar1.jpg">
-            
-            <div class="font-size-grid" style="margin:15px 0">
-                <div>
-                    <label>🎨 Màu viền Avatar 1:</label>
-                    <input type="color" id="avatarColor1_1" value="#ff6b35">
-                </div>
-                <div>
-                    <label>🎨 Màu viền Avatar 2:</label>
-                    <input type="color" id="avatarColor1_2" value="#f7931e">
-                </div>
-                <div>
-                    <label>🎨 Màu viền Avatar 3:</label>
-                    <input type="color" id="avatarColor1_3" value="#ffd700">
-                </div>
-            </div>
-            <p style="color:#8892b0;font-size:0.85rem;margin-bottom:15px;font-style:italic">💡 Gradient 3 màu cho viền xoay động của avatar</p>
-            
-            <label>Title (Việt):</label><input type="text" id="title1_vi" placeholder="Thunder Gaming">
-            <label>Title (English):</label><input type="text" id="title1_en" placeholder="Thunder Gaming">
-            <label>Description (Việt): <span style="color:#667eea;font-size:0.85rem">✨ Hỗ trợ HTML: &lt;b&gt; &lt;br&gt; &lt;i&gt;</span></label><textarea id="desc1_vi" placeholder="Dùng <b>in đậm</b> và <br> xuống dòng"></textarea>
-            <label>Description (English): <span style="color:#667eea;font-size:0.85rem">✨ HTML: &lt;b&gt; &lt;br&gt; &lt;i&gt;</span></label><textarea id="desc1_en" placeholder="Use <b>bold</b> and <br> line break"></textarea>
-            
-            <h4 style="color:#a8b2d1;margin:20px 0 15px">🔗 Social Links</h4>
-            <div id="social1List"></div>
-            <button class="add-social-btn" onclick="addSocial(1)">+ Thêm Social Link</button>
-            </div>
-
-        <div class="settings-section">
-            <h3>👤 Card 2</h3>
-            <label>Avatar URL:</label><input type="text" id="avatar2" placeholder="IMG/avatar2.jpg">
-            
-            <div class="font-size-grid" style="margin:15px 0">
-                <div>
-                    <label>🎨 Màu viền Avatar 1:</label>
-                    <input type="color" id="avatarColor2_1" value="#11998e">
-                </div>
-                <div>
-                    <label>🎨 Màu viền Avatar 2:</label>
-                    <input type="color" id="avatarColor2_2" value="#38ef7d">
-                </div>
-                <div>
-                    <label>🎨 Màu viền Avatar 3:</label>
-                    <input type="color" id="avatarColor2_3" value="#7bed9f">
-                </div>
-            </div>
-            <p style="color:#8892b0;font-size:0.85rem;margin-bottom:15px;font-style:italic">💡 Gradient 3 màu cho viền xoay động của avatar</p>
-            
-            <label>Title (Việt):</label><input type="text" id="title2_vi" placeholder="Phoenix Rising">
-            <label>Title (English):</label><input type="text" id="title2_en" placeholder="Phoenix Rising">
-            <label>Description (Việt): <span style="color:#667eea;font-size:0.85rem">✨ Hỗ trợ HTML: &lt;b&gt; &lt;br&gt; &lt;i&gt;</span></label><textarea id="desc2_vi" placeholder="Dùng <b>in đậm</b> và <br> xuống dòng"></textarea>
-            <label>Description (English): <span style="color:#667eea;font-size:0.85rem">✨ HTML: &lt;b&gt; &lt;br&gt; &lt;i&gt;</span></label><textarea id="desc2_en" placeholder="Use <b>bold</b> and <br> line break"></textarea>
-            
-            <h4 style="color:#a8b2d1;margin:20px 0 15px">🔗 Social Links</h4>
-            <div id="social2List"></div>
-            <button class="add-social-btn" onclick="addSocial(2)">+ Thêm Social Link</button>
+        <div class="settings-section card-settings">
+            <h3>👤 Quản Lý Cards</h3>
+            <p style="color:#8892b0;font-size:0.9rem;margin-bottom:15px;font-style:italic">💡 Thêm, xóa và chỉnh sửa cards (tối đa 10 cards)</p>
+            <div id="cardsListSettings"></div>
+            <button class="add-social-btn" onclick="addCard()" id="addCardBtn">+ Thêm Card Mới</button>
         </div>
 
-        <div class="settings-section">
+        <div class="settings-section bank-settings">
             <h3>💳 Thẻ Ngân Hàng / QR Code</h3>
             <p style="color:#8892b0;font-size:0.9rem;margin-bottom:15px;font-style:italic">💡 Thêm thẻ ngân hàng với QR code để nhận donate/thanh toán</p>
             <div id="bankCardsList"></div>
@@ -1599,21 +1548,7 @@
 
     <div class="container">
         <div class="header"><h1 id="mainTitle">TIÊU ĐỀ LỚN</h1></div>
-        <div class="contact-grid">
-            <div class="contact-card">
-                <div class="avatar-wrapper"><img src="IMG/AVT-NguyeZGaming.png" class="avatar" id="avatarImg1"></div>
-                <h2 class="contact-title" id="cardTitle1">NguyeZ Gaming</h2>
-                <p class="contact-description" id="cardDesc1">Lorem Ipsum chỉ đơn giản là một đoạn văn bản giả<br> được dùng vào việc trình bày và dàn trang phục vụ cho in ấn.<br>Đây là ví dụ cho dòng mô tả ngắn.</p>
-                <div class="social-links" id="socialLinks1"></div>
-                </div>
-            <div class="contact-card">
-                <div class="avatar-wrapper"><img src="IMG/AVT-NguyeZGaming.png" class="avatar" id="avatarImg2"></div>
-                <h2 class="contact-title" id="cardTitle2">NguyeZ Gaming 2</h2>
-                <p class="contact-description" id="cardDesc2">Lorem Ipsum chỉ đơn giản là một đoạn văn bản giả<br> được dùng vào việc trình bày và dàn trang phục vụ cho in ấn.<br>Đây là ví dụ cho dòng mô tả ngắn.</p>
-                <div class="social-links" id="socialLinks2"></div>
-            </div>
-        </div>
-        <div class="bank-cards-container" id="bankCardsContainer"></div>
+        <div class="all-cards-container" id="allCardsContainer"></div>
     </div>
 
     <script>
@@ -1685,45 +1620,99 @@
             titleColor: '#667eea', titleSize: 3.5,
             fs: { main: 3.5, card: 2, desc: 1.05, social: 1 },
             bg: { img: 'IMG/BG-NguyeZ.webp', op: 30, ov: 50, bl: 0, c1: '#0f0c29', c2: '#302b63', c3: '#24243e' },
-            avatarColors1: { c1: '#ff6b35', c2: '#f7931e', c3: '#ffd700' },
-            avatarColors2: { c1: '#11998e', c2: '#38ef7d', c3: '#7bed9f' },
             bankCards: [],
-            c1: { 
-                av: 'IMG/AVT-NguyeZGaming.png', t_vi: 'NguyeZ Gaming', t_en: 'NguyeZ Gaming',
-                d_vi: 'Lorem Ipsum chỉ đơn giản là một đoạn văn bản giả<br> được dùng vào việc trình bày và dàn trang phục vụ cho in ấn.<br>Đây là ví dụ cho dòng mô tả ngắn.',
-                d_en: 'Lorem Ipsum is simply dummy text<br> of the printing and typesetting industry.<br>This is an example of a short description line.',
-                soc: [
-                    { type: 'youtube', url: 'https://youtube.com/ncn1992vn', label: '' },
-                    { type: 'discord', url: '#', label: '' },
-                    { type: 'website', url: '#', label: '' },
-                    { type: 'twitch', url: '#', label: '' }
-                ]
-            },
-            c2: { 
-                av: 'IMG/AVT-NguyeZGaming.png', t_vi: 'NguyeZ Gaming 2', t_en: 'NguyeZ Gaming 2',
-                d_vi: 'Lorem Ipsum chỉ đơn giản là một đoạn văn bản giả<br> được dùng vào việc trình bày và dàn trang phục vụ cho in ấn.<br>Đây là ví dụ cho dòng mô tả ngắn.',
-                d_en: 'Lorem Ipsum is simply dummy text<br> of the printing and typesetting industry.<br>This is an example of a short description line.',
-                soc: [
-                    { type: 'email', url: '#', label: '' },
-                    { type: 'forum', url: '#', label: '' },
-                    { type: 'google-sheet', url: '#', label: '' },
-                    { type: 'google-form', url: '#', label: '' }
-                ]
-            }
+            cards: [
+                {
+                    id: 1,
+                    av: 'IMG/AVT-NguyeZGaming.png',
+                    t_vi: 'NguyeZ Gaming',
+                    t_en: 'NguyeZ Gaming',
+                    d_vi: 'Lorem Ipsum chỉ đơn giản là một đoạn văn bản giả<br> được dùng vào việc trình bày và dàn trang phục vụ cho in ấn.<br>Đây là ví dụ cho dòng mô tả ngắn.',
+                    d_en: 'Lorem Ipsum is simply dummy text<br> of the printing and typesetting industry.<br>This is an example of a short description line.',
+                    avatarColors: { c1: '#ff6b35', c2: '#f7931e', c3: '#ffd700' },
+                    soc: [
+                        { type: 'youtube', url: 'https://youtube.com/ncn1992vn', label: '' },
+                        { type: 'discord', url: '#', label: '' },
+                        { type: 'website', url: '#', label: '' },
+                        { type: 'twitch', url: '#', label: '' }
+                    ]
+                },
+                {
+                    id: 2,
+                    av: 'IMG/AVT-NguyeZGaming.png',
+                    t_vi: 'NguyeZ Gaming 2',
+                    t_en: 'NguyeZ Gaming 2',
+                    d_vi: 'Lorem Ipsum chỉ đơn giản là một đoạn văn bản giả<br> được dùng vào việc trình bày và dàn trang phục vụ cho in ấn.<br>Đây là ví dụ cho dòng mô tả ngắn.',
+                    d_en: 'Lorem Ipsum is simply dummy text<br> of the printing and typesetting industry.<br>This is an example of a short description line.',
+                    avatarColors: { c1: '#11998e', c2: '#38ef7d', c3: '#7bed9f' },
+                    soc: [
+                        { type: 'email', url: '#', label: '' },
+                        { type: 'forum', url: '#', label: '' },
+                        { type: 'google-sheet', url: '#', label: '' },
+                        { type: 'google-form', url: '#', label: '' }
+                    ]
+                }
+            ]
         };
 
         let S = JSON.parse(JSON.stringify(D));
         let L = 'vi';
+        let nextCardId = 3;
 
-        try { const sv = localStorage.getItem('ngZ'); if(sv) { const p = JSON.parse(sv); if(p.c1 && p.c2) { S = p; L = S.lang || 'vi'; } } } catch(e) {}
+        try { 
+            const sv = localStorage.getItem('ngZ'); 
+            if(sv) { 
+                const p = JSON.parse(sv); 
+                // Backward compatibility: convert old c1, c2 format to cards array
+                if(p.c1 && p.c2 && !p.cards) {
+                    p.cards = [
+                        {
+                            id: 1,
+                            av: p.c1.av,
+                            t_vi: p.c1.t_vi,
+                            t_en: p.c1.t_en,
+                            d_vi: p.c1.d_vi,
+                            d_en: p.c1.d_en,
+                            avatarColors: p.avatarColors1 || D.cards[0].avatarColors,
+                            soc: p.c1.soc || []
+                        },
+                        {
+                            id: 2,
+                            av: p.c2.av,
+                            t_vi: p.c2.t_vi,
+                            t_en: p.c2.t_en,
+                            d_vi: p.c2.d_vi,
+                            d_en: p.c2.d_en,
+                            avatarColors: p.avatarColors2 || D.cards[1].avatarColors,
+                            soc: p.c2.soc || []
+                        }
+                    ];
+                    delete p.c1;
+                    delete p.c2;
+                    delete p.avatarColors1;
+                    delete p.avatarColors2;
+                }
+                if(p.cards) {
+                    S = p;
+                    L = S.lang || 'vi';
+                    // Find max card ID
+                    const maxId = Math.max(...S.cards.map(c => c.id));
+                    nextCardId = maxId + 1;
+                }
+            } 
+        } catch(e) {}
         
-        // Ensure social links exist (backward compatibility)
-        if (!S.c1.soc) S.c1.soc = D.c1.soc;
-        if (!S.c2.soc) S.c2.soc = D.c2.soc;
+        // Ensure cards array exists
+        if (!S.cards || !Array.isArray(S.cards)) {
+            S.cards = JSON.parse(JSON.stringify(D.cards));
+        }
         
-        // Ensure label field exists in social links
-        S.c1.soc.forEach(s => { if (s.label === undefined) s.label = ''; });
-        S.c2.soc.forEach(s => { if (s.label === undefined) s.label = ''; });
+        // Ensure each card has required fields
+        S.cards.forEach(card => {
+            if (!card.soc) card.soc = [];
+            if (!card.avatarColors) card.avatarColors = { c1: '#667eea', c2: '#764ba2', c3: '#f093fb' };
+            card.soc.forEach(s => { if (s.label === undefined) s.label = ''; });
+        });
         
         // Ensure main title fields exist
         if (!S.title_vi) S.title_vi = D.title_vi;
@@ -1735,10 +1724,6 @@
         // Ensure title color and size exist
         if (!S.titleColor) S.titleColor = D.titleColor;
         if (!S.titleSize) S.titleSize = D.titleSize;
-        
-        // Ensure avatar colors exist
-        if (!S.avatarColors1) S.avatarColors1 = D.avatarColors1;
-        if (!S.avatarColors2) S.avatarColors2 = D.avatarColors2;
         
         // Ensure bank cards array exists
         if (!S.bankCards) S.bankCards = [];
@@ -1784,27 +1769,24 @@
             g('importBtn').onclick = () => g('importFile').click();
             g('importFile').onchange = imp;
 
-            g('layoutSelect').onchange = () => { S.layout = g('layoutSelect').value; applyLayout(); };
+            g('layoutSelect').onchange = () => { S.layout = g('layoutSelect').value; renderAllCards(); };
             
             g('mainTitleColor').oninput = upMainTitle;
             g('mainTitleSize').oninput = upMainTitle;
             
-            // Avatar colors
-            ['avatarColor1_1', 'avatarColor1_2', 'avatarColor1_3'].forEach(id => g(id).oninput = upAvatarColors);
-            ['avatarColor2_1', 'avatarColor2_2', 'avatarColor2_3'].forEach(id => g(id).oninput = upAvatarColors);
-            
             ['mainSize','cardSize','descSize','socialSize'].forEach(id => g(id).oninput = upFs);
-            ['bgImage','bgOp','bgOv','bgBl','bgC1','bgC2','bgC3'].forEach(id => g(id).oninput = upBg);
             
+            // Background settings
+            g('bgImage').oninput = upBg;
+            g('bgC1').oninput = upBg;
+            g('bgC2').oninput = upBg;
+            g('bgC3').oninput = upBg;
             g('bgOp').oninput = () => { g('bgOpVal').textContent = g('bgOp').value + '%'; upBg(); };
             g('bgOv').oninput = () => { g('bgOvVal').textContent = g('bgOv').value + '%'; upBg(); };
             g('bgBl').oninput = () => { g('bgBlVal').textContent = g('bgBl').value + 'px'; upBg(); };
 
             g('mainTitle_vi').oninput = upCt;
             g('mainTitle_en').oninput = upCt;
-            ['avatar1','avatar2','title1_vi','title1_en','title2_vi','title2_en','desc1_vi','desc1_en','desc2_vi','desc2_en'].forEach(id => g(id).oninput = upCt);
-            g('avatar1').oninput = () => { if(g('avatar1').value) g('avatarImg1').src = g('avatar1').value; };
-            g('avatar2').oninput = () => { if(g('avatar2').value) g('avatarImg2').src = g('avatar2').value; };
 
             load();
         }
@@ -1814,25 +1796,24 @@
             g('btnVi').classList.toggle('active', l === 'vi');
             g('btnEn').classList.toggle('active', l === 'en');
             upCt();
+            renderAllCards();
         }
 
         function applyLayout() {
-            const grid = document.querySelector('.contact-grid');
             const container = document.querySelector('.container');
             
+            // Layout 1 cột: tất cả nằm giữa, 1 card/dòng
             if (S.layout === '1col') {
-                grid.classList.add('single-column');
                 container.classList.add('layout-1col');
-                
-                // Check if has bank cards
-                if (S.bankCards && S.bankCards.length > 0) {
-                    container.classList.add('has-banks');
-                } else {
-                    container.classList.remove('has-banks');
-                }
             } else {
-                grid.classList.remove('single-column');
+                // Layout 2 cột: PC 2 cards/dòng, mobile 1 card/dòng
                 container.classList.remove('layout-1col');
+            }
+            
+            // Check if has bank cards để hiển thị bank container
+            if (S.bankCards && S.bankCards.length > 0) {
+                container.classList.add('has-banks');
+            } else {
                 container.classList.remove('has-banks');
             }
         }
@@ -1850,14 +1831,6 @@
             g('mainTitleSizeVal').textContent = (S.titleSize || 3.5) + 'rem';
             
             g('layoutSelect').value = S.layout || '2col';
-            
-            // Load avatar colors
-            g('avatarColor1_1').value = S.avatarColors1.c1;
-            g('avatarColor1_2').value = S.avatarColors1.c2;
-            g('avatarColor1_3').value = S.avatarColors1.c3;
-            g('avatarColor2_1').value = S.avatarColors2.c1;
-            g('avatarColor2_2').value = S.avatarColors2.c2;
-            g('avatarColor2_3').value = S.avatarColors2.c3;
 
             g('mainSize').value = S.fs.main; g('cardSize').value = S.fs.card;
             g('descSize').value = S.fs.desc; g('socialSize').value = S.fs.social;
@@ -1869,22 +1842,13 @@
             g('bgOpVal').textContent = S.bg.op + '%'; g('bgOvVal').textContent = S.bg.ov + '%'; g('bgBlVal').textContent = S.bg.bl + 'px';
             upBg();
 
-            g('avatar1').value = S.c1.av; g('title1_vi').value = S.c1.t_vi; g('title1_en').value = S.c1.t_en;
-            g('desc1_vi').value = S.c1.d_vi; g('desc1_en').value = S.c1.d_en;
-            g('avatar2').value = S.c2.av; g('title2_vi').value = S.c2.t_vi; g('title2_en').value = S.c2.t_en;
-            g('desc2_vi').value = S.c2.d_vi; g('desc2_en').value = S.c2.d_en;
-
-            renderSocialInputs(1);
-            renderSocialInputs(2);
-            renderSocialLinks(1);
-            renderSocialLinks(2);
+            renderCardsSettings();
+            renderAllCards();
             renderBankCardsInputs();
-            renderBankCards();
 
             sw(S.lang);
             applyLayout();
             upMainTitle(); // Apply title color and size
-            upAvatarColors(); // Apply avatar colors
             upCt(); // Update main title on load
         }
 
@@ -2023,13 +1987,13 @@
                 }
             });
             renderBankCardsInputs();
-            renderBankCards();
+            renderAllCards();
         }
         
         function removeBankCard(idx) {
             S.bankCards.splice(idx, 1);
             renderBankCardsInputs();
-            renderBankCards();
+            renderAllCards();
         }
         
         function renderBankCardsInputs() {
@@ -2132,7 +2096,7 @@
                         inp.style.fontSize = '0.85rem';
                         inp.oninput = () => {
                             S.bankCards[i].colors[c.key] = inp.value;
-                            renderBankCards();
+                            renderAllCards();
                         };
                         colDiv.appendChild(lbl);
                         colDiv.appendChild(inp);
@@ -2142,7 +2106,7 @@
                         inp.value = c.val;
                         inp.oninput = () => {
                             S.bankCards[i].colors[c.key] = inp.value;
-                            renderBankCards();
+                            renderAllCards();
                         };
                         colDiv.appendChild(lbl);
                         colDiv.appendChild(inp);
@@ -2170,6 +2134,8 @@
             });
         }
         
+        // Function renderBankCards() đã được gộp vào renderAllCards()
+        /*
         function renderBankCards() {
             const container = g('bankCardsContainer');
             container.innerHTML = '';
@@ -2292,9 +2258,431 @@
             // Re-apply layout after rendering bank cards
             applyLayout();
         }
+        */
         
         window.addBankCard = addBankCard;
         window.removeBankCard = removeBankCard;
+        
+        // Cards Management Functions
+        function addCard() {
+            if (S.cards.length >= 10) {
+                alert('⚠️ Đã đạt giới hạn tối đa 10 cards!');
+                return;
+            }
+            S.cards.push({
+                id: nextCardId++,
+                av: 'IMG/AVT-NguyeZGaming.png',
+                t_vi: 'Card Mới',
+                t_en: 'New Card',
+                d_vi: 'Mô tả card mới',
+                d_en: 'New card description',
+                avatarColors: { c1: '#667eea', c2: '#764ba2', c3: '#f093fb' },
+                soc: []
+            });
+            renderCardsSettings();
+            renderAllCards();
+            updateAddCardButton();
+        }
+        
+        function removeCard(idx) {
+            if (S.cards.length <= 1) {
+                alert('⚠️ Phải giữ ít nhất 1 card!');
+                return;
+            }
+            S.cards.splice(idx, 1);
+            renderCardsSettings();
+            renderAllCards();
+            updateAddCardButton();
+        }
+        
+        function updateAddCardButton() {
+            const btn = g('addCardBtn');
+            if (btn) {
+                btn.disabled = S.cards.length >= 10;
+                btn.style.opacity = S.cards.length >= 10 ? '0.5' : '1';
+                btn.style.cursor = S.cards.length >= 10 ? 'not-allowed' : 'pointer';
+            }
+        }
+        
+        function renderCardsSettings() {
+            const list = g('cardsListSettings');
+            list.innerHTML = '';
+            
+            S.cards.forEach((card, idx) => {
+                const section = document.createElement('div');
+                section.className = 'social-item';
+                section.style.marginBottom = '30px';
+                section.style.padding = '20px';
+                
+                const header = document.createElement('div');
+                header.className = 'social-item-header';
+                header.innerHTML = `<span class="social-item-title">👤 Card #${card.id}</span>`;
+                
+                if (S.cards.length > 1) {
+                    const removeBtn = document.createElement('button');
+                    removeBtn.className = 'remove-social-btn';
+                    removeBtn.textContent = 'Xóa Card';
+                    removeBtn.onclick = () => removeCard(idx);
+                    header.appendChild(removeBtn);
+                }
+                
+                section.appendChild(header);
+                
+                // Avatar URL
+                const avLabel = document.createElement('label');
+                avLabel.textContent = 'Avatar URL:';
+                const avInput = document.createElement('input');
+                avInput.type = 'text';
+                avInput.placeholder = 'IMG/avatar.jpg';
+                avInput.value = card.av || '';
+                avInput.oninput = () => { S.cards[idx].av = avInput.value; renderAllCards(); };
+                
+                // Avatar Colors
+                const colorLabel = document.createElement('label');
+                colorLabel.innerHTML = '🎨 Màu viền Avatar (Gradient 3 màu):';
+                colorLabel.style.marginTop = '15px';
+                
+                const colorGrid = document.createElement('div');
+                colorGrid.className = 'font-size-grid';
+                colorGrid.style.gridTemplateColumns = 'repeat(3, 1fr)';
+                colorGrid.style.margin = '10px 0';
+                
+                ['c1', 'c2', 'c3'].forEach((key, i) => {
+                    const div = document.createElement('div');
+                    const lbl = document.createElement('label');
+                    lbl.textContent = `Màu ${i + 1}:`;
+                    const inp = document.createElement('input');
+                    inp.type = 'color';
+                    inp.value = card.avatarColors[key];
+                    inp.oninput = () => { S.cards[idx].avatarColors[key] = inp.value; renderAllCards(); };
+                    div.appendChild(lbl);
+                    div.appendChild(inp);
+                    colorGrid.appendChild(div);
+                });
+                
+                // Titles
+                const titleViLabel = document.createElement('label');
+                titleViLabel.textContent = 'Tiêu đề (Việt):';
+                titleViLabel.style.marginTop = '15px';
+                const titleViInput = document.createElement('input');
+                titleViInput.type = 'text';
+                titleViInput.placeholder = 'Tên card';
+                titleViInput.value = card.t_vi || '';
+                titleViInput.oninput = () => { S.cards[idx].t_vi = titleViInput.value; renderAllCards(); };
+                
+                const titleEnLabel = document.createElement('label');
+                titleEnLabel.textContent = 'Title (English):';
+                const titleEnInput = document.createElement('input');
+                titleEnInput.type = 'text';
+                titleEnInput.placeholder = 'Card name';
+                titleEnInput.value = card.t_en || '';
+                titleEnInput.oninput = () => { S.cards[idx].t_en = titleEnInput.value; renderAllCards(); };
+                
+                // Descriptions
+                const descViLabel = document.createElement('label');
+                descViLabel.innerHTML = 'Mô tả (Việt): <span style="color:#667eea;font-size:0.85rem">✨ HTML: &lt;b&gt; &lt;br&gt; &lt;i&gt;</span>';
+                const descViInput = document.createElement('textarea');
+                descViInput.placeholder = 'Dùng <b>in đậm</b> và <br> xuống dòng';
+                descViInput.value = card.d_vi || '';
+                descViInput.oninput = () => { S.cards[idx].d_vi = descViInput.value; renderAllCards(); };
+                
+                const descEnLabel = document.createElement('label');
+                descEnLabel.innerHTML = 'Description (English): <span style="color:#667eea;font-size:0.85rem">✨ HTML: &lt;b&gt; &lt;br&gt; &lt;i&gt;</span>';
+                const descEnInput = document.createElement('textarea');
+                descEnInput.placeholder = 'Use <b>bold</b> and <br> line break';
+                descEnInput.value = card.d_en || '';
+                descEnInput.oninput = () => { S.cards[idx].d_en = descEnInput.value; renderAllCards(); };
+                
+                // Social Links
+                const socialHeader = document.createElement('h4');
+                socialHeader.style.color = '#a8b2d1';
+                socialHeader.style.margin = '20px 0 15px';
+                socialHeader.textContent = '🔗 Social Links';
+                
+                const socialList = document.createElement('div');
+                socialList.id = `socialList_${card.id}`;
+                
+                const addSocialBtn = document.createElement('button');
+                addSocialBtn.className = 'add-social-btn';
+                addSocialBtn.textContent = '+ Thêm Social Link';
+                addSocialBtn.onclick = () => addSocialToCard(idx);
+                
+                section.appendChild(avLabel);
+                section.appendChild(avInput);
+                section.appendChild(colorLabel);
+                section.appendChild(colorGrid);
+                section.appendChild(titleViLabel);
+                section.appendChild(titleViInput);
+                section.appendChild(titleEnLabel);
+                section.appendChild(titleEnInput);
+                section.appendChild(descViLabel);
+                section.appendChild(descViInput);
+                section.appendChild(descEnLabel);
+                section.appendChild(descEnInput);
+                section.appendChild(socialHeader);
+                section.appendChild(socialList);
+                section.appendChild(addSocialBtn);
+                
+                list.appendChild(section);
+                
+                // Render social links for this card
+                renderSocialInputsForCard(idx);
+            });
+            
+            updateAddCardButton();
+        }
+        
+        function addSocialToCard(cardIdx) {
+            S.cards[cardIdx].soc.push({ type: 'website', url: '', label: '' });
+            renderSocialInputsForCard(cardIdx);
+        }
+        
+        function removeSocialFromCard(cardIdx, socIdx) {
+            S.cards[cardIdx].soc.splice(socIdx, 1);
+            renderSocialInputsForCard(cardIdx);
+        }
+        
+        function renderSocialInputsForCard(cardIdx) {
+            const card = S.cards[cardIdx];
+            const list = g(`socialList_${card.id}`);
+            if (!list) return;
+            
+            list.innerHTML = '';
+            card.soc.forEach((s, i) => {
+                const div = document.createElement('div');
+                div.className = 'social-item';
+                div.innerHTML = '<div class="social-item-header"><span class="social-item-title">Link ' + (i+1) + '</span><button class="remove-social-btn" onclick="removeSocialFromCard(' + cardIdx + ',' + i + ')">Xóa</button></div>';
+                
+                const selLbl = document.createElement('label');
+                selLbl.textContent = 'Icon:';
+                
+                const iconSelector = document.createElement('div');
+                iconSelector.className = 'icon-selector';
+                iconSelector.style.marginBottom = '10px';
+                
+                const selBtn = document.createElement('button');
+                selBtn.type = 'button';
+                selBtn.className = 'icon-selector-button';
+                const currentIcon = ICONS[s.type];
+                selBtn.innerHTML = '<i class="' + currentIcon.icon + '"></i><span>' + currentIcon.label + '</span>';
+                
+                const dropdown = document.createElement('div');
+                dropdown.className = 'icon-dropdown';
+                
+                Object.keys(ICONS).forEach(k => {
+                    const opt = document.createElement('div');
+                    opt.className = 'icon-option' + (k === s.type ? ' selected' : '');
+                    const ico = ICONS[k];
+                    opt.innerHTML = '<i class="' + ico.icon + '"></i><span>' + ico.label + '</span>';
+                    opt.onclick = () => {
+                        S.cards[cardIdx].soc[i].type = k;
+                        selBtn.innerHTML = '<i class="' + ico.icon + '"></i><span>' + ico.label + '</span>';
+                        dropdown.classList.remove('show');
+                        renderAllCards();
+                        dropdown.querySelectorAll('.icon-option').forEach(o => o.classList.remove('selected'));
+                        opt.classList.add('selected');
+                    };
+                    dropdown.appendChild(opt);
+                });
+                
+                selBtn.onclick = (e) => {
+                    e.stopPropagation();
+                    document.querySelectorAll('.icon-dropdown.show').forEach(d => {
+                        if (d !== dropdown) d.classList.remove('show');
+                    });
+                    dropdown.classList.toggle('show');
+                };
+                
+                document.addEventListener('click', (e) => {
+                    if (!iconSelector.contains(e.target)) {
+                        dropdown.classList.remove('show');
+                    }
+                });
+                
+                iconSelector.appendChild(selBtn);
+                iconSelector.appendChild(dropdown);
+                
+                const urlLbl = document.createElement('label');
+                urlLbl.textContent = 'URL:';
+                const urlIn = document.createElement('input');
+                urlIn.type = 'text';
+                urlIn.placeholder = 'https://...';
+                urlIn.value = s.url || '';
+                urlIn.oninput = () => { S.cards[cardIdx].soc[i].url = urlIn.value; renderAllCards(); };
+                
+                const lblLbl = document.createElement('label');
+                lblLbl.innerHTML = 'Text hiển thị: <span style="color:#667eea;font-size:0.85rem">(để trống = dùng tên icon)</span>';
+                const lblIn = document.createElement('input');
+                lblIn.type = 'text';
+                lblIn.placeholder = 'Ví dụ: Kênh Gaming, Liên hệ...';
+                lblIn.value = s.label || '';
+                lblIn.style.marginBottom = '0';
+                lblIn.oninput = () => { S.cards[cardIdx].soc[i].label = lblIn.value; renderAllCards(); };
+                
+                div.appendChild(selLbl);
+                div.appendChild(iconSelector);
+                div.appendChild(urlLbl);
+                div.appendChild(urlIn);
+                div.appendChild(lblLbl);
+                div.appendChild(lblIn);
+                list.appendChild(div);
+            });
+        }
+        
+        window.addCard = addCard;
+        window.removeCard = removeCard;
+        window.addSocialToCard = addSocialToCard;
+        window.removeSocialFromCard = removeSocialFromCard;
+        
+        // Render cards on main interface
+        // Render tất cả cards (avatar + bank) vào 1 container chung
+        function renderAllCards() {
+            const container = g('allCardsContainer');
+            container.innerHTML = '';
+            
+            const k = L === 'vi' ? '_vi' : '_en';
+            
+            // Apply CSS for avatar colors
+            let avatarStyle = g('avatarColorsStyle');
+            if (!avatarStyle) {
+                avatarStyle = document.createElement('style');
+                avatarStyle.id = 'avatarColorsStyle';
+                document.head.appendChild(avatarStyle);
+            }
+            
+            let styleContent = '';
+            S.cards.forEach((card, idx) => {
+                const colors = card.avatarColors;
+                // Cần selector đặc biệt để chỉ target contact-card, không ảnh hưởng bank-card
+                styleContent += `.all-cards-container > .contact-card:nth-of-type(${idx + 1}) .avatar-wrapper::before { background: linear-gradient(135deg, ${colors.c1}, ${colors.c2}, ${colors.c3}); }`;
+            });
+            avatarStyle.textContent = styleContent;
+            
+            // Render Avatar Cards
+            S.cards.forEach((card) => {
+                const cardDiv = document.createElement('div');
+                cardDiv.className = 'contact-card';
+                
+                // Avatar
+                const avatarWrapper = document.createElement('div');
+                avatarWrapper.className = 'avatar-wrapper';
+                const avatarImg = document.createElement('img');
+                avatarImg.src = card.av || 'IMG/AVT-NguyeZGaming.png';
+                avatarImg.className = 'avatar';
+                avatarImg.alt = 'Avatar';
+                avatarWrapper.appendChild(avatarImg);
+                
+                // Title
+                const title = document.createElement('h2');
+                title.className = 'contact-title';
+                title.textContent = card['t' + k] || card.t_vi;
+                
+                // Description
+                const desc = document.createElement('p');
+                desc.className = 'contact-description';
+                desc.innerHTML = card['d' + k] || card.d_vi;
+                
+                // Social Links
+                const socialLinks = document.createElement('div');
+                socialLinks.className = 'social-links';
+                card.soc.forEach(s => {
+                    const ico = ICONS[s.type];
+                    if (!ico || !s.url) return;
+                    const a = document.createElement('a');
+                    a.href = s.url;
+                    a.target = '_blank';
+                    a.className = 'social-link ' + ico.class;
+                    const displayLabel = s.label || ico.label;
+                    a.innerHTML = '<i class="' + ico.icon + '"></i><span>' + displayLabel + '</span>';
+                    socialLinks.appendChild(a);
+                });
+                
+                cardDiv.appendChild(avatarWrapper);
+                cardDiv.appendChild(title);
+                cardDiv.appendChild(desc);
+                cardDiv.appendChild(socialLinks);
+                
+                container.appendChild(cardDiv);
+            });
+            
+            // Render Bank Cards ngay sau avatar cards
+            S.bankCards.forEach(card => {
+                const name = card['name' + k] || card.name_vi;
+                const desc = card['desc' + k] || '';
+                
+                const cardDiv = document.createElement('div');
+                cardDiv.className = 'bank-card';
+                
+                const cardNumBadge = document.createElement('div');
+                cardNumBadge.className = 'bank-card-number';
+                cardNumBadge.textContent = '#' + card.id;
+                
+                const qrDiv = document.createElement('div');
+                qrDiv.className = 'bank-qr';
+                qrDiv.style.borderColor = card.colors.qrBorder;
+                const qrImg = document.createElement('img');
+                qrImg.src = card.qrUrl || 'https://via.placeholder.com/180?text=QR+Code';
+                qrImg.alt = 'QR Code';
+                qrDiv.appendChild(qrImg);
+                
+                const nameDiv = document.createElement('div');
+                nameDiv.className = 'bank-name';
+                nameDiv.textContent = name;
+                nameDiv.style.color = card.colors.name;
+                
+                const descDiv = document.createElement('div');
+                descDiv.className = 'bank-desc';
+                descDiv.textContent = desc;
+                descDiv.style.color = card.colors.desc;
+                
+                const infoDiv = document.createElement('div');
+                infoDiv.className = 'bank-info';
+                infoDiv.style.background = card.colors.infoBg;
+                infoDiv.style.borderColor = card.colors.infoBorder;
+                
+                const numSpan = document.createElement('span');
+                numSpan.className = 'bank-number';
+                numSpan.textContent = card.accountInfo || 'Chưa có thông tin';
+                numSpan.style.color = card.colors.infoText;
+                
+                const handleCopy = (btn) => {
+                    if (!card.accountInfo) return;
+                    
+                    const icon = btn.querySelector('i');
+                    const tooltip = btn.querySelector('.copy-tooltip');
+                    
+                    navigator.clipboard.writeText(card.accountInfo).then(() => {
+                        btn.classList.add('copied');
+                        icon.className = 'fas fa-check';
+                        tooltip.classList.add('show');
+                        
+                        setTimeout(() => { 
+                            btn.classList.remove('copied');
+                            icon.className = 'fas fa-copy';
+                            tooltip.classList.remove('show');
+                        }, 2000);
+                    });
+                };
+                
+                const copyBtn = document.createElement('button');
+                copyBtn.className = 'copy-btn';
+                copyBtn.innerHTML = '<i class="fas fa-copy"></i><span class="copy-tooltip">Đã copy!</span>';
+                copyBtn.onclick = (e) => { e.stopPropagation(); handleCopy(copyBtn); };
+                
+                infoDiv.appendChild(numSpan);
+                infoDiv.appendChild(copyBtn);
+                
+                cardDiv.appendChild(cardNumBadge);
+                cardDiv.appendChild(qrDiv);
+                cardDiv.appendChild(nameDiv);
+                if (desc) cardDiv.appendChild(descDiv);
+                cardDiv.appendChild(infoDiv);
+                
+                container.appendChild(cardDiv);
+            });
+            
+            applyLayout();
+        }
 
         function renderSocialLinks(cardNum) {
             const card = S['c' + cardNum];
@@ -2344,42 +2732,13 @@
             upCt();
         }
         
-        function upAvatarColors() {
-            // Update state
-            S.avatarColors1.c1 = g('avatarColor1_1').value;
-            S.avatarColors1.c2 = g('avatarColor1_2').value;
-            S.avatarColors1.c3 = g('avatarColor1_3').value;
-            S.avatarColors2.c1 = g('avatarColor2_1').value;
-            S.avatarColors2.c2 = g('avatarColor2_2').value;
-            S.avatarColors2.c3 = g('avatarColor2_3').value;
-            
-            // Apply to CSS
-            let style = g('avatarColorStyle');
-            if (!style) {
-                style = document.createElement('style');
-                style.id = 'avatarColorStyle';
-                document.head.appendChild(style);
-            }
-            style.textContent = '.contact-card:nth-child(1) .avatar-wrapper::before { background: linear-gradient(135deg, ' + S.avatarColors1.c1 + ', ' + S.avatarColors1.c2 + ', ' + S.avatarColors1.c3 + '); } ' +
-                                '.contact-card:nth-child(2) .avatar-wrapper::before { background: linear-gradient(135deg, ' + S.avatarColors2.c1 + ', ' + S.avatarColors2.c2 + ', ' + S.avatarColors2.c3 + '); }';
-        }
-
         function upCt() {
             const k = L === 'vi' ? '_vi' : '_en';
             const mt = g('mainTitle' + k).value;
             if (mt) g('mainTitle').innerHTML = mt;
             
-            g('avatarImg1').src = g('avatar1').value || S.c1.av;
-            g('avatarImg2').src = g('avatar2').value || S.c2.av;
-            const t1 = g('title1' + k).value, t2 = g('title2' + k).value;
-            const d1 = g('desc1' + k).value, d2 = g('desc2' + k).value;
-            if (t1) g('cardTitle1').textContent = t1;
-            if (t2) g('cardTitle2').textContent = t2;
-            if (d1) g('cardDesc1').innerHTML = d1;
-            if (d2) g('cardDesc2').innerHTML = d2;
-            
             // Update bank cards language
-            renderBankCards();
+            renderAllCards();
         }
 
         function save() {
@@ -2387,19 +2746,7 @@
             S.title_en = g('mainTitle_en').value || S.title_en;
             S.titleColor = g('mainTitleColor').value || S.titleColor;
             S.titleSize = +g('mainTitleSize').value || S.titleSize;
-            S.avatarColors1.c1 = g('avatarColor1_1').value;
-            S.avatarColors1.c2 = g('avatarColor1_2').value;
-            S.avatarColors1.c3 = g('avatarColor1_3').value;
-            S.avatarColors2.c1 = g('avatarColor2_1').value;
-            S.avatarColors2.c2 = g('avatarColor2_2').value;
-            S.avatarColors2.c3 = g('avatarColor2_3').value;
-            S.c1.av = g('avatar1').value || S.c1.av; S.c1.t_vi = g('title1_vi').value || S.c1.t_vi;
-            S.c1.t_en = g('title1_en').value || S.c1.t_en; S.c1.d_vi = g('desc1_vi').value || S.c1.d_vi;
-            S.c1.d_en = g('desc1_en').value || S.c1.d_en;
-            S.c2.av = g('avatar2').value || S.c2.av; S.c2.t_vi = g('title2_vi').value || S.c2.t_vi;
-            S.c2.t_en = g('title2_en').value || S.c2.t_en; S.c2.d_vi = g('desc2_vi').value || S.c2.d_vi;
-            S.c2.d_en = g('desc2_en').value || S.c2.d_en;
-            // Bank cards are already saved in S.bankCards via renderBankCardsInputs
+            // Cards and bank cards are already saved via renderCardsSettings() and renderBankCardsInputs()
             localStorage.setItem('ngZ', JSON.stringify(S));
             g('settingsPanel').classList.remove('active');
             alert('✓ Đã lưu!');
@@ -2417,7 +2764,7 @@
             const k = L === 'vi' ? '_vi' : '_en';
             const t1 = 't' + k, d1 = 'd' + k;
             let h = '<!DOCTYPE html><html lang="' + L + '"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>' + (L === 'vi' ? S.title_vi : S.title_en) + '</title>';
-            h += '<link rel="icon" href="' + S.c1.av + '">';
+            h += '<link rel="icon" href="' + (S.cards[0]?.av || 'IMG/AVT-NguyeZGaming.png') + '">';
             h += '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">';
             h += '<link href="https://fonts.googleapis.com/css2?family=Play:wght@400;700&family=Exo+2:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">';
             h += '<style>*{margin:0;padding:0;box-sizing:border-box}';
@@ -2427,21 +2774,12 @@
             h += 'body::after{content:\'\';position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,' + (S.bg.ov/100) + ');z-index:0;animation:overlayPulse 15s ease-in-out infinite alternate}';
             h += '.container{max-width:1400px;width:100%;position:relative;z-index:1}';
             h += '.header{text-align:center;margin-bottom:60px}.header h1{font-size:' + (S.titleSize || S.fs.main) + 'rem;color:' + (S.titleColor || '#667eea') + ';letter-spacing:2px;font-weight:800}';
-            h += '.contact-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:50px}';
-            h += '.contact-grid.single-column{grid-template-columns:1fr}';
-            h += '.contact-grid.single-column .contact-card:nth-child(2){display:none}';
+            // All cards container - chứa cả avatar + bank cards
+            h += '.all-cards-container{display:grid;grid-template-columns:repeat(2,1fr);gap:50px}';
+            // Layout 1 cột: tất cả nằm giữa, 1 card/dòng
             if (S.layout === '1col') {
-                const hasBanks = S.bankCards && S.bankCards.length > 0;
-                if (hasBanks) {
-                    h += '.container.layout-1col.has-banks{display:grid;grid-template-columns:repeat(2,1fr);gap:50px;align-items:start}';
-                    h += '.container.layout-1col.has-banks .header{grid-column:1/-1}';
-                    h += '.container.layout-1col.has-banks .bank-cards-container{margin-top:0;grid-template-columns:1fr}';
-                    h += '.container.layout-1col.has-banks .contact-grid{grid-template-columns:1fr}';
-                } else {
-                    h += '.container.layout-1col:not(.has-banks) .contact-grid{max-width:700px;margin:0 auto}';
-                }
+                h += '.container.layout-1col .all-cards-container{grid-template-columns:1fr;max-width:700px;margin:0 auto}';
             }
-            h += '.bank-cards-container:empty{display:none}';
             h += '.contact-card{background:linear-gradient(135deg,rgba(30,30,60,0.6),rgba(40,35,70,0.6),rgba(35,30,65,0.6));background-size:200% 200%;backdrop-filter:blur(10px);border-radius:30px;padding:50px 40px;position:relative;overflow:hidden;transition:all 0.4s cubic-bezier(0.4,0,0.2,1);animation:gradientShift 8s ease infinite,subtleGlow 4s ease-in-out infinite}';
             h += '.contact-card::before{content:"";position:absolute;inset:-3px;border-radius:30px;padding:3px;background:linear-gradient(135deg,rgba(102,126,234,0.3),rgba(118,75,162,0.3),rgba(240,147,251,0.3),rgba(102,126,234,0.3));-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:0.3;transition:all 0.4s ease;z-index:-1}';
             h += '.contact-card::after{content:"";position:absolute;inset:0;border-radius:30px;background:linear-gradient(135deg,rgba(102,126,234,0.05),rgba(118,75,162,0.05),rgba(240,147,251,0.05));opacity:0;transition:opacity 0.4s ease;pointer-events:none;z-index:0}';
@@ -2450,10 +2788,12 @@
             h += '.contact-card:hover::after{opacity:1}';
             h += '.avatar-wrapper{position:relative;width:180px;height:180px;margin:0 auto 30px;z-index:1;overflow:visible}';
             h += '.avatar-wrapper::before{content:"";position:absolute;inset:-5px;background:linear-gradient(135deg,#667eea,#764ba2,#f093fb);border-radius:50%;animation:rotate 3s linear infinite;z-index:-1}';
-            h += '.contact-card:nth-child(1) .avatar-wrapper::before{background:linear-gradient(135deg,' + S.avatarColors1.c1 + ',' + S.avatarColors1.c2 + ',' + S.avatarColors1.c3 + ')}';
-            if (S.layout === '2col') {
-                h += '.contact-card:nth-child(2) .avatar-wrapper::before{background:linear-gradient(135deg,' + S.avatarColors2.c1 + ',' + S.avatarColors2.c2 + ',' + S.avatarColors2.c3 + ')}';
-            }
+            // Dynamic avatar colors for each card
+            S.cards.forEach((card, idx) => {
+                if (card.avatarColors) {
+                    h += '.contact-card:nth-child(' + (idx + 1) + ') .avatar-wrapper::before{background:linear-gradient(135deg,' + card.avatarColors.c1 + ',' + card.avatarColors.c2 + ',' + card.avatarColors.c3 + ')}';
+                }
+            });
             h += '.avatar{width:100%;height:100%;border-radius:50%;object-fit:cover;border:5px solid rgba(15,12,41,0.9);transition:all 2s cubic-bezier(0.4,0,0.2,1)}';
             h += '.contact-card:hover .avatar{transform:scale(1.2);border:0;border-radius:20px}';
             h += '.contact-card:hover .avatar-wrapper::before{opacity:0;transition:opacity 0.5s ease}';
@@ -2594,11 +2934,9 @@
             h += '.font-btn{width:32px;height:32px;font-size:1rem}';
             h += '.font-dropdown{top:auto;bottom:50px;right:0;min-width:120px}';
             h += '.font-option{padding:8px 12px;font-size:0.85rem}';
-            h += '.contact-grid.single-column{grid-template-columns:1fr!important;max-width:100%}';
-            h += '.contact-grid.single-column .contact-card:nth-child(2){display:none!important}';
-            h += '.container.layout-1col{display:block!important;grid-template-columns:1fr!important}';
-            h += '.container.layout-1col.has-banks{display:block!important;grid-template-columns:1fr!important}';
-            h += '.bank-cards-container{grid-template-columns:1fr!important;gap:25px!important;margin-top:25px!important}';
+            // Mobile: tất cả thành 1 cột
+            h += '.all-cards-container{grid-template-columns:1fr!important;gap:25px}';
+            h += '.container.layout-1col .all-cards-container{max-width:100%!important}';
             h += '.bank-card{padding:25px 20px;border-radius:20px}';
             h += '.bank-qr{width:200px!important;height:200px!important;margin-bottom:20px}';
             h += '.bank-name{font-size:1.4rem!important;margin-bottom:10px}';
@@ -2615,6 +2953,7 @@
             h += '.contact-title{font-size:1.3rem!important}';
             h += '.contact-description{font-size:0.9rem!important}';
             h += '.social-link{padding:10px 12px;font-size:0.85rem!important}';
+            h += '.bank-cards-container{grid-template-columns:1fr!important}';
             h += '.bank-qr{width:160px!important;height:160px!important}';
             h += '.bank-name{font-size:1.2rem!important}';
             h += '.bank-desc{font-size:0.9rem!important}';
@@ -2674,29 +3013,23 @@
             h += '<button class="font-option' + (S.font === "'Roboto', sans-serif" ? ' active' : '') + '" data-font="\'Roboto\', sans-serif">Roboto</button>';
             h += '</div></div></div>';
             const hasBanks = S.bankCards && S.bankCards.length > 0;
-            const containerClasses = S.layout === '1col' ? ' layout-1col' + (hasBanks ? ' has-banks' : '') : '';
+            let containerClasses = '';
+            if (S.layout === '1col') {
+                containerClasses = ' layout-1col';
+            }
+            if (hasBanks) {
+                containerClasses += ' has-banks';
+            }
             h += '<div class="container' + containerClasses + '"><div class="header"><h1 id="mainTitle" style="color:' + (S.titleColor || '#667eea') + ';font-size:' + (S.titleSize || S.fs.main) + 'rem">' + (L === 'vi' ? S.title_vi : S.title_en) + '</h1></div>';
-            h += '<div class="contact-grid' + (S.layout === '1col' ? ' single-column' : '') + '">';
+            h += '<div class="all-cards-container">';
             
-            // Card 1
-            h += '<div class="contact-card"><div class="avatar-wrapper"><img src="' + S.c1.av + '" class="avatar"></div>';
-            h += '<h2 class="contact-title">' + S.c1[t1] + '</h2><p class="contact-description">' + S.c1[d1] + '</p>';
-            h += '<div class="social-links">';
-            S.c1.soc.forEach(s => {
-                const ico = ICONS[s.type];
-                if (ico && s.url) {
-                    const lbl = s.label || ico.label;
-                    h += '<a href="' + s.url + '" target="_blank" class="social-link ' + ico.class + '"><i class="' + ico.icon + '"></i><span>' + lbl + '</span></a>';
-                }
-            });
-            h += '</div></div>';
-            
-            // Card 2 (only if 2-column layout)
-            if (S.layout === '2col') {
-                h += '<div class="contact-card"><div class="avatar-wrapper"><img src="' + S.c2.av + '" class="avatar"></div>';
-                h += '<h2 class="contact-title">' + S.c2[t1] + '</h2><p class="contact-description">' + S.c2[d1] + '</p>';
+            // Render tất cả Avatar Cards
+            S.cards.forEach((card, idx) => {
+                const colors = card.avatarColors;
+                h += '<div class="contact-card"><div class="avatar-wrapper"><img src="' + card.av + '" class="avatar"></div>';
+                h += '<h2 class="contact-title">' + card[t1] + '</h2><p class="contact-description">' + card[d1] + '</p>';
                 h += '<div class="social-links">';
-                S.c2.soc.forEach(s => {
+                card.soc.forEach(s => {
                     const ico = ICONS[s.type];
                     if (ico && s.url) {
                         const lbl = s.label || ico.label;
@@ -2704,13 +3037,10 @@
                     }
                 });
                 h += '</div></div>';
-            }
+            });
             
-            h += '</div>'; // close contact-grid
-            
-            // Bank Cards
+            // Render Bank Cards (same level as avatar cards)
             if (S.bankCards && S.bankCards.length > 0) {
-                h += '<div class="bank-cards-container">';
                 S.bankCards.forEach(card => {
                     const name = card['name' + k] || card.name_vi;
                     const desc = card['desc' + k] || '';
@@ -2728,9 +3058,9 @@
                     h += '<button class="copy-btn" onclick="copyToClipboard(\'' + card.accountInfo.replace(/'/g, "\\'") + '\',this)"><i class="fas fa-copy"></i><div class="copy-tooltip">' + tooltipMsg + '</div></button>';
                     h += '</div></div>';
                 });
-                h += '</div>';
             }
             
+            h += '</div>'; // close all-cards-container
             h += '</div>'; // close container
             h += '<script>';
             h += 'function copyToClipboard(t,btn){if(!t)return;const icon=btn.querySelector("i");const tooltip=btn.querySelector(".copy-tooltip");navigator.clipboard.writeText(t).then(()=>{btn.classList.add("copied");icon.className="fas fa-check";tooltip.classList.add("show");setTimeout(()=>{btn.classList.remove("copied");icon.className="fas fa-copy";tooltip.classList.remove("show")},2000)}).catch(()=>{const ta=document.createElement("textarea");ta.value=t;ta.style.position="fixed";ta.style.left="-999999px";document.body.appendChild(ta);ta.select();try{document.execCommand("copy");btn.classList.add("copied");icon.className="fas fa-check";tooltip.classList.add("show");setTimeout(()=>{btn.classList.remove("copied");icon.className="fas fa-copy";tooltip.classList.remove("show")},2000)}catch(e){console.error(e)}document.body.removeChild(ta)})};';
@@ -2763,10 +3093,12 @@
             h += 'document.getElementById("btnEn").classList.toggle("active",l==="en");';
             h += 'const k=l==="vi"?"_vi":"_en";';
             h += 'document.getElementById("mainTitle").innerHTML=l==="vi"?cfg.title_vi:cfg.title_en;';
-            h += 'document.querySelectorAll(".contact-description")[0].innerHTML=cfg.c1["d"+k];';
-            h += 'document.querySelectorAll(".contact-description")[1].innerHTML=cfg.c2["d"+k];';
-            h += 'document.querySelectorAll(".contact-title")[0].textContent=cfg.c1["t"+k];';
-            h += 'document.querySelectorAll(".contact-title")[1].textContent=cfg.c2["t"+k];';
+            h += 'const titles=document.querySelectorAll(".contact-title");';
+            h += 'const descs=document.querySelectorAll(".contact-description");';
+            h += 'cfg.cards.forEach((card,i)=>{';
+            h += 'if(titles[i])titles[i].textContent=card["t"+k];';
+            h += 'if(descs[i])descs[i].innerHTML=card["d"+k];';
+            h += '});';
             h += 'if(cfg.bankCards&&cfg.bankCards.length>0){';
             h += 'const banks=document.querySelectorAll(".bank-name");';
             h += 'const descs=document.querySelectorAll(".bank-desc");';
