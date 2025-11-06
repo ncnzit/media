@@ -356,39 +356,32 @@
         }
 
         .cell[data-event-type="move_backward"]::after {
-            content: "⬇️ Di chuyển: Lùi 1-3 ô";
+            content: "⬇️ Di chuyển: Lùi x ô (lùi ở lần gieo xí ngầu tiếp theo)";
         }
 
         .cell[data-event-type="jump_row"]::after {
             content: "⬇️ Di chuyển: Nhảy xuống hàng dọc";
         }
 
-        .cell[data-event-type="jump_col"]::after {
-            content: "➡️ Di chuyển: Nhảy sang hàng ngang";
+        .cell[data-event-type="kill_on_path"]::after {
+            content: "💀 Tấn công: Những ô đi qua trong lượt đổ xí ngầu tiếp theo sẽ giết những người chơi bị giẫm qua";
         }
 
-        .cell[data-event-type="go_back"]::after {
-            content: "🔙 Di chuyển: Đi ngược về";
-        }
 
         .cell[data-event-type="hop"]::after {
             content: "🦘 Di chuyển: Đi nhảy cóc (mỗi lần 2 ô)";
         }
 
         .cell[data-event-type="portal"]::after {
-            content: "🌀 Di chuyển: Portal - Đi tắt sang ô kia";
+            content: "🌀 Di chuyển: Portal - Đi tắt sang portal ngẫu nhiên (5 portal trên bản đồ)";
         }
 
         .cell[data-event-type="kill_random"]::after {
-            content: "⚔️ Tấn công: Tiêu diệt người chơi ngẫu nhiên";
+            content: "⚔️ Tấn công: Tiêu diệt x người chơi ngẫu nhiên (x: 1-5)";
         }
 
-        .cell[data-event-type="kill_forward"]::after {
-            content: "⚔️ Tấn công: Tiêu diệt người chơi gần nhất phía trước";
-        }
-
-        .cell[data-event-type="kill_backward"]::after {
-            content: "⚔️ Tấn công: Tiêu diệt người chơi gần nhất phía sau";
+        .cell[data-event-type="kill_nearest"]::after {
+            content: "⚔️ Tấn công: Tiêu diệt x người chơi gần nhất (x: 1-5)";
         }
 
         .cell[data-event-type="bomb_row"]::after {
@@ -465,6 +458,28 @@
             font-size: 16px;
         }
 
+        .copy-btn {
+            background: rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: #fff;
+            padding: 4px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        .copy-btn:hover {
+            background: rgba(255,255,255,0.3);
+            border-color: rgba(255,255,255,0.5);
+            transform: scale(1.05);
+        }
+
+        .copy-btn:active {
+            transform: scale(0.95);
+        }
+
         .result-item {
             background: rgba(255,255,255,0.2);
             padding: 6px 10px;
@@ -474,6 +489,170 @@
             justify-content: space-between;
             align-items: center;
             font-size: 12px;
+        }
+
+        .stages-section {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            padding: 12px;
+            margin-bottom: 10px;
+            max-height: 150px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .stages-section::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .stages-section::-webkit-scrollbar-thumb {
+            background: rgba(255,255,255,0.3);
+            border-radius: 3px;
+        }
+
+        .stages-section h3 {
+            margin-bottom: 8px;
+            text-align: center;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
+        #stagesContainer {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .stage-item {
+            background: rgba(255,255,255,0.2);
+            padding: 8px 10px;
+            border-radius: 5px;
+            border-left: 3px solid rgba(255,255,255,0.3);
+            transition: all 0.3s ease;
+        }
+
+        .stage-item.inactive {
+            opacity: 0.4;
+            background: rgba(255,255,255,0.1);
+        }
+
+        .stage-item.active {
+            opacity: 1;
+            background: rgba(255,255,255,0.3);
+            border-left-color: #ffd700;
+            box-shadow: 0 0 10px rgba(255,215,0,0.3);
+        }
+
+        .stage-title {
+            font-weight: bold;
+            font-size: 13px;
+            margin-bottom: 4px;
+            color: #fff;
+        }
+
+        .stage-desc {
+            font-size: 11px;
+            color: rgba(255,255,255,0.9);
+        }
+
+        .rules-btn {
+            background: rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        .rules-btn:hover {
+            background: rgba(255,255,255,0.3);
+            border-color: rgba(255,255,255,0.5);
+            transform: scale(1.05);
+        }
+
+        .rules-btn:active {
+            transform: scale(0.95);
+        }
+
+        .rules-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 3000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .rules-modal.active {
+            display: flex;
+        }
+
+        .rules-modal-content {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+            position: relative;
+        }
+
+        .rules-modal-close {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: #fff;
+            font-size: 24px;
+            cursor: pointer;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .rules-modal-close:hover {
+            background: rgba(255,255,255,0.3);
+            transform: rotate(90deg);
+        }
+
+        .rules-modal h2 {
+            color: #fff;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 24px;
+        }
+
+        .rules-section {
+            margin-bottom: 20px;
+        }
+
+        .rules-section h3 {
+            color: #ffd700;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        .rules-section p {
+            color: rgba(255,255,255,0.9);
+            line-height: 1.6;
+            margin-bottom: 8px;
         }
 
         .event-info-section {
@@ -779,31 +958,54 @@
                 <textarea id="prizesInput" placeholder="Mỗi dòng là 1 phần thưởng&#10;Ví dụ:&#10;1. Phần thưởng 1&#10;2. Phần thưởng 2"></textarea>
             </div>
 
-            <div class="event-info-section">
+            <div class="stages-section">
+                <h3>📊 Các Giai Đoạn</h3>
+                <div id="stagesContainer">
+                    <div class="stage-item inactive" id="stage1">
+                        <div class="stage-title" id="stage1Title">Giai đoạn 1</div>
+                        <div class="stage-desc">Hiển thị 33% người chơi</div>
+                    </div>
+                    <div class="stage-item inactive" id="stage2">
+                        <div class="stage-title" id="stage2Title">Giai đoạn 2</div>
+                        <div class="stage-desc">Thêm 33% người chơi (tổng 66%)</div>
+                    </div>
+                    <div class="stage-item inactive" id="stage3">
+                        <div class="stage-title" id="stage3Title">Giai đoạn 3</div>
+                        <div class="stage-desc">Thêm phần còn lại (tổng 100%)</div>
+                    </div>
+                    <div class="stage-item inactive" id="stageLucky">
+                        <div class="stage-title" id="stageLuckyTitle">Người chơi may mắn</div>
+                        <div class="stage-desc">Sau mỗi 7 lượt, 25% người chơi may mắn được thêm vào các ô trống</div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="display: flex; gap: 10px; margin: 10px 0;">
+                <button id="rulesBtn" class="rules-btn" style="flex: 1;">📖 Luật chơi</button>
+                <label for="avatarUpload" class="rules-btn" style="flex: 1; text-align: center; cursor: pointer; display: flex; align-items: center; justify-content: center;">
+                    📷 Upload ảnh
+                    <input type="file" id="avatarUpload" accept="image/*" style="display: none;">
+                </label>
+            </div>
+            <img id="avatarPreview" class="uploaded-image" style="display: none; max-width: 100%; margin: 10px auto; border-radius: 5px;">
+
+            <div class="event-info-section" style="display: none;">
                 <h3>📋 Các Sự Kiện</h3>
                 <div id="luckyCountdown" style="font-size: 11px; color: #ffd700; margin-bottom: 8px; padding: 5px; background: rgba(255,215,0,0.1); border-radius: 4px;">
                     💡 Sau mỗi 7 lượt gieo xí ngầu, 25% người chơi may mắn sẽ được thêm vào các ô trống!
                 </div>
                 <div class="event-info-item movement">⬆️ Di chuyển: Tiến thêm 1-5 ô</div>
-                <div class="event-info-item movement">⬇️ Di chuyển: Lùi 1-3 ô (lùi ở lần gieo xí ngầu tiếp theo)</div>
+                <div class="event-info-item movement">⬇️ Di chuyển: Lùi x ô (lùi ở lần gieo xí ngầu tiếp theo)</div>
                 <div class="event-info-item movement">⬇️ Di chuyển: Nhảy xuống hàng dọc</div>
-                <div class="event-info-item movement">➡️ Di chuyển: Nhảy sang hàng ngang</div>
-                <div class="event-info-item movement">🔙 Di chuyển: Đi ngược về</div>
-                <div class="event-info-item movement">🌀 Di chuyển: Portal - Đi tắt sang ô kia</div>
-                <div class="event-info-item attack">⚔️ Tấn công: Tiêu diệt người chơi ngẫu nhiên</div>
-                <div class="event-info-item attack">⚔️ Tấn công: Tiêu diệt người chơi gần nhất phía trước</div>
-                <div class="event-info-item attack">⚔️ Tấn công: Tiêu diệt người chơi gần nhất phía sau</div>
+                <div class="event-info-item attack">💀 Tấn công: Giết người chơi khi đi qua (áp dụng ở lượt tiếp theo)</div>
+                <div class="event-info-item movement">🌀 Di chuyển: Portal - Đi tắt sang portal ngẫu nhiên (5 portal trên bản đồ)</div>
+                <div class="event-info-item attack">⚔️ Tấn công: Tiêu diệt x người chơi ngẫu nhiên (x: 1-5)</div>
+                <div class="event-info-item attack">⚔️ Tấn công: Tiêu diệt x người chơi gần nhất (x: 1-5)</div>
                 <div class="event-info-item attack">💣 Tấn công: Bom hàng ngang</div>
                 <div class="event-info-item attack">💣 Tấn công: Bom hàng dọc</div>
                 <div class="event-info-item attack">💥 Tấn công: Bom chữ thập (ngang + dọc)</div>
                 <div class="event-info-item attack">💣💥 Tấn công: Bom nảy - nổ x lần mỗi 2-3 ô</div>
                 <div class="event-info-item defense">🛡️ Phòng thủ: Tạo khiên cho 1-3 người chơi ngẫu nhiên + thêm ô khiên</div>
-            </div>
-
-            <div class="file-upload">
-                <label for="avatarUpload">📷 Upload ảnh đại diện quân cờ</label>
-                <input type="file" id="avatarUpload" accept="image/*">
-                <img id="avatarPreview" class="uploaded-image" style="display: none;">
             </div>
 
             <div style="display: flex; gap: 10px; margin: 15px 0;">
@@ -817,7 +1019,12 @@
             </div>
 
             <div class="zone999">
-                <h3>🏆 Kết quả trao thưởng</h3>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                    <h3 style="margin: 0;">🏆 Kết quả trao thưởng</h3>
+                    <button id="copyResultsBtn" class="copy-btn" title="Copy kết quả" style="display: none;">
+                        📋 Copy
+                    </button>
+                </div>
                 <div id="resultsContainer"></div>
             </div>
 
@@ -850,8 +1057,55 @@
         <p id="congratsPrize"></p>
     </div>
 
+    <!-- Modal Luật chơi -->
+    <div class="rules-modal" id="rulesModal">
+        <div class="rules-modal-content">
+            <button class="rules-modal-close" id="rulesModalClose">&times;</button>
+            <h2>📖 Luật Chơi</h2>
+            
+            <div class="rules-section">
+                <h3>🎯 Các Giai Đoạn</h3>
+                <p><strong>Giai đoạn 1:</strong> Ban đầu chỉ hiển thị 33% người chơi (làm tròn xuống)</p>
+                <p><strong>Giai đoạn 2:</strong> Sau 5 lượt gieo xí ngầu, thêm 33% người chơi nữa (tổng 66%)</p>
+                <p><strong>Giai đoạn 3:</strong> Sau 10 lượt gieo xí ngầu, thêm phần còn lại (tổng 100%)</p>
+                <p><strong>Người chơi may mắn:</strong> Từ sau lượt 10, sau mỗi 7 lượt gieo xí ngầu, 25% người chơi may mắn sẽ được thêm vào các ô trống!</p>
+            </div>
+
+            <div class="rules-section">
+                <h3>📋 Các Sự Kiện</h3>
+                
+                <h4 style="color: #4fc3f7; margin-top: 15px; margin-bottom: 8px;">⬆️ Di chuyển:</h4>
+                <p>• <strong>Tiến thêm 1-5 ô:</strong> Quân cờ tiến thêm số ô ngẫu nhiên</p>
+                <p>• <strong>Lùi x ô:</strong> Lùi x ô ở lần gieo xí ngầu tiếp theo (x là số xúc xắc)</p>
+                <p>• <strong>Nhảy xuống hàng dọc:</strong> Nhảy xuống hàng dưới (GRID_COLS ô)</p>
+                <p>• <strong>Portal:</strong> Đi tắt sang portal ngẫu nhiên (5 portal trên bản đồ)</p>
+                
+                <h4 style="color: #ef5350; margin-top: 15px; margin-bottom: 8px;">⚔️ Tấn công:</h4>
+                <p>• <strong>Tiêu diệt x người chơi ngẫu nhiên (x: 1-5):</strong> Chọn ngẫu nhiên x người chơi và tiêu diệt</p>
+                <p>• <strong>Tiêu diệt x người chơi gần nhất (x: 1-5):</strong> Tiêu diệt x người chơi gần nhất (tính cả phía trước và sau)</p>
+                <p>• <strong>Bom hàng ngang:</strong> Tất cả người chơi cùng hàng bị tiêu diệt</p>
+                <p>• <strong>Bom hàng dọc:</strong> Tất cả người chơi cùng cột bị tiêu diệt</p>
+                <p>• <strong>Bom chữ thập:</strong> Tất cả người chơi cùng hàng và cột bị tiêu diệt</p>
+                <p>• <strong>Bom nảy:</strong> Nổ x lần mỗi 2-3 ô, tiêu diệt người chơi tại các vị trí đó</p>
+                <p>• <strong>Giết người chơi khi đi qua:</strong> Những ô đi qua trong lượt đổ xí ngầu tiếp theo sẽ giết những người chơi bị giẫm qua</p>
+                
+                <h4 style="color: #66bb6a; margin-top: 15px; margin-bottom: 8px;">🛡️ Phòng thủ:</h4>
+                <p>• <strong>Tạo khiên:</strong> Tạo khiên cho 1-3 người chơi ngẫu nhiên + thêm số ô khiên bằng 20% (làm tròn xuống) số ô tấn công</p>
+            </div>
+
+            <div class="rules-section" style="margin-top: 30px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.3);">
+                <p style="text-align: center; font-style: italic; color: rgba(255,255,255,0.8);">
+                    Thiết kế bằng AI bởi <a href="https://youtube.com/ncn1992vn" target="_blank" rel="noopener noreferrer" style="color: #ffd700; text-decoration: underline;">Ncn - NguyeZ Gaming</a>
+                </p>
+                <p style="text-align: center; font-style: italic; color: rgba(255,255,255,0.7); margin-top: 10px; font-size: 12px;">
+                    * Nếu có BUG! Thì đấy là một tính năng ẩn mang tính bất ngờ.
+                </p>
+            </div>
+        </div>
+    </div>
+
     <footer class="footer">
-        Design by <a href="https://youtube.com/ncn1992vn" target="_blank" rel="noopener noreferrer">Ncn - NguyeZ Gaming</a>
+        Thiết kế bằng AI bởi <a href="https://youtube.com/ncn1992vn" target="_blank" rel="noopener noreferrer">Ncn - NguyeZ Gaming</a>
     </footer>
 
     <script>
@@ -867,7 +1121,9 @@
         let eventData = {}; // Lưu thông tin event cho mỗi cell
         let playerShields = {}; // Lưu shield cho mỗi player
         let deadPlayers = new Set(); // Lưu danh sách player đã chết
-        let portalPairs = []; // Lưu cặp portal
+        let portalList = []; // Lưu danh sách 5 portal
+        let hasTeleported = false; // Flag để tránh portal teleport lặp lại
+        let shouldKillOnPath = false; // Flag để giết người chơi khi đi qua trong lượt tiếp theo
         let playerWinners = new Set(); // Lưu danh sách player đã trúng thưởng
         let originalPlayers = []; // Lưu danh sách player gốc
         let originalPrizes = []; // Lưu danh sách prize gốc
@@ -1060,25 +1316,22 @@
                 // Định nghĩa các loại event với icon, mô tả và category
                 const movementEvents = [
                     { type: 'move_forward', icon: '⬆️', desc: 'Tiến thêm 1-5 ô', category: 'movement' },
-                    { type: 'move_backward', icon: '⬇️', desc: 'Lùi 1-3 ô', category: 'movement' },
+                    { type: 'move_backward', icon: '⬇️', desc: 'Lùi x ô (lùi ở lần gieo xí ngầu tiếp theo)', category: 'movement' },
                     { type: 'jump_row', icon: '⬇️', desc: 'Nhảy xuống hàng dọc', category: 'movement' },
-                    { type: 'jump_col', icon: '➡️', desc: 'Nhảy sang hàng ngang', category: 'movement' },
-                    { type: 'go_back', icon: '🔙', desc: 'Đi ngược về', category: 'movement' }
+                    { type: 'kill_on_path', icon: '💀', desc: 'Giết người chơi khi đi qua (áp dụng ở lượt tiếp theo)', category: 'attack' },
                 ];
                 
                 // Tấn công - tăng gấp đôi tần suất bằng cách duplicate
                 const attackEvents = [
-                    { type: 'kill_random', icon: '⚔️', desc: 'Tiêu diệt người chơi ngẫu nhiên', category: 'attack' },
-                    { type: 'kill_forward', icon: '⚔️', desc: 'Tiêu diệt người chơi gần nhất phía trước', category: 'attack' },
-                    { type: 'kill_backward', icon: '⚔️', desc: 'Tiêu diệt người chơi gần nhất phía sau', category: 'attack' },
+                    { type: 'kill_random', icon: '⚔️', desc: 'Tiêu diệt x người chơi ngẫu nhiên (x: 1-5)', category: 'attack' },
+                    { type: 'kill_nearest', icon: '⚔️', desc: 'Tiêu diệt x người chơi gần nhất (x: 1-5)', category: 'attack' },
                     { type: 'bomb_row', icon: '💣', desc: 'Bom hàng ngang', category: 'attack' },
                     { type: 'bomb_col', icon: '💣', desc: 'Bom hàng dọc', category: 'attack' },
                     { type: 'bomb_cross', icon: '💥', desc: 'Bom chữ thập (ngang + dọc)', category: 'attack' },
                     { type: 'bouncing_bomb', icon: '💣💥', desc: 'Bom nảy - nổ x lần mỗi 2-3 ô', category: 'attack' },
                     // Duplicate để tăng gấp đôi tần suất
-                    { type: 'kill_random', icon: '⚔️', desc: 'Tiêu diệt người chơi ngẫu nhiên', category: 'attack' },
-                    { type: 'kill_forward', icon: '⚔️', desc: 'Tiêu diệt người chơi gần nhất phía trước', category: 'attack' },
-                    { type: 'kill_backward', icon: '⚔️', desc: 'Tiêu diệt người chơi gần nhất phía sau', category: 'attack' },
+                    { type: 'kill_random', icon: '⚔️', desc: 'Tiêu diệt x người chơi ngẫu nhiên (x: 1-5)', category: 'attack' },
+                    { type: 'kill_nearest', icon: '⚔️', desc: 'Tiêu diệt x người chơi gần nhất (x: 1-5)', category: 'attack' },
                     { type: 'bomb_row', icon: '💣', desc: 'Bom hàng ngang', category: 'attack' },
                     { type: 'bomb_col', icon: '💣', desc: 'Bom hàng dọc', category: 'attack' },
                     { type: 'bomb_cross', icon: '💥', desc: 'Bom chữ thập (ngang + dọc)', category: 'attack' },
@@ -1092,23 +1345,23 @@
                 // Gộp tất cả event types
                 const eventTypes = [...movementEvents, ...attackEvents, ...defenseEvents];
 
-                // Tạo 2 portal (trước khi tạo event cells khác)
-                portalPairs = [];
+                // Tạo 5 portal ngẫu nhiên (trước khi tạo event cells khác)
+                portalList = [];
                 const portalIndices = [];
-                while (portalIndices.length < 2) {
+                while (portalIndices.length < 5) {
                     const idx = Math.floor(Math.random() * TOTAL_CELLS);
                     if (!eventIndices.includes(idx) && idx !== 0 && !portalIndices.includes(idx)) {
                         portalIndices.push(idx);
                         eventIndices.push(idx); // Thêm vào eventIndices để không bị trùng
                     }
                 }
-                portalPairs = [portalIndices[0], portalIndices[1]];
+                portalList = portalIndices;
 
                 eventIndices.forEach(idx => {
                     let eventInfo;
-                    if (portalPairs.includes(idx)) {
+                    if (portalList.includes(idx)) {
                         // Portal
-                        eventInfo = { type: 'portal', icon: '🌀', desc: 'Portal - Đi tắt sang ô kia', category: 'movement' };
+                        eventInfo = { type: 'portal', icon: '🌀', desc: 'Portal - Đi tắt sang portal ngẫu nhiên', category: 'movement' };
                     } else {
                         eventInfo = eventTypes[Math.floor(Math.random() * eventTypes.length)];
                     }
@@ -1151,13 +1404,21 @@
                 return; // Không còn người chơi nào
             }
 
-            // Tính số lượng player cần phân bổ (tỉ lệ ban đầu ít hơn)
-            // Tỉ lệ ban đầu: 15% số ô trống, tối thiểu bằng số người chơi
-            const minPlayerCells = Math.max(eligiblePlayerIndices.length, Math.floor(availableCells.length * 0.15));
+            // Tính số lượng player cần phân bổ theo giai đoạn
+            // Ban đầu: 33% người chơi
+            // Sau 5 lượt: thêm 33% nữa (tổng 66%)
+            // Sau 10 lượt: thêm phần còn lại (100%)
+            let playerPercentage = 0.33; // 33% ban đầu
+            if (turnCount >= 10) {
+                playerPercentage = 1.0; // 100% sau lượt 10
+            } else if (turnCount >= 5) {
+                playerPercentage = 0.66; // 66% sau lượt 5
+            }
+            
             const targetPlayerCount = Math.min(
                 Math.max(
-                    Math.ceil(eligiblePlayerIndices.length * playerRepeatMultiplier),
-                    minPlayerCells
+                    Math.floor(eligiblePlayerIndices.length * playerPercentage),
+                    1 // Tối thiểu 1 người chơi
                 ),
                 availableCells.length
             );
@@ -1392,6 +1653,8 @@
             const diceResult = document.getElementById('diceResult');
             const diceBtn = document.getElementById('diceBtn');
             
+            hasTeleported = false; // Reset flag portal khi bắt đầu lượt mới
+            // Không reset shouldKillOnPath ở đây vì nó chỉ áp dụng cho lượt tiếp theo
             diceContainer.classList.add('active');
             diceResult.textContent = 'Đang xúc xắc...';
 
@@ -1415,8 +1678,19 @@
                     // Cập nhật countdown
                     updateLuckyCountdown();
                     
-                    // Kiểm tra và tăng cơ hội sau mỗi 7 lượt gieo xí ngầu
-                    if (turnCount > 0 && turnCount % 7 === 0) {
+                    // Tự động thêm người chơi ở lượt 5 và 10
+                    if (turnCount === 5) {
+                        distributePlayers(false);
+                        addToHistory(`📊 Đã thêm người chơi đến 66% tổng số người chơi!`, false);
+                        updateStages(); // Cập nhật giai đoạn 2
+                    } else if (turnCount === 10) {
+                        distributePlayers(false);
+                        addToHistory(`📊 Đã thêm người chơi đến 100% tổng số người chơi!`, false);
+                        updateStages(); // Cập nhật giai đoạn 3
+                    }
+                    
+                    // Kiểm tra và tăng cơ hội sau mỗi 7 lượt gieo xí ngầu (chỉ sau lượt 10)
+                    if (turnCount > 10 && turnCount % 7 === 0) {
                         // Chọn ngẫu nhiên 25% người chơi (làm tròn lên) và thêm vào các ô trống
                         const eligiblePlayers = [];
                         for (let i = 0; i < originalPlayers.length; i++) {
@@ -1483,7 +1757,7 @@
                                 const luckyMessage = `🍀 Sau ${turnCount} lượt gieo xí ngầu! ${addedCount} người chơi may mắn được thêm vào: ${addedPlayers.join(', ')}`;
                                 showEvent(luckyMessage);
                                 addToHistory(luckyMessage, false);
-                                updateLuckyCountdown(); // Cập nhật countdown sau khi thêm
+                                updateStages(); // Cập nhật giai đoạn may mắn
                                 saveGameData();
                             }
                         }
@@ -1564,6 +1838,16 @@
                     cells[nextPos].classList.add('current');
                     cells[nextPos].classList.add('visited');
 
+                    // Nếu có flag shouldKillOnPath, giết người chơi khi đi qua
+                    if (shouldKillOnPath && cells[nextPos].dataset.type === 'player' && !cells[nextPos].classList.contains('dead')) {
+                        const pIdx = parseInt(cells[nextPos].dataset.playerIndex);
+                        const cellKey = cells[nextPos].dataset.cellKey;
+                        if (!playerWinners.has(pIdx) && !deadPlayers.has(cellKey) && !deadPlayers.has(pIdx)) {
+                            killPlayer(pIdx, nextPos);
+                            playSound('kill');
+                        }
+                    }
+
                     // Scroll đến ô hiện tại
                     cells[nextPos].scrollIntoView({ behavior: 'smooth', block: 'center' });
                     
@@ -1573,12 +1857,21 @@
                     // Kiểm tra đã đến đích chưa
                     if (stepsTaken === totalSteps) {
                         clearInterval(moveInterval);
+                        // Reset flag sau khi di chuyển xong
+                        if (shouldKillOnPath) {
+                            shouldKillOnPath = false;
+                        }
                         setTimeout(() => {
                             handleCellLanding(targetPosition);
                         }, 300);
                     }
                 } else {
                     clearInterval(moveInterval);
+                    // Reset flag sau khi di chuyển xong
+                    if (shouldKillOnPath) {
+                        shouldKillOnPath = false;
+                        addToHistory('💀 Đã kết thúc hiệu ứng giết người chơi khi đi qua!', false);
+                    }
                     setTimeout(() => {
                         handleCellLanding(currentPosition);
                     }, 300);
@@ -1707,24 +2000,21 @@
                     // Định nghĩa các loại event (tăng gấp đôi tần suất attack)
                     const movementEvents = [
                         { type: 'move_forward', icon: '⬆️', desc: 'Tiến thêm 1-5 ô', category: 'movement' },
-                        { type: 'move_backward', icon: '⬇️', desc: 'Lùi 1-3 ô', category: 'movement' },
+                        { type: 'move_backward', icon: '⬇️', desc: 'Lùi x ô (lùi ở lần gieo xí ngầu tiếp theo)', category: 'movement' },
                         { type: 'jump_row', icon: '⬇️', desc: 'Nhảy xuống hàng dọc', category: 'movement' },
-                        { type: 'jump_col', icon: '➡️', desc: 'Nhảy sang hàng ngang', category: 'movement' },
-                        { type: 'go_back', icon: '🔙', desc: 'Đi ngược về', category: 'movement' }
+                        { type: 'kill_on_path', icon: '💀', desc: 'Giết người chơi khi đi qua (áp dụng ở lượt tiếp theo)', category: 'attack' },
                     ];
                     
                     const attackEvents = [
-                        { type: 'kill_random', icon: '⚔️', desc: 'Tiêu diệt người chơi ngẫu nhiên', category: 'attack' },
-                        { type: 'kill_forward', icon: '⚔️', desc: 'Tiêu diệt người chơi gần nhất phía trước', category: 'attack' },
-                        { type: 'kill_backward', icon: '⚔️', desc: 'Tiêu diệt người chơi gần nhất phía sau', category: 'attack' },
+                        { type: 'kill_random', icon: '⚔️', desc: 'Tiêu diệt x người chơi ngẫu nhiên (x: 1-4)', category: 'attack' },
+                        { type: 'kill_nearest', icon: '⚔️', desc: 'Tiêu diệt x người chơi gần nhất (x: 1-4)', category: 'attack' },
                         { type: 'bomb_row', icon: '💣', desc: 'Bom hàng ngang', category: 'attack' },
                         { type: 'bomb_col', icon: '💣', desc: 'Bom hàng dọc', category: 'attack' },
                         { type: 'bomb_cross', icon: '💥', desc: 'Bom chữ thập (ngang + dọc)', category: 'attack' },
                         { type: 'bouncing_bomb', icon: '💣💥', desc: 'Bom nảy - nổ x lần mỗi 2-3 ô', category: 'attack' },
                         // Duplicate để tăng gấp đôi tần suất
-                        { type: 'kill_random', icon: '⚔️', desc: 'Tiêu diệt người chơi ngẫu nhiên', category: 'attack' },
-                        { type: 'kill_forward', icon: '⚔️', desc: 'Tiêu diệt người chơi gần nhất phía trước', category: 'attack' },
-                        { type: 'kill_backward', icon: '⚔️', desc: 'Tiêu diệt người chơi gần nhất phía sau', category: 'attack' },
+                        { type: 'kill_random', icon: '⚔️', desc: 'Tiêu diệt x người chơi ngẫu nhiên (x: 1-4)', category: 'attack' },
+                        { type: 'kill_nearest', icon: '⚔️', desc: 'Tiêu diệt x người chơi gần nhất (x: 1-4)', category: 'attack' },
                         { type: 'bomb_row', icon: '💣', desc: 'Bom hàng ngang', category: 'attack' },
                         { type: 'bomb_col', icon: '💣', desc: 'Bom hàng dọc', category: 'attack' },
                         { type: 'bomb_cross', icon: '💥', desc: 'Bom chữ thập (ngang + dọc)', category: 'attack' },
@@ -1737,23 +2027,23 @@
                     
                     const eventTypes = [...movementEvents, ...attackEvents, ...defenseEvents];
                     
-                    // Tạo 2 portal
-                    portalPairs = [];
+                    // Tạo 5 portal ngẫu nhiên
+                    portalList = [];
                     const portalIndices = [];
-                    while (portalIndices.length < 2) {
+                    while (portalIndices.length < 5) {
                         const idx = Math.floor(Math.random() * TOTAL_CELLS);
                         if (!newEventIndices.includes(idx) && idx !== 0 && !portalIndices.includes(idx)) {
                             portalIndices.push(idx);
                             newEventIndices.push(idx);
                         }
                     }
-                    portalPairs = [portalIndices[0], portalIndices[1]];
+                    portalList = portalIndices;
                     
                     // Tạo event cells
                     newEventIndices.forEach(idx => {
                         let eventInfo;
-                        if (portalPairs.includes(idx)) {
-                            eventInfo = { type: 'portal', icon: '🌀', desc: 'Portal - Đi tắt sang ô kia', category: 'movement' };
+                        if (portalList.includes(idx)) {
+                            eventInfo = { type: 'portal', icon: '🌀', desc: 'Portal - Đi tắt sang portal ngẫu nhiên', category: 'movement' };
                         } else {
                             eventInfo = eventTypes[Math.floor(Math.random() * eventTypes.length)];
                         }
@@ -1905,27 +2195,18 @@
                     }, 1500);
                     return;
 
-                case 'jump_col':
-                    // Nhảy sang hàng ngang (1 ô sang phải)
-                    message = `➡️ ${eventInfo.desc}`;
+                case 'kill_on_path':
+                    // Đánh dấu sẽ giết người chơi khi đi qua trong lượt tiếp theo
+                    shouldKillOnPath = true;
+                    message = `💀 ${eventInfo.desc} - Sẽ giết người chơi khi đi qua ở lượt tiếp theo!`;
                     showEvent(message);
+                    playSound('event');
                     setTimeout(() => {
-                        isMoving = true;
-                        movePiece(1);
+                        isMoving = false;
+                        diceBtn.disabled = false;
                     }, 1500);
                     return;
 
-                case 'go_back':
-                    // Đi ngược về
-                    message = `🔙 ${eventInfo.desc}`;
-                    showEvent(message);
-                    setTimeout(() => {
-                        isMoving = true;
-                        // Tính số bước để quay về ô 0 (hoặc gần nhất)
-                        const backSteps = currentPosition;
-                        movePiece(-backSteps);
-                    }, 1500);
-                    return;
 
                 case 'bouncing_bomb':
                     // Bom nảy - nổ x lần mỗi 2 hoặc 3 ô
@@ -1937,6 +2218,7 @@
                     setTimeout(() => {
                         let killed = false;
                         const startPos = position;
+                        const affectedCells = []; // Lưu các ô bị ảnh hưởng
                         
                         // Nổ bom tại các vị trí cách nhau bombInterval ô
                         for (let i = 0; i < bombTimes; i++) {
@@ -1945,12 +2227,19 @@
                                 const pIdx = parseInt(cells[bombPos].dataset.playerIndex);
                                 const cellKey = cells[bombPos].dataset.cellKey;
                                 if (!playerWinners.has(pIdx) && !deadPlayers.has(cellKey) && !deadPlayers.has(pIdx)) {
-                                    if (killPlayer(pIdx, bombPos)) killed = true;
+                                    if (killPlayer(pIdx, bombPos)) {
+                                        killed = true;
+                                        affectedCells.push(bombPos + 1); // Lưu số ô (bắt đầu từ 1)
+                                    }
                                 }
                             }
                         }
                         
-                        if (!killed) {
+                        // Ghi vào lịch sử
+                        if (killed && affectedCells.length > 0) {
+                            const historyMessage = `💣💥 Bom nảy - nổ ${bombTimes} lần mỗi ${bombInterval} ô (các ô ${affectedCells.join(', ')})`;
+                            addToHistory(historyMessage, false);
+                        } else {
                             showEvent('💣💥 Bom nảy không trúng người chơi nào!');
                         }
                         
@@ -1961,22 +2250,55 @@
                     return;
 
                 case 'portal':
-                    // Portal - đi tắt sang ô kia
+                    // Portal - đi tắt sang portal ngẫu nhiên (tránh lặp lại)
+                    if (hasTeleported) {
+                        // Đã teleport rồi, không teleport nữa
+                        message = `🌀 ${eventInfo.desc}`;
+                        showEvent(message);
+                        playSound('event');
+                        isMoving = false;
+                        diceBtn.disabled = false;
+                        return;
+                    }
+                    
                     message = `🌀 ${eventInfo.desc}`;
                     showEvent(message);
+                    playSound('event');
                     setTimeout(() => {
-                        const otherPortal = portalPairs.find(p => p !== position);
-                        if (otherPortal !== undefined) {
+                        // Chọn ngẫu nhiên 1 portal khác (không phải portal hiện tại)
+                        const otherPortals = portalList.filter(p => p !== position);
+                        if (otherPortals.length > 0) {
+                            const randomPortal = otherPortals[Math.floor(Math.random() * otherPortals.length)];
+                            hasTeleported = true; // Đánh dấu đã teleport
+                            
                             cells[currentPosition].classList.remove('current');
-                            currentPosition = otherPortal;
+                            currentPosition = randomPortal;
                             if (gamePiece && gamePiece.parentNode) {
                                 gamePiece.parentNode.removeChild(gamePiece);
                             }
                             cells[currentPosition].appendChild(gamePiece);
                             cells[currentPosition].classList.add('current');
                             cells[currentPosition].scrollIntoView({ behavior: 'smooth', block: 'center' });
-                            showEvent(`🌀 Đã dịch chuyển đến ô ${otherPortal + 1}!`);
-                            setTimeout(() => handleCellLanding(currentPosition), 1000);
+                            showEvent(`🌀 Đã dịch chuyển đến ô ${randomPortal + 1}!`);
+                            
+                            // Kiểm tra ô đích, nếu không phải portal thì mới xử lý landing
+                            setTimeout(() => {
+                                const targetCellType = cells[currentPosition].dataset.eventType;
+                                if (targetCellType !== 'portal') {
+                                    // Reset flag và xử lý landing bình thường
+                                    hasTeleported = false;
+                                    handleCellLanding(currentPosition);
+                                } else {
+                                    // Nếu ô đích cũng là portal, chỉ reset flag và kết thúc lượt
+                                    hasTeleported = false;
+                                    isMoving = false;
+                                    diceBtn.disabled = false;
+                                }
+                            }, 1000);
+                        } else {
+                            hasTeleported = false;
+                            isMoving = false;
+                            diceBtn.disabled = false;
                         }
                     }, 1500);
                     return;
@@ -1998,8 +2320,18 @@
                             }
                         }
                         if (aliveCells.length > 0) {
-                            const random = aliveCells[Math.floor(Math.random() * aliveCells.length)];
-                            killPlayer(random.playerIndex, random.cellIndex);
+                            // Chọn x người chơi ngẫu nhiên (x từ 1-5)
+                            const killCount = Math.min(Math.floor(Math.random() * 5) + 1, aliveCells.length);
+                            const shuffled = [...aliveCells].sort(() => Math.random() - 0.5);
+                            const selected = shuffled.slice(0, killCount);
+                            
+                            selected.forEach(({ playerIndex, cellIndex }) => {
+                                killPlayer(playerIndex, cellIndex);
+                            });
+                            
+                            if (selected.length > 0) {
+                                addToHistory(`⚔️ Đã tiêu diệt ${selected.length} người chơi ngẫu nhiên!`, false);
+                            }
                         }
                         checkAndRevivePlayers();
                         isMoving = false;
@@ -2007,31 +2339,44 @@
                     }, 1500);
                     return;
 
-                case 'kill_forward':
+                case 'kill_nearest':
                     message = `⚔️ ${eventInfo.desc}`;
                     showEvent(message);
                     playSound('event');
                     setTimeout(() => {
-                        const nearest = findNearestPlayer(position, 'forward');
-                        if (nearest !== -1) {
-                            const pIdx = parseInt(cells[nearest].dataset.playerIndex);
-                            killPlayer(pIdx, nearest);
+                        // Tìm tất cả người chơi còn sống và tính khoảng cách
+                        const playersWithDistance = [];
+                        for (let i = 0; i < cells.length; i++) {
+                            if (cells[i].dataset.type === 'player' && !cells[i].classList.contains('dead')) {
+                                const pIdx = parseInt(cells[i].dataset.playerIndex);
+                                const cellKey = cells[i].dataset.cellKey;
+                                if (!deadPlayers.has(cellKey) && !deadPlayers.has(pIdx) && !playerWinners.has(pIdx)) {
+                                    // Tính khoảng cách (cả phía trước và sau, ưu tiên khoảng cách ngắn nhất)
+                                    const forwardDist = i > position ? (i - position) : (i + TOTAL_CELLS - position);
+                                    const backwardDist = i < position ? (position - i) : (position + TOTAL_CELLS - i);
+                                    const distance = Math.min(forwardDist, backwardDist);
+                                    if (distance > 0) {
+                                        playersWithDistance.push({ cellIndex: i, playerIndex: pIdx, distance: distance });
+                                    }
+                                }
+                            }
                         }
-                        checkAndRevivePlayers();
-                        isMoving = false;
-                        diceBtn.disabled = false;
-                    }, 1500);
-                    return;
-
-                case 'kill_backward':
-                    message = `⚔️ ${eventInfo.desc}`;
-                    showEvent(message);
-                    playSound('event');
-                    setTimeout(() => {
-                        const nearest = findNearestPlayer(position, 'backward');
-                        if (nearest !== -1) {
-                            const pIdx = parseInt(cells[nearest].dataset.playerIndex);
-                            killPlayer(pIdx, nearest);
+                        
+                        if (playersWithDistance.length > 0) {
+                            // Sắp xếp theo khoảng cách (gần nhất trước)
+                            playersWithDistance.sort((a, b) => a.distance - b.distance);
+                            
+                            // Chọn x người chơi gần nhất (x từ 1-5)
+                            const killCount = Math.min(Math.floor(Math.random() * 5) + 1, playersWithDistance.length);
+                            const selected = playersWithDistance.slice(0, killCount);
+                            
+                            selected.forEach(({ playerIndex, cellIndex }) => {
+                                killPlayer(playerIndex, cellIndex);
+                            });
+                            
+                            if (selected.length > 0) {
+                                addToHistory(`⚔️ Đã tiêu diệt ${selected.length} người chơi gần nhất!`, false);
+                            }
                         }
                         checkAndRevivePlayers();
                         isMoving = false;
@@ -2126,7 +2471,7 @@
                         for (let i = 0; i < cells.length; i++) {
                             if (cells[i].dataset.type === 'event') {
                                 const eventType = cells[i].dataset.eventType;
-                                if (eventType && (eventType.startsWith('kill_') || eventType.startsWith('bomb_') || eventType === 'bouncing_bomb')) {
+                                if (eventType && (eventType === 'kill_random' || eventType === 'kill_nearest' || eventType === 'kill_on_path' || eventType.startsWith('bomb_') || eventType === 'bouncing_bomb')) {
                                     attackCellCount++;
                                 }
                             }
@@ -2251,6 +2596,12 @@
             `;
             resultsContainer.appendChild(resultItem);
             resultsContainer.scrollTop = resultsContainer.scrollHeight;
+
+            // Hiển thị nút copy nếu có kết quả
+            const copyBtn = document.getElementById('copyResultsBtn');
+            if (copyBtn) {
+                copyBtn.style.display = 'block';
+            }
 
             // Thêm vào lịch sử với thông tin người chiến thắng
             addToHistory(`🏆 ${player} trúng thưởng: ${prize}`, false);
@@ -2394,9 +2745,10 @@
                 historyHTML: document.getElementById('historyContainer').innerHTML,
                 avatarImage: avatarImage,
                 shouldMoveBackward: shouldMoveBackward,
+                shouldKillOnPath: shouldKillOnPath,
                 eventCells: eventCells,
                 eventData: eventData,
-                portalPairs: portalPairs,
+                portalList: portalList,
                 wonCells: wonCells
             };
                 localStorage.setItem('giveAwayGameData', JSON.stringify(gameData));
@@ -2439,14 +2791,29 @@
                         currentPosition = gameData.currentPosition || 0;
                         avatarImage = gameData.avatarImage || null;
                         shouldMoveBackward = gameData.shouldMoveBackward || false;
+                        shouldKillOnPath = gameData.shouldKillOnPath || false;
                         eventCells = gameData.eventCells || [];
                         eventData = gameData.eventData || {};
-                        portalPairs = gameData.portalPairs || [];
+                        // Hỗ trợ cả portalPairs (cũ) và portalList (mới) để tương thích ngược
+                        if (gameData.portalList) {
+                            portalList = gameData.portalList;
+                        } else if (gameData.portalPairs) {
+                            // Chuyển đổi từ portalPairs cũ sang portalList
+                            portalList = gameData.portalPairs;
+                        } else {
+                            portalList = [];
+                        }
                         const wonCells = gameData.wonCells || [];
                         
                         // Khôi phục kết quả và lịch sử
                         if (gameData.resultsHTML) {
                             document.getElementById('resultsContainer').innerHTML = gameData.resultsHTML;
+                            // Hiển thị nút copy nếu có kết quả
+                            const resultsContainer = document.getElementById('resultsContainer');
+                            const copyBtn = document.getElementById('copyResultsBtn');
+                            if (copyBtn && resultsContainer.querySelectorAll('.result-item').length > 0) {
+                                copyBtn.style.display = 'block';
+                            }
                         }
                         if (gameData.historyHTML) {
                             document.getElementById('historyContainer').innerHTML = gameData.historyHTML;
@@ -2507,12 +2874,12 @@
                         document.getElementById('diceBtn').style.display = 'block';
                         document.getElementById('startBtn').style.display = 'none';
                         
-                        // Cập nhật countdown
-                        updateLuckyCountdown();
+                        // Cập nhật các giai đoạn
+                        updateStages();
                     }
                     
                     checkStartButton();
-                    updateLuckyCountdown();
+                    updateStages();
                 } catch (e) {
                     console.error('Lỗi khi load dữ liệu:', e);
                 }
@@ -2536,6 +2903,7 @@
                 document.getElementById('startBtn').disabled = true;
                 document.getElementById('startBtn').style.opacity = '0.5';
                 document.getElementById('startBtn').style.cursor = 'not-allowed';
+                document.getElementById('copyResultsBtn').style.display = 'none';
                 
                 originalPlayers = [];
                 originalPrizes = [];
@@ -2554,6 +2922,9 @@
                 gameStarted = false;
                 avatarImage = null;
                 shouldMoveBackward = false;
+                shouldKillOnPath = false;
+                portalList = [];
+                hasTeleported = false;
                 
                 initGrid();
                 checkStartButton();
@@ -2564,32 +2935,169 @@
         // Nút XÓA TẤT CẢ
         document.getElementById('clearBtn').addEventListener('click', clearAllData);
 
-        // Lưu dữ liệu định kỳ và khi có sự kiện
-        setInterval(saveGameData, 5000); // Lưu mỗi 5 giây
-
-        // Cập nhật countdown lượt may mắn
-        function updateLuckyCountdown() {
-            const countdownEl = document.getElementById('luckyCountdown');
-            if (!countdownEl) return;
+        // Nút Copy kết quả
+        document.getElementById('copyResultsBtn').addEventListener('click', function() {
+            const resultsContainer = document.getElementById('resultsContainer');
+            const resultItems = resultsContainer.querySelectorAll('.result-item');
             
-            if (turnCount === 0) {
-                countdownEl.textContent = '💡 Sau mỗi 7 lượt gieo xí ngầu, 25% người chơi may mắn sẽ được thêm vào các ô trống! (Còn 7 lượt)';
+            if (resultItems.length === 0) {
+                alert('Chưa có kết quả nào để copy!');
                 return;
             }
             
-            const remaining = 7 - (turnCount % 7);
-            if (remaining === 7) {
-                countdownEl.textContent = '💡 Sau mỗi 7 lượt gieo xí ngầu, 25% người chơi may mắn sẽ được thêm vào các ô trống! (Đến lượt!)';
+            // Tạo text để copy
+            let textToCopy = '🏆 KẾT QUẢ TRAO THƯỞNG\n';
+            textToCopy += '='.repeat(30) + '\n\n';
+            
+            resultItems.forEach((item, index) => {
+                const spans = item.querySelectorAll('span');
+                if (spans.length >= 2) {
+                    const player = spans[0].textContent.trim();
+                    const prize = spans[1].textContent.trim();
+                    textToCopy += `${index + 1}. ${player} - ${prize}\n`;
+                }
+            });
+            
+            // Copy vào clipboard
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                // Thông báo thành công
+                const btn = document.getElementById('copyResultsBtn');
+                const originalText = btn.textContent;
+                btn.textContent = '✅ Đã copy!';
+                btn.style.background = 'rgba(76, 175, 80, 0.3)';
+                
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.style.background = 'rgba(255,255,255,0.2)';
+                }, 2000);
+            }).catch(err => {
+                console.error('Lỗi khi copy:', err);
+                alert('Không thể copy kết quả. Vui lòng thử lại!');
+            });
+        });
+
+        // Lưu dữ liệu định kỳ và khi có sự kiện
+        setInterval(saveGameData, 5000); // Lưu mỗi 5 giây
+
+        // Cập nhật trạng thái các giai đoạn
+        function updateStages() {
+            const stage1 = document.getElementById('stage1');
+            const stage2 = document.getElementById('stage2');
+            const stage3 = document.getElementById('stage3');
+            const stageLucky = document.getElementById('stageLucky');
+            const stage1Title = document.getElementById('stage1Title');
+            const stage2Title = document.getElementById('stage2Title');
+            const stage3Title = document.getElementById('stage3Title');
+            const stageLuckyTitle = document.getElementById('stageLuckyTitle');
+            
+            if (!stage1 || !stage2 || !stage3 || !stageLucky) return;
+            
+            // Reset tất cả về inactive
+            stage1.classList.remove('active');
+            stage2.classList.remove('active');
+            stage3.classList.remove('active');
+            stageLucky.classList.remove('active');
+            
+            // Cập nhật countdown và trạng thái theo turnCount
+            if (turnCount < 5) {
+                stage1.classList.add('active');
+                if (stage1Title) {
+                    stage1Title.textContent = `Giai đoạn 1 (⏱️ còn ${5 - turnCount} lượt)`;
+                }
+                if (stage2Title) {
+                    stage2Title.textContent = `Giai đoạn 2 (⏱️ còn ${5 - turnCount} lượt)`;
+                }
+                if (stage3Title) {
+                    stage3Title.textContent = `Giai đoạn 3 (⏱️ còn ${10 - turnCount} lượt)`;
+                }
+                if (stageLuckyTitle) {
+                    stageLuckyTitle.textContent = 'Người chơi may mắn';
+                }
+            } else if (turnCount < 10) {
+                stage1.classList.add('active');
+                stage2.classList.add('active');
+                if (stage1Title) {
+                    stage1Title.textContent = 'Giai đoạn 1 (✅ đã hoàn thành)';
+                }
+                if (stage2Title) {
+                    stage2Title.textContent = `Giai đoạn 2 (⏱️ còn ${10 - turnCount} lượt)`;
+                }
+                if (stage3Title) {
+                    stage3Title.textContent = `Giai đoạn 3 (⏱️ còn ${10 - turnCount} lượt)`;
+                }
+                if (stageLuckyTitle) {
+                    stageLuckyTitle.textContent = 'Người chơi may mắn';
+                }
             } else {
-                countdownEl.textContent = `💡 Sau mỗi 7 lượt gieo xí ngầu, 25% người chơi may mắn sẽ được thêm vào các ô trống! (Còn ${remaining} lượt)`;
+                stage1.classList.add('active');
+                stage2.classList.add('active');
+                stage3.classList.add('active');
+                if (stage1Title) {
+                    stage1Title.textContent = 'Giai đoạn 1 (✅ đã hoàn thành)';
+                }
+                if (stage2Title) {
+                    stage2Title.textContent = 'Giai đoạn 2 (✅ đã hoàn thành)';
+                }
+                if (stage3Title) {
+                    stage3Title.textContent = 'Giai đoạn 3 (✅ đã hoàn thành)';
+                }
+                
+                // Sau lượt 10, hiển thị giai đoạn may mắn
+                if (turnCount > 10) {
+                    stageLucky.classList.add('active');
+                    if (stageLuckyTitle) {
+                        const remaining = 7 - ((turnCount - 10) % 7);
+                        if (remaining === 7) {
+                            stageLuckyTitle.textContent = 'Người chơi may mắn (⏱️ đến lượt!)';
+                        } else {
+                            stageLuckyTitle.textContent = `Người chơi may mắn (⏱️ còn ${remaining} lượt)`;
+                        }
+                    }
+                } else {
+                    if (stageLuckyTitle) {
+                        stageLuckyTitle.textContent = 'Người chơi may mắn';
+                    }
+                }
             }
+        }
+
+        // Cập nhật countdown lượt may mắn (giữ lại để tương thích, nhưng không dùng nữa)
+        function updateLuckyCountdown() {
+            // Không cần cập nhật nữa vì đã chuyển sang stages
+            updateStages();
+        }
+
+        // Xử lý modal Luật chơi
+        const rulesBtn = document.getElementById('rulesBtn');
+        const rulesModal = document.getElementById('rulesModal');
+        const rulesModalClose = document.getElementById('rulesModalClose');
+        
+        if (rulesBtn) {
+            rulesBtn.addEventListener('click', function() {
+                rulesModal.classList.add('active');
+            });
+        }
+        
+        if (rulesModalClose) {
+            rulesModalClose.addEventListener('click', function() {
+                rulesModal.classList.remove('active');
+            });
+        }
+        
+        // Đóng modal khi click bên ngoài
+        if (rulesModal) {
+            rulesModal.addEventListener('click', function(e) {
+                if (e.target === rulesModal) {
+                    rulesModal.classList.remove('active');
+                }
+            });
         }
 
         // Khởi tạo
         initGrid();
         checkStartButton(); // Kiểm tra trạng thái nút khi trang load
         loadGameData(); // Load dữ liệu khi trang load
-        updateLuckyCountdown(); // Cập nhật countdown khi trang load
+        updateStages(); // Cập nhật các giai đoạn khi trang load
     </script>
 </body>
 </html>
