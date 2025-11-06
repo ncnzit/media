@@ -260,6 +260,19 @@
             line-height: 1.2;
         }
 
+        /* Đảm bảo số thứ tự luôn hiển thị cho tất cả cells */
+        .cell.player::after {
+            content: attr(data-cell-number);
+            position: absolute;
+            bottom: 3px;
+            right: 5px;
+            font-size: 14px;
+            color: rgba(0,0,0,0.5);
+            font-weight: bold;
+            line-height: 1;
+            z-index: 5;
+        }
+
         .cell.player.dead {
             background: #3c3c3c;
             color: #ecf0f1;
@@ -272,6 +285,20 @@
             margin-right: 2px;
         }
 
+        /* Đảm bảo số thứ tự hiển thị cho dead cells */
+        .cell.player.dead::after {
+            content: attr(data-cell-number);
+            position: absolute;
+            bottom: 3px;
+            right: 5px;
+            font-size: 14px;
+            color: rgba(255,255,255,0.7);
+            font-weight: bold;
+            line-height: 1;
+            z-index: 5;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+        }
+
         .cell.player.winner {
             background: #f39c12;
             color: #2c3e50;
@@ -282,6 +309,20 @@
             content: "🏆 ";
             font-size: 20px;
             margin-right: 2px;
+        }
+
+        /* Đảm bảo số thứ tự hiển thị cho winner cells */
+        .cell.player.winner::after {
+            content: attr(data-cell-number);
+            position: absolute;
+            bottom: 3px;
+            right: 5px;
+            font-size: 14px;
+            color: rgba(0,0,0,0.6);
+            font-weight: bold;
+            line-height: 1;
+            z-index: 5;
+            text-shadow: 1px 1px 2px rgba(255,255,255,0.8);
         }
         
         /* Đảm bảo tên vẫn hiển thị khi có icon cúp */
@@ -309,14 +350,6 @@
             border: 2px solid #c0392b;
         }
 
-        /* Event cells - Phòng thủ (Defense) - Màu flat */
-        .cell.event.defense {
-            background: #2ecc71;
-            font-weight: bold;
-            font-size: 32px;
-            position: relative;
-            border: 2px solid #27ae60;
-        }
 
         .cell.event {
             position: relative;
@@ -360,11 +393,11 @@
         }
 
         .cell[data-event-type="jump_row"]::after {
-            content: "⬇️ Di chuyển: Nhảy xuống hàng dọc";
+            content: "⬇️ Di chuyển: Nhảy xuống hàng dọc: Nhảy xuống hàng dưới";
         }
 
         .cell[data-event-type="kill_on_path"]::after {
-            content: "💀 Tấn công: Những ô đi qua trong lượt đổ xí ngầu tiếp theo sẽ giết những người chơi bị giẫm qua";
+            content: "💀 Tấn công: Giẫm đạp - Những ô đi qua trong lượt đổ xí ngầu tiếp theo sẽ tiêu diệt những người chơi bị giẫm qua";
         }
 
 
@@ -377,27 +410,27 @@
         }
 
         .cell[data-event-type="kill_random"]::after {
-            content: "⚔️ Tấn công: Tiêu diệt x người chơi ngẫu nhiên (x: 1-5)";
+            content: "⚔️ Tấn công: Tiêu diệt 1 đến 5 người chơi ngẫu nhiên";
         }
 
         .cell[data-event-type="kill_nearest"]::after {
-            content: "⚔️ Tấn công: Tiêu diệt x người chơi gần nhất (x: 1-5)";
+            content: "⚔️ Tấn công: Tiêu diệt 1 đến 5 người chơi gần nhất";
         }
 
         .cell[data-event-type="bomb_row"]::after {
-            content: "💣 Tấn công: Bom hàng ngang - Người chơi cùng hàng chết hết";
+            content: "💣 Tấn công: Bom hàng ngang - Người chơi cùng hàng bị tiêu diệt hết";
         }
 
         .cell[data-event-type="bomb_col"]::after {
-            content: "💣 Tấn công: Bom hàng dọc - Người chơi cùng cột chết hết";
+            content: "💣 Tấn công: Bom hàng dọc - Người chơi cùng cột bị tiêu diệt hết";
         }
 
         .cell[data-event-type="bomb_cross"]::after {
-            content: "💥 Tấn công: Bom chữ thập - Người chơi cùng hàng và cột chết hết";
+            content: "💥 Tấn công: Bom chữ thập - Người chơi cùng hàng và cột bị tiêu diệt hết";
         }
 
-        .cell[data-event-type="shield"]::after {
-            content: "🛡️ Phòng thủ: Tạo khiên cho 1-3 người chơi ngẫu nhiên + thêm ô khiên (20% số ô tấn công)";
+        .cell[data-event-type="cleanse"]::after {
+            content: "✨ Tấn công: Thanh tẩy - Làm trống ngẫu nhiên x ô (x: 3-10)";
         }
 
         .cell.current {
@@ -408,6 +441,24 @@
 
         .cell.visited {
             background: rgba(0, 0, 0, 0.3);
+        }
+
+        /* Animation cho các ô bị ảnh hưởng bởi sự kiện */
+        .cell.affected {
+            animation: affectedPulse 0.5s ease-in-out infinite;
+            box-shadow: 0 0 20px #ff0000, 0 0 30px #ff0000, 0 0 40px #ff0000;
+            z-index: 50;
+        }
+
+        @keyframes affectedPulse {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 0 0 20px #ff0000, 0 0 30px #ff0000, 0 0 40px #ff0000;
+            }
+            50% {
+                transform: scale(1.1);
+                box-shadow: 0 0 30px #ff0000, 0 0 40px #ff0000, 0 0 50px #ff0000;
+            }
         }
 
         .game-piece {
@@ -941,6 +992,550 @@
         body {
             padding-bottom: 50px;
         }
+
+        /* ============================================
+           RESPONSIVE DESIGN - TABLET (768px - 1024px)
+           ============================================ */
+        @media screen and (max-width: 1024px) and (min-width: 769px) {
+            .container {
+                padding: 15px;
+                gap: 15px;
+            }
+
+            .left-panel {
+                width: 280px;
+                gap: 12px;
+            }
+
+            .title {
+                font-size: 26px;
+                padding: 12px;
+            }
+
+            .input-section h3 {
+                font-size: 16px;
+            }
+
+            .input-section textarea {
+                font-size: 12px;
+                min-height: 70px;
+                max-height: 120px;
+            }
+
+            .start-btn {
+                padding: 12px 24px;
+                font-size: 18px;
+            }
+
+            .game-piece {
+                width: 60px;
+                height: 60px;
+                font-size: 16px;
+            }
+
+            .cell {
+                font-size: 16px;
+            }
+
+            .cell.player {
+                font-size: 15px;
+            }
+
+            .cell.event {
+                font-size: 24px;
+            }
+
+            .cell::after,
+            .cell.event::before {
+                font-size: 12px;
+            }
+
+            .zone999 h3,
+            .stages-section h3,
+            .history-section h3 {
+                font-size: 14px;
+            }
+
+            .stage-title {
+                font-size: 12px;
+            }
+
+            .stage-desc {
+                font-size: 10px;
+            }
+
+            .history-item,
+            .result-item {
+                font-size: 11px;
+                padding: 5px 8px;
+            }
+
+            .rules-modal-content {
+                max-width: 90%;
+                padding: 25px;
+            }
+
+            .rules-modal h2 {
+                font-size: 20px;
+            }
+
+            .rules-section h3 {
+                font-size: 16px;
+            }
+
+            .rules-section p {
+                font-size: 14px;
+            }
+
+            .dice {
+                font-size: 80px;
+            }
+
+            .dice-result {
+                font-size: 20px;
+            }
+
+            .congratulations {
+                padding: 30px 50px;
+            }
+
+            .congratulations h2 {
+                font-size: 28px;
+            }
+
+            .congratulations p {
+                font-size: 20px;
+            }
+        }
+
+        /* ============================================
+           RESPONSIVE DESIGN - MOBILE (< 768px)
+           ============================================ */
+        @media screen and (max-width: 768px) {
+            body {
+                overflow-y: auto;
+                overflow-x: hidden;
+                height: auto;
+                min-height: 100vh;
+            }
+
+            .container {
+                flex-direction: column;
+                padding: 10px;
+                gap: 10px;
+                height: auto;
+                min-height: 100vh;
+            }
+
+            .left-panel {
+                width: 100%;
+                max-height: none;
+                overflow-y: visible;
+                order: 1;
+                padding-right: 0;
+            }
+
+            .right-panel {
+                order: 2;
+                width: 100%;
+                min-height: 50vh;
+            }
+
+            .title {
+                font-size: 22px;
+                padding: 10px;
+                margin-bottom: 8px;
+            }
+
+            .input-section {
+                padding: 10px;
+                max-height: none;
+            }
+
+            .input-section.scrollable {
+                max-height: 150px;
+            }
+
+            .input-section h3 {
+                font-size: 14px;
+                margin-bottom: 8px;
+            }
+
+            .input-section textarea {
+                font-size: 13px;
+                min-height: 60px;
+                max-height: 100px;
+                padding: 6px;
+            }
+
+            .start-btn {
+                padding: 12px 20px;
+                font-size: 16px;
+                min-height: 44px; /* Touch-friendly */
+            }
+
+            .rules-btn {
+                padding: 10px 14px;
+                font-size: 13px;
+                min-height: 44px; /* Touch-friendly */
+            }
+
+            .zone3 {
+                padding: 8px;
+                min-height: 400px;
+            }
+
+            .grid-wrapper {
+                min-height: 350px;
+            }
+
+            .game-piece {
+                width: 50px;
+                height: 50px;
+                font-size: 14px;
+            }
+
+            .cell {
+                font-size: 12px;
+                padding: 3px;
+                border-width: 1px;
+            }
+
+            .cell.player {
+                font-size: 11px;
+                line-height: 1.1;
+            }
+
+            .cell.event {
+                font-size: 18px;
+            }
+
+            .cell::after,
+            .cell.event::before {
+                font-size: 9px;
+                bottom: 2px;
+                right: 3px;
+            }
+
+            .cell.event::after {
+                font-size: 10px;
+                padding: 6px 10px;
+                max-width: 200px;
+                white-space: normal;
+                word-wrap: break-word;
+            }
+
+            .grid-label {
+                font-size: 10px;
+            }
+
+            .stages-section {
+                padding: 10px;
+                max-height: 120px;
+            }
+
+            .stages-section h3 {
+                font-size: 13px;
+            }
+
+            .stage-item {
+                padding: 6px 8px;
+            }
+
+            .stage-title {
+                font-size: 11px;
+                margin-bottom: 3px;
+            }
+
+            .stage-desc {
+                font-size: 9px;
+            }
+
+            .zone999 {
+                padding: 10px;
+                max-height: 150px;
+            }
+
+            .zone999 h3 {
+                font-size: 13px;
+            }
+
+            .result-item {
+                font-size: 10px;
+                padding: 4px 6px;
+            }
+
+            .copy-btn {
+                padding: 6px 10px;
+                font-size: 11px;
+                min-height: 32px; /* Touch-friendly */
+            }
+
+            .history-section {
+                padding: 10px;
+                max-height: 150px;
+            }
+
+            .history-section h3 {
+                font-size: 13px;
+            }
+
+            .history-item {
+                font-size: 10px;
+                padding: 4px 6px;
+            }
+
+            .event-display {
+                padding: 10px;
+                min-height: 60px;
+            }
+
+            .event-display h4 {
+                font-size: 14px;
+            }
+
+            .event-display p {
+                font-size: 12px;
+            }
+
+            .dice-btn {
+                padding: 12px 24px;
+                font-size: 16px;
+                min-height: 44px; /* Touch-friendly */
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .dice-container {
+                padding: 20px;
+            }
+
+            .dice {
+                font-size: 60px;
+            }
+
+            .dice-result {
+                font-size: 18px;
+                margin-top: 15px;
+            }
+
+            .congratulations {
+                padding: 20px 30px;
+                max-width: 90%;
+                margin: 0 auto;
+            }
+
+            .congratulations h2 {
+                font-size: 24px;
+                margin-bottom: 10px;
+            }
+
+            .congratulations p {
+                font-size: 16px;
+                margin: 8px 0;
+            }
+
+            .rules-modal-content {
+                max-width: 95%;
+                max-height: 90vh;
+                padding: 20px;
+                margin: 10px;
+            }
+
+            .rules-modal-close {
+                width: 35px;
+                height: 35px;
+                font-size: 28px;
+                top: 8px;
+                right: 10px;
+            }
+
+            .rules-modal h2 {
+                font-size: 18px;
+                margin-bottom: 15px;
+            }
+
+            .rules-section {
+                margin-bottom: 15px;
+            }
+
+            .rules-section h3 {
+                font-size: 14px;
+                margin-bottom: 8px;
+            }
+
+            .rules-section h4 {
+                font-size: 13px;
+                margin-top: 12px;
+                margin-bottom: 6px;
+            }
+
+            .rules-section p {
+                font-size: 12px;
+                line-height: 1.5;
+                margin-bottom: 6px;
+            }
+
+            .footer {
+                padding: 8px 10px;
+                font-size: 12px;
+                position: relative;
+            }
+
+            body {
+                padding-bottom: 60px;
+            }
+
+            /* Touch-friendly spacing */
+            div[style*="display: flex"] {
+                gap: 8px;
+            }
+
+            /* Upload image preview */
+            .uploaded-image {
+                width: 40px;
+                height: 40px;
+            }
+
+            /* Hide hover effects on mobile */
+            .cell:hover {
+                transform: none;
+            }
+
+            .start-btn:hover:not(:disabled),
+            .rules-btn:hover,
+            .copy-btn:hover,
+            .dice-btn:hover {
+                transform: none;
+            }
+        }
+
+        /* ============================================
+           RESPONSIVE DESIGN - SMALL MOBILE (< 480px)
+           ============================================ */
+        @media screen and (max-width: 480px) {
+            .container {
+                padding: 8px;
+                gap: 8px;
+            }
+
+            .title {
+                font-size: 18px;
+                padding: 8px;
+            }
+
+            .input-section {
+                padding: 8px;
+            }
+
+            .input-section h3 {
+                font-size: 13px;
+            }
+
+            .input-section textarea {
+                font-size: 12px;
+                min-height: 50px;
+                max-height: 80px;
+            }
+
+            .start-btn,
+            .dice-btn {
+                font-size: 14px;
+                padding: 10px 16px;
+            }
+
+            .rules-btn {
+                font-size: 12px;
+                padding: 8px 12px;
+            }
+
+            .cell {
+                font-size: 10px;
+            }
+
+            .cell.player {
+                font-size: 10px;
+            }
+
+            .cell.event {
+                font-size: 16px;
+            }
+
+            .cell::after,
+            .cell.event::before {
+                font-size: 8px;
+            }
+
+            .game-piece {
+                width: 40px;
+                height: 40px;
+                font-size: 12px;
+            }
+
+            .zone3 {
+                min-height: 300px;
+            }
+
+            .grid-wrapper {
+                min-height: 280px;
+            }
+
+            .rules-modal-content {
+                padding: 15px;
+            }
+
+            .rules-modal h2 {
+                font-size: 16px;
+            }
+
+            .rules-section h3 {
+                font-size: 13px;
+            }
+
+            .rules-section p {
+                font-size: 11px;
+            }
+
+            .congratulations h2 {
+                font-size: 20px;
+            }
+
+            .congratulations p {
+                font-size: 14px;
+            }
+
+            .dice {
+                font-size: 50px;
+            }
+        }
+
+        /* ============================================
+           LANDSCAPE ORIENTATION - MOBILE
+           ============================================ */
+        @media screen and (max-width: 768px) and (orientation: landscape) {
+            .container {
+                flex-direction: row;
+            }
+
+            .left-panel {
+                width: 35%;
+                max-height: calc(100vh - 20px);
+                overflow-y: auto;
+            }
+
+            .right-panel {
+                width: 65%;
+                min-height: calc(100vh - 20px);
+            }
+
+            .zone3 {
+                min-height: calc(100vh - 100px);
+            }
+
+            .grid-wrapper {
+                min-height: calc(100vh - 150px);
+            }
+        }
     </style>
 </head>
 <body>
@@ -996,16 +1591,16 @@
                 </div>
                 <div class="event-info-item movement">⬆️ Di chuyển: Tiến thêm 1-5 ô</div>
                 <div class="event-info-item movement">⬇️ Di chuyển: Lùi x ô (lùi ở lần gieo xí ngầu tiếp theo)</div>
-                <div class="event-info-item movement">⬇️ Di chuyển: Nhảy xuống hàng dọc</div>
-                <div class="event-info-item attack">💀 Tấn công: Giết người chơi khi đi qua (áp dụng ở lượt tiếp theo)</div>
+                <div class="event-info-item movement">⬇️ Di chuyển: Nhảy xuống hàng dọc: Nhảy xuống hàng dưới</div>
+                <div class="event-info-item attack">💀 Tấn công: Giẫm đạp - Những ô đi qua trong lượt đổ xí ngầu tiếp theo sẽ tiêu diệt những người chơi bị giẫm qua</div>
                 <div class="event-info-item movement">🌀 Di chuyển: Portal - Đi tắt sang portal ngẫu nhiên (5 portal trên bản đồ)</div>
-                <div class="event-info-item attack">⚔️ Tấn công: Tiêu diệt x người chơi ngẫu nhiên (x: 1-5)</div>
-                <div class="event-info-item attack">⚔️ Tấn công: Tiêu diệt x người chơi gần nhất (x: 1-5)</div>
+                <div class="event-info-item attack">⚔️ Tấn công: Tiêu diệt 1 đến 5 người chơi ngẫu nhiên</div>
+                <div class="event-info-item attack">⚔️ Tấn công: Tiêu diệt 1 đến 5 người chơi gần nhất</div>
                 <div class="event-info-item attack">💣 Tấn công: Bom hàng ngang</div>
                 <div class="event-info-item attack">💣 Tấn công: Bom hàng dọc</div>
                 <div class="event-info-item attack">💥 Tấn công: Bom chữ thập (ngang + dọc)</div>
                 <div class="event-info-item attack">💣💥 Tấn công: Bom nảy - nổ x lần mỗi 2-3 ô</div>
-                <div class="event-info-item defense">🛡️ Phòng thủ: Tạo khiên cho 1-3 người chơi ngẫu nhiên + thêm ô khiên</div>
+                <div class="event-info-item attack">✨ Tấn công: Thanh tẩy - Làm trống ngẫu nhiên x ô (x: 3-10)</div>
             </div>
 
             <div style="display: flex; gap: 10px; margin: 15px 0;">
@@ -1077,20 +1672,18 @@
                 <h4 style="color: #4fc3f7; margin-top: 15px; margin-bottom: 8px;">⬆️ Di chuyển:</h4>
                 <p>• <strong>Tiến thêm 1-5 ô:</strong> Quân cờ tiến thêm số ô ngẫu nhiên</p>
                 <p>• <strong>Lùi x ô:</strong> Lùi x ô ở lần gieo xí ngầu tiếp theo (x là số xúc xắc)</p>
-                <p>• <strong>Nhảy xuống hàng dọc:</strong> Nhảy xuống hàng dưới (GRID_COLS ô)</p>
+                <p>• <strong>Nhảy xuống hàng dọc:</strong> Nhảy xuống hàng dưới</p>
                 <p>• <strong>Portal:</strong> Đi tắt sang portal ngẫu nhiên (5 portal trên bản đồ)</p>
                 
                 <h4 style="color: #ef5350; margin-top: 15px; margin-bottom: 8px;">⚔️ Tấn công:</h4>
-                <p>• <strong>Tiêu diệt x người chơi ngẫu nhiên (x: 1-5):</strong> Chọn ngẫu nhiên x người chơi và tiêu diệt</p>
-                <p>• <strong>Tiêu diệt x người chơi gần nhất (x: 1-5):</strong> Tiêu diệt x người chơi gần nhất (tính cả phía trước và sau)</p>
+                <p>• <strong>Tiêu diệt 1 đến 5 người chơi ngẫu nhiên</strong></p>
+                <p>• <strong>Tiêu diệt 1 đến 5 người chơi gần nhất</strong></p>
                 <p>• <strong>Bom hàng ngang:</strong> Tất cả người chơi cùng hàng bị tiêu diệt</p>
                 <p>• <strong>Bom hàng dọc:</strong> Tất cả người chơi cùng cột bị tiêu diệt</p>
                 <p>• <strong>Bom chữ thập:</strong> Tất cả người chơi cùng hàng và cột bị tiêu diệt</p>
                 <p>• <strong>Bom nảy:</strong> Nổ x lần mỗi 2-3 ô, tiêu diệt người chơi tại các vị trí đó</p>
-                <p>• <strong>Giết người chơi khi đi qua:</strong> Những ô đi qua trong lượt đổ xí ngầu tiếp theo sẽ giết những người chơi bị giẫm qua</p>
-                
-                <h4 style="color: #66bb6a; margin-top: 15px; margin-bottom: 8px;">🛡️ Phòng thủ:</h4>
-                <p>• <strong>Tạo khiên:</strong> Tạo khiên cho 1-3 người chơi ngẫu nhiên + thêm số ô khiên bằng 20% (làm tròn xuống) số ô tấn công</p>
+                <p>• <strong>Giẫm đạp:</strong> Những ô đi qua trong lượt đổ xí ngầu tiếp theo sẽ tiêu diệt những người chơi bị giẫm qua</p>
+                <p>• <strong>Thanh tẩy:</strong> Làm trống ngẫu nhiên x ô (x từ 3 đến 10), các ô kể cả người chơi lẫn sự kiện sẽ thành ô trống</p>
             </div>
 
             <div class="rules-section" style="margin-top: 30px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.3);">
@@ -1119,7 +1712,6 @@
         let gameStarted = false;
         let isMoving = false;
         let eventData = {}; // Lưu thông tin event cho mỗi cell
-        let playerShields = {}; // Lưu shield cho mỗi player
         let deadPlayers = new Set(); // Lưu danh sách player đã chết
         let portalList = []; // Lưu danh sách 5 portal
         let hasTeleported = false; // Flag để tránh portal teleport lặp lại
@@ -1169,12 +1761,14 @@
                 gridContainer.appendChild(label);
             }
 
-            // Tạo các hàng chứa cells
+            // Tạo các hàng chứa cells và nhãn hàng
             for (let row = 0; row < GRID_ROWS; row++) {
-                // Nhãn hàng (0 đến GRID_ROWS-1)
+                // Tạo nhãn hàng cho tất cả các hàng
+                // Vì đã có số 0 ở góc (corner cell), nên nhãn hàng bắt đầu từ 1
+                // Row 0 (cells) → nhãn 1, Row 1 (cells) → nhãn 2, ...
                 const rowLabel = document.createElement('div');
                 rowLabel.className = 'grid-label row';
-                rowLabel.textContent = row;
+                rowLabel.textContent = row + 1; // Bắt đầu từ 1 thay vì 0
                 rowLabel.style.gridColumn = '1';
                 rowLabel.style.gridRow = row + 2;
                 gridContainer.appendChild(rowLabel);
@@ -1186,7 +1780,9 @@
                     cell.className = 'cell';
                     cell.id = `cell-${cellIndex}`;
                     cell.dataset.index = cellIndex;
-                    cell.dataset.cellNumber = cellIndex + 1;
+                    // Đảm bảo cellNumber luôn được set (bắt đầu từ 1)
+                    const cellNumber = cellIndex + 1;
+                    cell.dataset.cellNumber = cellNumber;
                     cell.style.gridColumn = col + 2;
                     cell.style.gridRow = row + 2;
                     gridContainer.appendChild(cell);
@@ -1194,15 +1790,13 @@
                 }
             }
             
-            // Tạo hàng cuối cùng với nhãn số GRID_ROWS
+            // Tạo nhãn hàng cuối cùng (GRID_ROWS + 1, vì đã bắt đầu từ 1)
             const lastRowLabel = document.createElement('div');
             lastRowLabel.className = 'grid-label row';
-            lastRowLabel.textContent = GRID_ROWS;
+            lastRowLabel.textContent = GRID_ROWS + 1; // GRID_ROWS + 1 vì đã bắt đầu từ 1
             lastRowLabel.style.gridColumn = '1';
             lastRowLabel.style.gridRow = GRID_ROWS + 2;
             gridContainer.appendChild(lastRowLabel);
-            
-            // Ô góc dưới phải (số GRID_COLS) - không cần vì đã có ở hàng trên
         }
 
         // Tạo âm thanh đơn giản
@@ -1284,15 +1878,17 @@
                     cell.dataset.tooltip = '';
                     cell.title = '';
                     cell.dataset.won = '';
-                    // Giữ lại data-cell-number (số thứ tự ô)
-                    if (!cell.dataset.cellNumber) {
-                        cell.dataset.cellNumber = idx + 1;
-                    }
+                    // Đảm bảo data-cell-number luôn được set (số thứ tự ô, bắt đầu từ 1)
+                    cell.dataset.cellNumber = idx + 1;
                 } else {
-                    // Đảm bảo event cells giữ nguyên tooltip
+                    // Đảm bảo event cells giữ nguyên tooltip và cellNumber
                     if (oldEventData[idx]) {
                         cell.dataset.tooltip = oldEventData[idx].desc;
                         cell.title = oldEventData[idx].desc;
+                    }
+                    // Đảm bảo cellNumber luôn được set
+                    if (!cell.dataset.cellNumber) {
+                        cell.dataset.cellNumber = idx + 1;
                     }
                 }
             });
@@ -1317,33 +1913,33 @@
                 const movementEvents = [
                     { type: 'move_forward', icon: '⬆️', desc: 'Tiến thêm 1-5 ô', category: 'movement' },
                     { type: 'move_backward', icon: '⬇️', desc: 'Lùi x ô (lùi ở lần gieo xí ngầu tiếp theo)', category: 'movement' },
-                    { type: 'jump_row', icon: '⬇️', desc: 'Nhảy xuống hàng dọc', category: 'movement' },
-                    { type: 'kill_on_path', icon: '💀', desc: 'Giết người chơi khi đi qua (áp dụng ở lượt tiếp theo)', category: 'attack' },
+                    { type: 'jump_row', icon: '⬇️', desc: 'Nhảy xuống hàng dọc: Nhảy xuống hàng dưới', category: 'movement' },
                 ];
                 
                 // Tấn công - tăng gấp đôi tần suất bằng cách duplicate
                 const attackEvents = [
-                    { type: 'kill_random', icon: '⚔️', desc: 'Tiêu diệt x người chơi ngẫu nhiên (x: 1-5)', category: 'attack' },
-                    { type: 'kill_nearest', icon: '⚔️', desc: 'Tiêu diệt x người chơi gần nhất (x: 1-5)', category: 'attack' },
+                    { type: 'kill_random', icon: '⚔️', desc: 'Tiêu diệt 1 đến 5 người chơi ngẫu nhiên', category: 'attack' },
+                    { type: 'kill_nearest', icon: '⚔️', desc: 'Tiêu diệt 1 đến 5 người chơi gần nhất', category: 'attack' },
                     { type: 'bomb_row', icon: '💣', desc: 'Bom hàng ngang', category: 'attack' },
                     { type: 'bomb_col', icon: '💣', desc: 'Bom hàng dọc', category: 'attack' },
                     { type: 'bomb_cross', icon: '💥', desc: 'Bom chữ thập (ngang + dọc)', category: 'attack' },
                     { type: 'bouncing_bomb', icon: '💣💥', desc: 'Bom nảy - nổ x lần mỗi 2-3 ô', category: 'attack' },
                     // Duplicate để tăng gấp đôi tần suất
-                    { type: 'kill_random', icon: '⚔️', desc: 'Tiêu diệt x người chơi ngẫu nhiên (x: 1-5)', category: 'attack' },
-                    { type: 'kill_nearest', icon: '⚔️', desc: 'Tiêu diệt x người chơi gần nhất (x: 1-5)', category: 'attack' },
+                    { type: 'kill_random', icon: '⚔️', desc: 'Tiêu diệt 1 đến 5 người chơi ngẫu nhiên', category: 'attack' },
+                    { type: 'kill_nearest', icon: '⚔️', desc: 'Tiêu diệt 1 đến 5 người chơi gần nhất', category: 'attack' },
                     { type: 'bomb_row', icon: '💣', desc: 'Bom hàng ngang', category: 'attack' },
                     { type: 'bomb_col', icon: '💣', desc: 'Bom hàng dọc', category: 'attack' },
                     { type: 'bomb_cross', icon: '💥', desc: 'Bom chữ thập (ngang + dọc)', category: 'attack' },
                     { type: 'bouncing_bomb', icon: '💣💥', desc: 'Bom nảy - nổ x lần mỗi 2-3 ô', category: 'attack' }
                 ];
                 
-                const defenseEvents = [
-                    { type: 'shield', icon: '🛡️', desc: 'Tạo khiên cho 1-3 người chơi ngẫu nhiên + thêm ô khiên', category: 'defense' }
-                ];
+                // Thêm sự kiện Thanh tẩy vào nhóm tấn công
+                attackEvents.push(
+                    { type: 'cleanse', icon: '✨', desc: 'Thanh tẩy - Làm trống ngẫu nhiên x ô (x: 3-10)', category: 'attack' }
+                );
                 
                 // Gộp tất cả event types
-                const eventTypes = [...movementEvents, ...attackEvents, ...defenseEvents];
+                const eventTypes = [...movementEvents, ...attackEvents];
 
                 // Tạo 5 portal ngẫu nhiên (trước khi tạo event cells khác)
                 portalList = [];
@@ -1357,11 +1953,39 @@
                 }
                 portalList = portalIndices;
 
+                // Tạo 3-5 ô thanh tẩy ngẫu nhiên
+                const cleanseCount = Math.floor(Math.random() * 3) + 3; // 3-5 ô
+                const cleanseIndices = [];
+                while (cleanseIndices.length < cleanseCount) {
+                    const idx = Math.floor(Math.random() * TOTAL_CELLS);
+                    if (!eventIndices.includes(idx) && idx !== 0 && !cleanseIndices.includes(idx)) {
+                        cleanseIndices.push(idx);
+                        eventIndices.push(idx); // Thêm vào eventIndices để không bị trùng
+                    }
+                }
+
+                // Tạo 3-7 ô Giẫm đạp ngẫu nhiên
+                const killOnPathCount = Math.floor(Math.random() * 5) + 3; // 3-7 ô
+                const killOnPathIndices = [];
+                while (killOnPathIndices.length < killOnPathCount) {
+                    const idx = Math.floor(Math.random() * TOTAL_CELLS);
+                    if (!eventIndices.includes(idx) && idx !== 0 && !killOnPathIndices.includes(idx)) {
+                        killOnPathIndices.push(idx);
+                        eventIndices.push(idx); // Thêm vào eventIndices để không bị trùng
+                    }
+                }
+
                 eventIndices.forEach(idx => {
                     let eventInfo;
                     if (portalList.includes(idx)) {
                         // Portal
                         eventInfo = { type: 'portal', icon: '🌀', desc: 'Portal - Đi tắt sang portal ngẫu nhiên', category: 'movement' };
+                    } else if (cleanseIndices.includes(idx)) {
+                        // Thanh tẩy
+                        eventInfo = { type: 'cleanse', icon: '✨', desc: 'Thanh tẩy - Làm trống ngẫu nhiên x ô (x: 3-10)', category: 'attack' };
+                    } else if (killOnPathIndices.includes(idx)) {
+                        // Giẫm đạp
+                        eventInfo = { type: 'kill_on_path', icon: '💀', desc: 'Giẫm đạp: Những ô đi qua trong lượt đổ xí ngầu tiếp theo sẽ tiêu diệt những người chơi bị giẫm qua', category: 'attack' };
                     } else {
                         eventInfo = eventTypes[Math.floor(Math.random() * eventTypes.length)];
                     }
@@ -1372,8 +1996,10 @@
                     cells[idx].dataset.eventType = eventInfo.type;
                     cells[idx].dataset.tooltip = eventInfo.desc;
                     cells[idx].title = eventInfo.desc;
-                    // Đảm bảo có data-cell-number để hiển thị số thứ tự
-                    cells[idx].dataset.cellNumber = idx + 1;
+                    // Đảm bảo có data-cell-number để hiển thị số thứ tự (bắt đầu từ 1)
+                    if (!cells[idx].dataset.cellNumber) {
+                        cells[idx].dataset.cellNumber = idx + 1;
+                    }
                     eventData[idx] = eventInfo;
                     eventCells.push(idx);
                 });
@@ -1838,7 +2464,7 @@
                     cells[nextPos].classList.add('current');
                     cells[nextPos].classList.add('visited');
 
-                    // Nếu có flag shouldKillOnPath, giết người chơi khi đi qua
+                    // Nếu có flag shouldKillOnPath, tiêu diệt người chơi khi đi qua
                     if (shouldKillOnPath && cells[nextPos].dataset.type === 'player' && !cells[nextPos].classList.contains('dead')) {
                         const pIdx = parseInt(cells[nextPos].dataset.playerIndex);
                         const cellKey = cells[nextPos].dataset.cellKey;
@@ -1867,11 +2493,11 @@
                     }
                 } else {
                     clearInterval(moveInterval);
-                    // Reset flag sau khi di chuyển xong
-                    if (shouldKillOnPath) {
-                        shouldKillOnPath = false;
-                        addToHistory('💀 Đã kết thúc hiệu ứng giết người chơi khi đi qua!', false);
-                    }
+                        // Reset flag sau khi di chuyển xong
+                        if (shouldKillOnPath) {
+                            shouldKillOnPath = false;
+                            addToHistory('💀 Đã kết thúc hiệu ứng tiêu diệt người chơi khi đi qua!', false);
+                        }
                     setTimeout(() => {
                         handleCellLanding(currentPosition);
                     }, 300);
@@ -2001,31 +2627,31 @@
                     const movementEvents = [
                         { type: 'move_forward', icon: '⬆️', desc: 'Tiến thêm 1-5 ô', category: 'movement' },
                         { type: 'move_backward', icon: '⬇️', desc: 'Lùi x ô (lùi ở lần gieo xí ngầu tiếp theo)', category: 'movement' },
-                        { type: 'jump_row', icon: '⬇️', desc: 'Nhảy xuống hàng dọc', category: 'movement' },
-                        { type: 'kill_on_path', icon: '💀', desc: 'Giết người chơi khi đi qua (áp dụng ở lượt tiếp theo)', category: 'attack' },
+                        { type: 'jump_row', icon: '⬇️', desc: 'Nhảy xuống hàng dọc: Nhảy xuống hàng dưới', category: 'movement' },
                     ];
                     
                     const attackEvents = [
-                        { type: 'kill_random', icon: '⚔️', desc: 'Tiêu diệt x người chơi ngẫu nhiên (x: 1-4)', category: 'attack' },
-                        { type: 'kill_nearest', icon: '⚔️', desc: 'Tiêu diệt x người chơi gần nhất (x: 1-4)', category: 'attack' },
+                        { type: 'kill_random', icon: '⚔️', desc: 'Tiêu diệt 1 đến 5 người chơi ngẫu nhiên', category: 'attack' },
+                        { type: 'kill_nearest', icon: '⚔️', desc: 'Tiêu diệt 1 đến 5 người chơi gần nhất', category: 'attack' },
                         { type: 'bomb_row', icon: '💣', desc: 'Bom hàng ngang', category: 'attack' },
                         { type: 'bomb_col', icon: '💣', desc: 'Bom hàng dọc', category: 'attack' },
                         { type: 'bomb_cross', icon: '💥', desc: 'Bom chữ thập (ngang + dọc)', category: 'attack' },
                         { type: 'bouncing_bomb', icon: '💣💥', desc: 'Bom nảy - nổ x lần mỗi 2-3 ô', category: 'attack' },
                         // Duplicate để tăng gấp đôi tần suất
-                        { type: 'kill_random', icon: '⚔️', desc: 'Tiêu diệt x người chơi ngẫu nhiên (x: 1-4)', category: 'attack' },
-                        { type: 'kill_nearest', icon: '⚔️', desc: 'Tiêu diệt x người chơi gần nhất (x: 1-4)', category: 'attack' },
+                        { type: 'kill_random', icon: '⚔️', desc: 'Tiêu diệt 1 đến 5 người chơi ngẫu nhiên', category: 'attack' },
+                        { type: 'kill_nearest', icon: '⚔️', desc: 'Tiêu diệt 1 đến 5 người chơi gần nhất', category: 'attack' },
                         { type: 'bomb_row', icon: '💣', desc: 'Bom hàng ngang', category: 'attack' },
                         { type: 'bomb_col', icon: '💣', desc: 'Bom hàng dọc', category: 'attack' },
                         { type: 'bomb_cross', icon: '💥', desc: 'Bom chữ thập (ngang + dọc)', category: 'attack' },
                         { type: 'bouncing_bomb', icon: '💣💥', desc: 'Bom nảy - nổ x lần mỗi 2-3 ô', category: 'attack' }
                     ];
                     
-                    const defenseEvents = [
-                        { type: 'shield', icon: '🛡️', desc: 'Tạo khiên cho 1-3 người chơi ngẫu nhiên + thêm ô khiên', category: 'defense' }
-                    ];
+                    // Thêm sự kiện Thanh tẩy vào nhóm tấn công
+                    attackEvents.push(
+                        { type: 'cleanse', icon: '✨', desc: 'Thanh tẩy - Làm trống ngẫu nhiên x ô (x: 3-10)', category: 'attack' }
+                    );
                     
-                    const eventTypes = [...movementEvents, ...attackEvents, ...defenseEvents];
+                    const eventTypes = [...movementEvents, ...attackEvents];
                     
                     // Tạo 5 portal ngẫu nhiên
                     portalList = [];
@@ -2038,12 +2664,40 @@
                         }
                     }
                     portalList = portalIndices;
+
+                    // Tạo 3-5 ô thanh tẩy ngẫu nhiên
+                    const cleanseCount = Math.floor(Math.random() * 3) + 3; // 3-5 ô
+                    const cleanseIndices = [];
+                    while (cleanseIndices.length < cleanseCount) {
+                        const idx = Math.floor(Math.random() * TOTAL_CELLS);
+                        if (!newEventIndices.includes(idx) && idx !== 0 && !cleanseIndices.includes(idx)) {
+                            cleanseIndices.push(idx);
+                            newEventIndices.push(idx);
+                        }
+                    }
+
+                    // Tạo 3-7 ô Giẫm đạp ngẫu nhiên
+                    const killOnPathCount = Math.floor(Math.random() * 5) + 3; // 3-7 ô
+                    const killOnPathIndices = [];
+                    while (killOnPathIndices.length < killOnPathCount) {
+                        const idx = Math.floor(Math.random() * TOTAL_CELLS);
+                        if (!newEventIndices.includes(idx) && idx !== 0 && !killOnPathIndices.includes(idx)) {
+                            killOnPathIndices.push(idx);
+                            newEventIndices.push(idx);
+                        }
+                    }
                     
                     // Tạo event cells
                     newEventIndices.forEach(idx => {
                         let eventInfo;
                         if (portalList.includes(idx)) {
                             eventInfo = { type: 'portal', icon: '🌀', desc: 'Portal - Đi tắt sang portal ngẫu nhiên', category: 'movement' };
+                        } else if (cleanseIndices.includes(idx)) {
+                            // Thanh tẩy
+                            eventInfo = { type: 'cleanse', icon: '✨', desc: 'Thanh tẩy - Làm trống ngẫu nhiên x ô (x: 3-10)', category: 'attack' };
+                        } else if (killOnPathIndices.includes(idx)) {
+                            // Giẫm đạp
+                            eventInfo = { type: 'kill_on_path', icon: '💀', desc: 'Giẫm đạp: Những ô đi qua trong lượt đổ xí ngầu tiếp theo sẽ tiêu diệt những người chơi bị giẫm qua', category: 'attack' };
                         } else {
                             eventInfo = eventTypes[Math.floor(Math.random() * eventTypes.length)];
                         }
@@ -2155,6 +2809,35 @@
             }, 5000);
         }
 
+        // Hàm highlight các ô bị ảnh hưởng và thực hiện hành động sau 2 giây
+        function highlightAndExecute(affectedCellIndices, executeCallback, scrollToFirst = true) {
+            // Thêm class animation cho các ô bị ảnh hưởng
+            affectedCellIndices.forEach(cellIdx => {
+                if (cells[cellIdx]) {
+                    cells[cellIdx].classList.add('affected');
+                    // Scroll đến ô đầu tiên nếu cần
+                    if (scrollToFirst && cellIdx === affectedCellIndices[0]) {
+                        cells[cellIdx].scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                }
+            });
+
+            // Sau 2 giây, thực hiện hành động và xóa animation
+            setTimeout(() => {
+                // Thực hiện callback
+                if (executeCallback) {
+                    executeCallback();
+                }
+
+                // Xóa class animation sau khi hoàn thành
+                affectedCellIndices.forEach(cellIdx => {
+                    if (cells[cellIdx]) {
+                        cells[cellIdx].classList.remove('affected');
+                    }
+                });
+            }, 2000);
+        }
+
         // Xử lý event cells
         function handleEvent(position) {
             const eventType = cells[position].dataset.eventType;
@@ -2196,9 +2879,9 @@
                     return;
 
                 case 'kill_on_path':
-                    // Đánh dấu sẽ giết người chơi khi đi qua trong lượt tiếp theo
+                    // Đánh dấu sẽ tiêu diệt người chơi khi đi qua trong lượt tiếp theo
                     shouldKillOnPath = true;
-                    message = `💀 ${eventInfo.desc} - Sẽ giết người chơi khi đi qua ở lượt tiếp theo!`;
+                    message = `💀 ${eventInfo.desc}`;
                     showEvent(message);
                     playSound('event');
                     setTimeout(() => {
@@ -2215,38 +2898,52 @@
                     message = `💣💥 ${eventInfo.desc} - ${bombTimes} lần mỗi ${bombInterval} ô!`;
                     showEvent(message);
                     playSound('event');
-                    setTimeout(() => {
-                        let killed = false;
-                        const startPos = position;
-                        const affectedCells = []; // Lưu các ô bị ảnh hưởng
-                        
-                        // Nổ bom tại các vị trí cách nhau bombInterval ô
-                        for (let i = 0; i < bombTimes; i++) {
-                            const bombPos = normalizePosition(startPos + (i + 1) * bombInterval);
-                            if (cells[bombPos] && cells[bombPos].dataset.type === 'player' && !cells[bombPos].classList.contains('dead')) {
-                                const pIdx = parseInt(cells[bombPos].dataset.playerIndex);
-                                const cellKey = cells[bombPos].dataset.cellKey;
-                                if (!playerWinners.has(pIdx) && !deadPlayers.has(cellKey) && !deadPlayers.has(pIdx)) {
-                                    if (killPlayer(pIdx, bombPos)) {
-                                        killed = true;
-                                        affectedCells.push(bombPos + 1); // Lưu số ô (bắt đầu từ 1)
-                                    }
-                                }
+                    
+                    // Tìm các ô bị ảnh hưởng
+                    const startPos = position;
+                    const affectedBombCells = [];
+                    const affectedBombPlayers = [];
+                    
+                    for (let i = 0; i < bombTimes; i++) {
+                        const bombPos = normalizePosition(startPos + (i + 1) * bombInterval);
+                        if (cells[bombPos] && cells[bombPos].dataset.type === 'player' && !cells[bombPos].classList.contains('dead')) {
+                            const pIdx = parseInt(cells[bombPos].dataset.playerIndex);
+                            const cellKey = cells[bombPos].dataset.cellKey;
+                            if (!playerWinners.has(pIdx) && !deadPlayers.has(cellKey) && !deadPlayers.has(pIdx)) {
+                                affectedBombCells.push(bombPos);
+                                affectedBombPlayers.push({ playerIndex: pIdx, cellIndex: bombPos });
                             }
                         }
-                        
-                        // Ghi vào lịch sử
-                        if (killed && affectedCells.length > 0) {
-                            const historyMessage = `💣💥 Bom nảy - nổ ${bombTimes} lần mỗi ${bombInterval} ô (các ô ${affectedCells.join(', ')})`;
-                            addToHistory(historyMessage, false);
-                        } else {
+                    }
+                    
+                    if (affectedBombCells.length > 0) {
+                        highlightAndExecute(affectedBombCells, () => {
+                            let killed = false;
+                            const affectedCellNumbers = [];
+                            
+                            affectedBombPlayers.forEach(({ playerIndex, cellIndex }) => {
+                                if (killPlayer(playerIndex, cellIndex)) {
+                                    killed = true;
+                                    affectedCellNumbers.push(cellIndex + 1);
+                                }
+                            });
+                            
+                            if (killed && affectedCellNumbers.length > 0) {
+                                const historyMessage = `💣💥 Bom nảy - nổ ${bombTimes} lần mỗi ${bombInterval} ô (các ô ${affectedCellNumbers.join(', ')})`;
+                                addToHistory(historyMessage, false);
+                            }
+                            
+                            checkAndRevivePlayers();
+                            isMoving = false;
+                            diceBtn.disabled = false;
+                        });
+                    } else {
+                        setTimeout(() => {
                             showEvent('💣💥 Bom nảy không trúng người chơi nào!');
-                        }
-                        
-                        checkAndRevivePlayers();
-                        isMoving = false;
-                        diceBtn.disabled = false;
-                    }, 1500);
+                            isMoving = false;
+                            diceBtn.disabled = false;
+                        }, 1500);
+                    }
                     return;
 
                 case 'portal':
@@ -2308,23 +3005,28 @@
                     message = `⚔️ ${eventInfo.desc}`;
                     showEvent(message);
                     playSound('event');
-                    setTimeout(() => {
-                        const aliveCells = [];
-                        for (let i = 0; i < cells.length; i++) {
-                            if (cells[i].dataset.type === 'player' && !cells[i].classList.contains('dead')) {
-                                const pIdx = parseInt(cells[i].dataset.playerIndex);
-                                const cellKey = cells[i].dataset.cellKey;
-                                if (!deadPlayers.has(cellKey) && !deadPlayers.has(pIdx) && !playerWinners.has(pIdx)) {
-                                    aliveCells.push({ cellIndex: i, playerIndex: pIdx });
-                                }
+                    
+                    // Tìm các ô bị ảnh hưởng
+                    const aliveCells = [];
+                    for (let i = 0; i < cells.length; i++) {
+                        if (cells[i].dataset.type === 'player' && !cells[i].classList.contains('dead')) {
+                            const pIdx = parseInt(cells[i].dataset.playerIndex);
+                            const cellKey = cells[i].dataset.cellKey;
+                            if (!deadPlayers.has(cellKey) && !deadPlayers.has(pIdx) && !playerWinners.has(pIdx)) {
+                                aliveCells.push({ cellIndex: i, playerIndex: pIdx });
                             }
                         }
-                        if (aliveCells.length > 0) {
-                            // Chọn x người chơi ngẫu nhiên (x từ 1-5)
-                            const killCount = Math.min(Math.floor(Math.random() * 5) + 1, aliveCells.length);
-                            const shuffled = [...aliveCells].sort(() => Math.random() - 0.5);
-                            const selected = shuffled.slice(0, killCount);
-                            
+                    }
+                    
+                    if (aliveCells.length > 0) {
+                        // Chọn x người chơi ngẫu nhiên (x từ 1-5)
+                        const killCount = Math.min(Math.floor(Math.random() * 5) + 1, aliveCells.length);
+                        const shuffled = [...aliveCells].sort(() => Math.random() - 0.5);
+                        const selected = shuffled.slice(0, killCount);
+                        
+                        const affectedCellIndices = selected.map(({ cellIndex }) => cellIndex);
+                        
+                        highlightAndExecute(affectedCellIndices, () => {
                             selected.forEach(({ playerIndex, cellIndex }) => {
                                 killPlayer(playerIndex, cellIndex);
                             });
@@ -2332,44 +3034,53 @@
                             if (selected.length > 0) {
                                 addToHistory(`⚔️ Đã tiêu diệt ${selected.length} người chơi ngẫu nhiên!`, false);
                             }
-                        }
-                        checkAndRevivePlayers();
-                        isMoving = false;
-                        diceBtn.disabled = false;
-                    }, 1500);
+                            
+                            checkAndRevivePlayers();
+                            isMoving = false;
+                            diceBtn.disabled = false;
+                        });
+                    } else {
+                        setTimeout(() => {
+                            isMoving = false;
+                            diceBtn.disabled = false;
+                        }, 1500);
+                    }
                     return;
 
                 case 'kill_nearest':
                     message = `⚔️ ${eventInfo.desc}`;
                     showEvent(message);
                     playSound('event');
-                    setTimeout(() => {
-                        // Tìm tất cả người chơi còn sống và tính khoảng cách
-                        const playersWithDistance = [];
-                        for (let i = 0; i < cells.length; i++) {
-                            if (cells[i].dataset.type === 'player' && !cells[i].classList.contains('dead')) {
-                                const pIdx = parseInt(cells[i].dataset.playerIndex);
-                                const cellKey = cells[i].dataset.cellKey;
-                                if (!deadPlayers.has(cellKey) && !deadPlayers.has(pIdx) && !playerWinners.has(pIdx)) {
-                                    // Tính khoảng cách (cả phía trước và sau, ưu tiên khoảng cách ngắn nhất)
-                                    const forwardDist = i > position ? (i - position) : (i + TOTAL_CELLS - position);
-                                    const backwardDist = i < position ? (position - i) : (position + TOTAL_CELLS - i);
-                                    const distance = Math.min(forwardDist, backwardDist);
-                                    if (distance > 0) {
-                                        playersWithDistance.push({ cellIndex: i, playerIndex: pIdx, distance: distance });
-                                    }
+                    
+                    // Tìm tất cả người chơi còn sống và tính khoảng cách
+                    const playersWithDistance = [];
+                    for (let i = 0; i < cells.length; i++) {
+                        if (cells[i].dataset.type === 'player' && !cells[i].classList.contains('dead')) {
+                            const pIdx = parseInt(cells[i].dataset.playerIndex);
+                            const cellKey = cells[i].dataset.cellKey;
+                            if (!deadPlayers.has(cellKey) && !deadPlayers.has(pIdx) && !playerWinners.has(pIdx)) {
+                                // Tính khoảng cách (cả phía trước và sau, ưu tiên khoảng cách ngắn nhất)
+                                const forwardDist = i > position ? (i - position) : (i + TOTAL_CELLS - position);
+                                const backwardDist = i < position ? (position - i) : (position + TOTAL_CELLS - i);
+                                const distance = Math.min(forwardDist, backwardDist);
+                                if (distance > 0) {
+                                    playersWithDistance.push({ cellIndex: i, playerIndex: pIdx, distance: distance });
                                 }
                             }
                         }
+                    }
+                    
+                    if (playersWithDistance.length > 0) {
+                        // Sắp xếp theo khoảng cách (gần nhất trước)
+                        playersWithDistance.sort((a, b) => a.distance - b.distance);
                         
-                        if (playersWithDistance.length > 0) {
-                            // Sắp xếp theo khoảng cách (gần nhất trước)
-                            playersWithDistance.sort((a, b) => a.distance - b.distance);
-                            
-                            // Chọn x người chơi gần nhất (x từ 1-5)
-                            const killCount = Math.min(Math.floor(Math.random() * 5) + 1, playersWithDistance.length);
-                            const selected = playersWithDistance.slice(0, killCount);
-                            
+                        // Chọn x người chơi gần nhất (x từ 1-5)
+                        const killCount = Math.min(Math.floor(Math.random() * 5) + 1, playersWithDistance.length);
+                        const selected = playersWithDistance.slice(0, killCount);
+                        
+                        const affectedCellIndices = selected.map(({ cellIndex }) => cellIndex);
+                        
+                        highlightAndExecute(affectedCellIndices, () => {
                             selected.forEach(({ playerIndex, cellIndex }) => {
                                 killPlayer(playerIndex, cellIndex);
                             });
@@ -2377,190 +3088,253 @@
                             if (selected.length > 0) {
                                 addToHistory(`⚔️ Đã tiêu diệt ${selected.length} người chơi gần nhất!`, false);
                             }
-                        }
-                        checkAndRevivePlayers();
-                        isMoving = false;
-                        diceBtn.disabled = false;
-                    }, 1500);
+                            
+                            checkAndRevivePlayers();
+                            isMoving = false;
+                            diceBtn.disabled = false;
+                        });
+                    } else {
+                        setTimeout(() => {
+                            isMoving = false;
+                            diceBtn.disabled = false;
+                        }, 1500);
+                    }
                     return;
 
                 case 'bomb_row':
                     message = `💣 ${eventInfo.desc}`;
                     showEvent(message);
                     playSound('event');
-                    setTimeout(() => {
-                        const row = Math.floor(position / GRID_COLS);
-                        let killed = false;
-                        const rowStart = row * GRID_COLS;
-                        const rowEnd = Math.min(rowStart + GRID_COLS, TOTAL_CELLS);
-                        for (let i = rowStart; i < rowEnd; i++) {
-                            if (cells[i] && cells[i].dataset.type === 'player' && !cells[i].classList.contains('dead')) {
-                                const pIdx = parseInt(cells[i].dataset.playerIndex);
-                                if (!playerWinners.has(pIdx) && killPlayer(pIdx, i)) killed = true;
+                    
+                    const row = Math.floor(position / GRID_COLS);
+                    const rowStart = row * GRID_COLS;
+                    const rowEnd = Math.min(rowStart + GRID_COLS, TOTAL_CELLS);
+                    const affectedRowCells = [];
+                    const affectedRowPlayers = [];
+                    
+                    for (let i = rowStart; i < rowEnd; i++) {
+                        if (cells[i] && cells[i].dataset.type === 'player' && !cells[i].classList.contains('dead')) {
+                            const pIdx = parseInt(cells[i].dataset.playerIndex);
+                            if (!playerWinners.has(pIdx)) {
+                                affectedRowCells.push(i);
+                                affectedRowPlayers.push({ playerIndex: pIdx, cellIndex: i });
                             }
                         }
-                        if (!killed) showEvent('💣 Không có người chơi nào trong hàng!');
-                        checkAndRevivePlayers();
-                        isMoving = false;
-                        diceBtn.disabled = false;
-                    }, 1500);
+                    }
+                    
+                    if (affectedRowCells.length > 0) {
+                        highlightAndExecute(affectedRowCells, () => {
+                            let killed = false;
+                            affectedRowPlayers.forEach(({ playerIndex, cellIndex }) => {
+                                if (killPlayer(playerIndex, cellIndex)) killed = true;
+                            });
+                            if (!killed) showEvent('💣 Không có người chơi nào trong hàng!');
+                            checkAndRevivePlayers();
+                            isMoving = false;
+                            diceBtn.disabled = false;
+                        });
+                    } else {
+                        setTimeout(() => {
+                            showEvent('💣 Không có người chơi nào trong hàng!');
+                            isMoving = false;
+                            diceBtn.disabled = false;
+                        }, 1500);
+                    }
                     return;
 
                 case 'bomb_col':
                     message = `💣 ${eventInfo.desc}`;
                     showEvent(message);
                     playSound('event');
-                    setTimeout(() => {
-                        const col = position % GRID_COLS;
-                        let killed = false;
-                        for (let i = col; i < TOTAL_CELLS; i += GRID_COLS) {
-                            if (cells[i] && cells[i].dataset.type === 'player' && !cells[i].classList.contains('dead')) {
-                                const pIdx = parseInt(cells[i].dataset.playerIndex);
-                                if (!playerWinners.has(pIdx) && killPlayer(pIdx, i)) killed = true;
+                    
+                    const col = position % GRID_COLS;
+                    const affectedColCells = [];
+                    const affectedColPlayers = [];
+                    
+                    for (let i = col; i < TOTAL_CELLS; i += GRID_COLS) {
+                        if (cells[i] && cells[i].dataset.type === 'player' && !cells[i].classList.contains('dead')) {
+                            const pIdx = parseInt(cells[i].dataset.playerIndex);
+                            if (!playerWinners.has(pIdx)) {
+                                affectedColCells.push(i);
+                                affectedColPlayers.push({ playerIndex: pIdx, cellIndex: i });
                             }
                         }
-                        if (!killed) showEvent('💣 Không có người chơi nào trong cột!');
-                        checkAndRevivePlayers();
-                        isMoving = false;
-                        diceBtn.disabled = false;
-                    }, 1500);
+                    }
+                    
+                    if (affectedColCells.length > 0) {
+                        highlightAndExecute(affectedColCells, () => {
+                            let killed = false;
+                            affectedColPlayers.forEach(({ playerIndex, cellIndex }) => {
+                                if (killPlayer(playerIndex, cellIndex)) killed = true;
+                            });
+                            if (!killed) showEvent('💣 Không có người chơi nào trong cột!');
+                            checkAndRevivePlayers();
+                            isMoving = false;
+                            diceBtn.disabled = false;
+                        });
+                    } else {
+                        setTimeout(() => {
+                            showEvent('💣 Không có người chơi nào trong cột!');
+                            isMoving = false;
+                            diceBtn.disabled = false;
+                        }, 1500);
+                    }
                     return;
 
                 case 'bomb_cross':
                     message = `💥 ${eventInfo.desc}`;
                     showEvent(message);
                     playSound('event');
-                    setTimeout(() => {
-                        const row = Math.floor(position / GRID_COLS);
-                        const col = position % GRID_COLS;
-                        let killed = false;
-                        
-                        // Bom hàng ngang
-                        const rowStart = row * GRID_COLS;
-                        const rowEnd = Math.min(rowStart + GRID_COLS, TOTAL_CELLS);
-                        for (let i = rowStart; i < rowEnd; i++) {
-                            if (cells[i] && cells[i].dataset.type === 'player' && !cells[i].classList.contains('dead')) {
-                                const pIdx = parseInt(cells[i].dataset.playerIndex);
-                                if (!playerWinners.has(pIdx) && killPlayer(pIdx, i)) killed = true;
+                    
+                    const crossRow = Math.floor(position / GRID_COLS);
+                    const crossCol = position % GRID_COLS;
+                    const affectedCrossCells = [];
+                    const affectedCrossPlayers = [];
+                    
+                    // Bom hàng ngang
+                    const crossRowStart = crossRow * GRID_COLS;
+                    const crossRowEnd = Math.min(crossRowStart + GRID_COLS, TOTAL_CELLS);
+                    for (let i = crossRowStart; i < crossRowEnd; i++) {
+                        if (cells[i] && cells[i].dataset.type === 'player' && !cells[i].classList.contains('dead')) {
+                            const pIdx = parseInt(cells[i].dataset.playerIndex);
+                            if (!playerWinners.has(pIdx) && !affectedCrossCells.includes(i)) {
+                                affectedCrossCells.push(i);
+                                affectedCrossPlayers.push({ playerIndex: pIdx, cellIndex: i });
                             }
                         }
-                        
-                        // Bom hàng dọc
-                        for (let i = col; i < TOTAL_CELLS; i += GRID_COLS) {
-                            if (cells[i] && cells[i].dataset.type === 'player' && !cells[i].classList.contains('dead')) {
-                                const pIdx = parseInt(cells[i].dataset.playerIndex);
-                                if (!playerWinners.has(pIdx) && killPlayer(pIdx, i)) killed = true;
+                    }
+                    
+                    // Bom hàng dọc
+                    for (let i = crossCol; i < TOTAL_CELLS; i += GRID_COLS) {
+                        if (cells[i] && cells[i].dataset.type === 'player' && !cells[i].classList.contains('dead')) {
+                            const pIdx = parseInt(cells[i].dataset.playerIndex);
+                            if (!playerWinners.has(pIdx) && !affectedCrossCells.includes(i)) {
+                                affectedCrossCells.push(i);
+                                affectedCrossPlayers.push({ playerIndex: pIdx, cellIndex: i });
                             }
                         }
-                        
-                        if (!killed) showEvent('💥 Không có người chơi nào bị ảnh hưởng!');
-                        checkAndRevivePlayers();
-                        isMoving = false;
-                        diceBtn.disabled = false;
-                    }, 1500);
+                    }
+                    
+                    if (affectedCrossCells.length > 0) {
+                        highlightAndExecute(affectedCrossCells, () => {
+                            let killed = false;
+                            affectedCrossPlayers.forEach(({ playerIndex, cellIndex }) => {
+                                if (killPlayer(playerIndex, cellIndex)) killed = true;
+                            });
+                            if (!killed) showEvent('💥 Không có người chơi nào bị ảnh hưởng!');
+                            checkAndRevivePlayers();
+                            isMoving = false;
+                            diceBtn.disabled = false;
+                        });
+                    } else {
+                        setTimeout(() => {
+                            showEvent('💥 Không có người chơi nào bị ảnh hưởng!');
+                            isMoving = false;
+                            diceBtn.disabled = false;
+                        }, 1500);
+                    }
                     return;
 
-                // === PHÒNG THỦ ===
-                case 'shield':
-                    message = `🛡️ ${eventInfo.desc}`;
+                // === TẤN CÔNG - THANH TẨY ===
+                case 'cleanse':
+                    message = `✨ ${eventInfo.desc}`;
                     showEvent(message);
                     playSound('event');
-                    setTimeout(() => {
-                        // Đếm số ô tấn công trên bản đồ
-                        let attackCellCount = 0;
-                        for (let i = 0; i < cells.length; i++) {
-                            if (cells[i].dataset.type === 'event') {
-                                const eventType = cells[i].dataset.eventType;
-                                if (eventType && (eventType === 'kill_random' || eventType === 'kill_nearest' || eventType === 'kill_on_path' || eventType.startsWith('bomb_') || eventType === 'bouncing_bomb')) {
-                                    attackCellCount++;
-                                }
-                            }
+                    
+                    // Chọn ngẫu nhiên x ô (x từ 3 đến 10) để làm trống
+                    const cleanseCount = Math.floor(Math.random() * 8) + 3; // 3-10 ô
+                    
+                    // Tìm tất cả các ô có thể thanh tẩy (không phải ô 0, không phải ô đã trúng thưởng)
+                    const eligibleCells = [];
+                    for (let i = 1; i < TOTAL_CELLS; i++) {
+                        if (cells[i].dataset.won !== 'true') {
+                            eligibleCells.push(i);
                         }
-                        
-                        // Tính số ô khiên cần thêm = 20% số ô tấn công (làm tròn xuống)
-                        const shieldCellsToAdd = Math.floor(attackCellCount * 0.2);
-                        
-                        // Chọn ngẫu nhiên 1-3 người chơi để tạo khiên
-                        const alivePlayers = [];
-                        for (let i = 0; i < cells.length; i++) {
-                            if (cells[i].dataset.type === 'player' && !cells[i].classList.contains('dead')) {
-                                const pIdx = parseInt(cells[i].dataset.playerIndex);
-                                const cellKey = cells[i].dataset.cellKey;
-                                if (!playerWinners.has(pIdx) && !deadPlayers.has(cellKey) && !deadPlayers.has(pIdx)) {
-                                    if (!alivePlayers.includes(pIdx)) {
-                                        alivePlayers.push(pIdx);
-                                    }
-                                }
-                            }
-                        }
-                        
-                        // Chọn ngẫu nhiên 1-3 người chơi
-                        const shieldCount = Math.min(Math.floor(Math.random() * 3) + 1, alivePlayers.length);
-                        const shuffled = [...alivePlayers].sort(() => Math.random() - 0.5);
-                        const selectedPlayers = shuffled.slice(0, shieldCount);
-                        
-                        // Tạo khiên cho các người chơi được chọn
-                        const shieldedNames = [];
-                        selectedPlayers.forEach(playerIdx => {
-                            playerShields[playerIdx] = true;
-                            shieldedNames.push(originalPlayers[playerIdx]);
-                        });
-                        
-                        let shieldMessage = '';
-                        if (shieldedNames.length > 0) {
-                            shieldMessage = `🛡️ ${shieldedNames.join(', ')} đã nhận được khiên bảo vệ!`;
-                        }
-                        
-                        // Thêm các ô khiên mới vào bản đồ
-                        const shieldCellsAdded = [];
-                        if (shieldCellsToAdd > 0) {
-                            // Tìm các ô trống (không phải player, event, won, hoặc ô 0)
-                            const emptyCells = [];
-                            for (let i = 1; i < TOTAL_CELLS; i++) {
-                                const cellType = cells[i].dataset.type;
-                                const isEvent = eventCells.includes(i);
-                                const isWon = cells[i].dataset.won === 'true';
-                                if ((!cellType || cellType === 'empty') && !isEvent && !isWon) {
-                                    emptyCells.push(i);
-                                }
-                            }
-                            
-                            // Xáo trộn và chọn các ô để thêm khiên
-                            const shuffledEmpty = [...emptyCells].sort(() => Math.random() - 0.5);
-                            const cellsToAdd = Math.min(shieldCellsToAdd, shuffledEmpty.length);
-                            
-                            for (let i = 0; i < cellsToAdd; i++) {
-                                const cellIdx = shuffledEmpty[i];
-                                cells[cellIdx].className = 'cell event defense';
-                                cells[cellIdx].textContent = '🛡️';
-                                cells[cellIdx].dataset.type = 'event';
-                                cells[cellIdx].dataset.eventType = 'shield';
-                                cells[cellIdx].dataset.tooltip = 'Tạo khiên cho 1-3 người chơi ngẫu nhiên + thêm ô khiên';
-                                cells[cellIdx].title = 'Tạo khiên cho 1-3 người chơi ngẫu nhiên + thêm ô khiên';
-                                cells[cellIdx].dataset.cellNumber = cellIdx + 1;
+                    }
+                    
+                    // Chọn ngẫu nhiên x ô
+                    const shuffled = [...eligibleCells].sort(() => Math.random() - 0.5);
+                    const cellsToCleanse = shuffled.slice(0, Math.min(cleanseCount, eligibleCells.length));
+                    
+                    if (cellsToCleanse.length > 0) {
+                        highlightAndExecute(cellsToCleanse, () => {
+                            const cleansedCells = [];
+                            cellsToCleanse.forEach(cellIdx => {
+                                const cell = cells[cellIdx];
+                                const cellType = cell.dataset.type;
                                 
-                                eventData[cellIdx] = { type: 'shield', icon: '🛡️', desc: 'Tạo khiên cho 1-3 người chơi ngẫu nhiên + thêm ô khiên', category: 'defense' };
-                                eventCells.push(cellIdx);
-                                shieldCellsAdded.push(cellIdx + 1);
+                                // Làm trống ô (xóa player hoặc event)
+                                if (cellType === 'player') {
+                                    // Xóa player khỏi cell
+                                    const playerIdx = parseInt(cell.dataset.playerIndex);
+                                    const cellKey = cell.dataset.cellKey;
+                                    
+                                    // Xóa khỏi playerCellMap
+                                    playerCellMap.delete(cellIdx);
+                                    
+                                    // Xóa khỏi deadPlayers nếu có
+                                    deadPlayers.delete(cellKey);
+                                    
+                                    // Xóa khỏi eventCells nếu có
+                                    const eventIndex = eventCells.indexOf(cellIdx);
+                                    if (eventIndex > -1) {
+                                        eventCells.splice(eventIndex, 1);
+                                        delete eventData[cellIdx];
+                                    }
+                                    
+                                    cleansedCells.push(cellIdx + 1);
+                                } else if (cellType === 'event') {
+                                    // Xóa event khỏi cell
+                                    const eventIndex = eventCells.indexOf(cellIdx);
+                                    if (eventIndex > -1) {
+                                        eventCells.splice(eventIndex, 1);
+                                        delete eventData[cellIdx];
+                                    }
+                                    
+                                    // Xóa khỏi portalList nếu có
+                                    const portalIndex = portalList.indexOf(cellIdx);
+                                    if (portalIndex > -1) {
+                                        portalList.splice(portalIndex, 1);
+                                    }
+                                    
+                                    cleansedCells.push(cellIdx + 1);
+                                }
+                                
+                                // Reset cell về trạng thái trống
+                                cell.className = 'cell';
+                                cell.textContent = '';
+                                cell.dataset.type = '';
+                                cell.dataset.eventType = '';
+                                cell.dataset.tooltip = '';
+                                cell.title = '';
+                                cell.dataset.playerIndex = '';
+                                cell.dataset.cellKey = '';
+                                cell.classList.remove('player', 'dead', 'winner', 'event', 'movement', 'attack', 'defense', 'affected');
+                                // Giữ lại data-cell-number
+                                if (!cell.dataset.cellNumber) {
+                                    cell.dataset.cellNumber = cellIdx + 1;
+                                }
+                            });
+                            
+                            if (cleansedCells.length > 0) {
+                                const cleanseMessage = `✨ Đã thanh tẩy ${cleansedCells.length} ô: ${cleansedCells.join(', ')}`;
+                                showEvent(cleanseMessage);
+                                addToHistory(cleanseMessage, false);
+                            } else {
+                                showEvent('✨ Không có ô nào để thanh tẩy!');
                             }
                             
-                            if (shieldCellsAdded.length > 0) {
-                                shieldMessage += ` Đã thêm ${shieldCellsAdded.length} ô khiên vào các ô: ${shieldCellsAdded.join(', ')}.`;
-                                addToHistory(`🛡️ Đã thêm ${shieldCellsAdded.length} ô khiên vào các ô: ${shieldCellsAdded.join(', ')}.`, false);
-                            }
-                        }
-                        
-                        if (shieldMessage) {
-                            showEvent(shieldMessage);
-                            if (shieldedNames.length > 0) {
-                                addToHistory(`🛡️ ${shieldedNames.join(', ')} đã nhận được khiên bảo vệ!`, false);
-                            }
-                        }
-                        
-                        saveGameData();
-                        isMoving = false;
-                        diceBtn.disabled = false;
-                    }, 1500);
+                            saveGameData();
+                            isMoving = false;
+                            diceBtn.disabled = false;
+                        });
+                    } else {
+                        setTimeout(() => {
+                            showEvent('✨ Không có ô nào để thanh tẩy!');
+                            isMoving = false;
+                            diceBtn.disabled = false;
+                        }, 1500);
+                    }
                     return;
             }
 
@@ -2641,12 +3415,6 @@
                 return false;
             }
 
-            // Kiểm tra shield (chỉ cho player index, không phải cell cụ thể)
-            if (playerShields[playerIndex]) {
-                playerShields[playerIndex] = false;
-                showEvent(`🛡️ ${originalPlayers[playerIndex]} đã dùng khiên để chống lại tấn công!`);
-                return false;
-            }
 
             // Đánh dấu cell này là dead (không ảnh hưởng các cell khác)
             deadPlayers.add(cellKey);
