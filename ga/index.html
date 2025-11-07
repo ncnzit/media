@@ -289,7 +289,7 @@
         }
 
         .cell.player {
-            background: #ddd;
+            /* Giữ màu nền trắng mặc định, không đổi màu */
             font-weight: 500;
             color: #14b84c;
             font-size: 17px;
@@ -2745,7 +2745,12 @@
                     // Xóa class current khỏi ô cũ
                     if (stepsTaken === 1) {
                         cells[startPosition].classList.remove('current');
-                        cells[startPosition].classList.add('visited');
+                        // Chỉ thêm 'visited' cho các ô không phải player (hoặc player đã thắng/chết)
+                        if (cells[startPosition].dataset.type !== 'player' || 
+                            cells[startPosition].classList.contains('winner') || 
+                            cells[startPosition].classList.contains('dead')) {
+                            cells[startPosition].classList.add('visited');
+                        }
                     } else {
                         let prevPos = startPosition + ((stepsTaken - 1) * direction);
                         prevPos = normalizePosition(prevPos);
@@ -2772,7 +2777,12 @@
                     }
                     
                     cells[nextPos].classList.add('current');
-                    cells[nextPos].classList.add('visited');
+                    // Chỉ thêm 'visited' cho các ô không phải player (hoặc player đã thắng/chết)
+                    if (cells[nextPos].dataset.type !== 'player' || 
+                        cells[nextPos].classList.contains('winner') || 
+                        cells[nextPos].classList.contains('dead')) {
+                        cells[nextPos].classList.add('visited');
+                    }
 
                     // Nếu có flag shouldKillOnPath, tiêu diệt người chơi khi đi qua
                     if (shouldKillOnPath && cells[nextPos].dataset.type === 'player' && !cells[nextPos].classList.contains('dead')) {
