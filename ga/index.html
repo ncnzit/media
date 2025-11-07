@@ -1974,7 +1974,8 @@
         let portalList = []; // Lưu danh sách 5 portal
         let hasTeleported = false; // Flag để tránh portal teleport lặp lại
         let shouldKillOnPath = false; // Flag để giết người chơi khi đi qua trong lượt tiếp theo
-        let playerWinners = new Set(); // Lưu danh sách player đã trúng thưởng
+        let playerWinners = new Set(); // Lưu danh sách player đã trúng thưởng (cellKey)
+        let winnersPlayerIndices = new Set(); // Lưu danh sách playerIndex đã trúng thưởng
         let originalPlayers = []; // Lưu danh sách player gốc
         let originalPrizes = []; // Lưu danh sách prize gốc
         let gameHistory = []; // Lưu lịch sử sự kiện
@@ -2275,10 +2276,12 @@
                 }
             }
 
-            // Phân bổ tất cả players (không loại trừ người đã trúng, vì họ vẫn có thể xuất hiện ở ô khác)
+            // Phân bổ players (loại trừ người đã trúng thưởng)
             const eligiblePlayerIndices = [];
             for (let i = 0; i < originalPlayers.length; i++) {
-                eligiblePlayerIndices.push(i);
+                if (!winnersPlayerIndices.has(i)) { // Loại trừ người đã trúng thưởng
+                    eligiblePlayerIndices.push(i);
+                }
             }
 
             if (eligiblePlayerIndices.length === 0) {
@@ -2622,10 +2625,12 @@
                     
                     // Kiểm tra và tăng cơ hội sau mỗi 7 lượt gieo xí ngầu (chỉ sau lượt 10)
                     if (turnCount > 10 && turnCount % 7 === 0) {
-                        // Chọn ngẫu nhiên 25% người chơi (làm tròn lên) và thêm vào các ô trống
+                        // Chọn ngẫu nhiên 25% người chơi (làm tròn lên) và thêm vào các ô trống (loại trừ người đã trúng thưởng)
                         const eligiblePlayers = [];
                         for (let i = 0; i < originalPlayers.length; i++) {
-                            eligiblePlayers.push(i);
+                            if (!winnersPlayerIndices.has(i)) { // Loại trừ người đã trúng thưởng
+                                eligiblePlayers.push(i);
+                            }
                         }
                         
                         if (eligiblePlayers.length > 0) {
@@ -2830,6 +2835,7 @@
                     // Đánh dấu người chơi đã trúng thưởng (chỉ đánh dấu cell này, không xóa)
                     const wonCellKey = `${position}_${playerIndex}`;
                     playerWinners.add(wonCellKey); // Lưu cellKey để đánh dấu cell cụ thể đã trúng
+                    winnersPlayerIndices.add(playerIndex); // Lưu playerIndex để loại trừ khỏi các lượt tiếp theo
                     lastWinTurn = turnCount;
                     playerRepeatMultiplier = 1; // Reset multiplier khi có người trúng
                     eventMultiplier = 1;
@@ -3859,7 +3865,69 @@
 
             // Thêm vào lịch sử với thông tin người chiến thắng
             addToHistory(`🏆 ${player} trúng thưởng: ${prize}`, false);
+            
+            // Xóa tất cả các ô có tên người chơi này (trừ ô đã trúng thưởng)
+            if (playerIndex >= 0) {
+                removeAllPlayerCells(playerIndex);
+            }
+            
             saveGameData(); // Lưu dữ liệu khi có kết quả mới
+        }
+        
+        // Hàm xóa tất cả các ô có tên người chơi (trừ ô đã trúng thưởng)
+        function removeAllPlayerCells(playerIndex) {
+            if (playerIndex < 0 || playerIndex >= originalPlayers.length) return;
+            
+            const cellsToRemove = [];
+            
+            // Tìm tất cả các ô có playerIndex này (trừ ô đã trúng thưởng)
+            for (let i = 0; i < TOTAL_CELLS; i++) {
+                const cell = cells[i];
+                if (cell.dataset.type === 'player' && 
+                    parseInt(cell.dataset.playerIndex) === playerIndex &&
+                    cell.dataset.won !== 'true') { // Không xóa ô đã trúng thưởng
+                    cellsToRemove.push(i);
+                }
+            }
+            
+            // Xóa các ô
+            cellsToRemove.forEach(cellIdx => {
+                const cell = cells[cellIdx];
+                const cellKey = cell.dataset.cellKey;
+                
+                // Xóa khỏi playerCellMap
+                playerCellMap.delete(cellIdx);
+                
+                // Xóa khỏi deadPlayers nếu có
+                deadPlayers.delete(cellKey);
+                
+                // Xóa khỏi eventCells nếu có
+                const eventIndex = eventCells.indexOf(cellIdx);
+                if (eventIndex > -1) {
+                    eventCells.splice(eventIndex, 1);
+                    delete eventData[cellIdx];
+                }
+                
+                // Reset cell về trạng thái trống
+                cell.className = 'cell';
+                cell.textContent = '';
+                cell.dataset.type = '';
+                cell.dataset.eventType = '';
+                cell.dataset.tooltip = '';
+                cell.title = '';
+                cell.dataset.playerIndex = '';
+                cell.dataset.cellKey = '';
+                cell.classList.remove('player', 'dead', 'winner', 'event', 'movement', 'attack', 'defense', 'affected');
+                // Giữ lại data-cell-number
+                if (!cell.dataset.cellNumber) {
+                    cell.dataset.cellNumber = cellIdx + 1;
+                }
+            });
+            
+            if (cellsToRemove.length > 0) {
+                // Thêm vào lịch sử
+                addToHistory(`🗑️ Đã xóa ${cellsToRemove.length} ô có tên "${originalPlayers[playerIndex]}" để tránh trúng thưởng nhiều lần`, false);
+            }
         }
 
         // Hàm tiêu diệt người chơi (chỉ ở cell cụ thể)
@@ -3982,6 +4050,7 @@
                     prizes: prizes,
                     deadPlayers: Array.from(deadPlayers),
                     playerWinners: Array.from(playerWinners),
+                    winnersPlayerIndices: Array.from(winnersPlayerIndices),
                     playerShields: playerShields,
                     turnCount: turnCount,
                     roundCount: roundCount,
@@ -4030,6 +4099,7 @@
                         prizes = gameData.prizes || [];
                         deadPlayers = new Set(gameData.deadPlayers || []);
                         playerWinners = new Set(gameData.playerWinners || []);
+                        winnersPlayerIndices = new Set(gameData.winnersPlayerIndices || []);
                         playerShields = gameData.playerShields || {};
                         turnCount = gameData.turnCount || 0;
                         roundCount = gameData.roundCount || 0;
@@ -4232,6 +4302,7 @@
                 prizes = [];
                 deadPlayers = new Set();
                 playerWinners = new Set();
+                winnersPlayerIndices = new Set();
                 playerShields = {};
                 gameHistory = [];
                 turnCount = 0;
