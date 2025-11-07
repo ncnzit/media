@@ -40,7 +40,7 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #0e532f 0%, #9947ed 100%);
             height: 100vh;
             overflow: hidden;
             color: #fff;
@@ -128,6 +128,22 @@
             line-height: 1.6;
             width: 100%;
             box-sizing: border-box;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(255,255,255,0.4) rgba(255,255,255,0.1);
+        }
+
+        .input-section textarea::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .input-section textarea::-webkit-scrollbar-thumb {
+            background: rgba(255,255,255,0.3);
+            border-radius: 3px;
+        }
+
+        .input-section textarea::-webkit-scrollbar-track {
+            background: rgba(255,255,255,0.1);
+            border-radius: 3px;
         }
 
         .input-section textarea:focus {
@@ -174,7 +190,7 @@
 
         .zone3 {
             flex: 1;
-            background: rgba(255,255,255,0.15);
+            background: rgb(98 63 130);
             backdrop-filter: blur(10px);
             border-radius: 10px;
             padding: 10px;
@@ -236,8 +252,8 @@
         }
 
         .cell {
-            background: rgba(255,255,255,0.2);
-            border: 2px solid rgba(255,255,255,0.3);
+            background: rgb(120 120 120);
+            border: 0 solid;
             border-radius: 8px;
             display: flex;
             align-items: center;
@@ -289,9 +305,9 @@
         }
 
         .cell.player {
-            /* Giữ màu nền trắng mặc định, không đổi màu */
-            font-weight: 500;
-            color: #14b84c;
+            font-weight: 400;
+            color: #06ff00;
+            border: 2px solid #00ff00c2;
             font-size: 17px;
             white-space: normal;
             word-wrap: break-word;
@@ -305,8 +321,8 @@
             bottom: 3px;
             right: 5px;
             font-size: 14px;
-            color: rgba(0,0,0,0.5);
-            font-weight: bold;
+            font-weight: 400;
+            color: inherit;
             line-height: 1;
             z-index: 5;
         }
@@ -372,7 +388,7 @@
 
         /* Event cells - Di chuyển (Movement) - Màu flat */
         .cell.event.movement {
-            background: #3498db;
+            background: #0a6eb2;
             font-weight: bold;
             font-size: 32px;
             position: relative;
@@ -450,27 +466,27 @@
         }
 
         .cell[data-event-type="portal"]::after {
-            content: "🌀 Di chuyển: Portal - Đi tắt sang portal ngẫu nhiên (5 portal trên bản đồ)";
+            content: "🧫 Di chuyển: Portal - Đi tắt sang portal ngẫu nhiên (5 portal trên bản đồ)";
         }
 
         .cell[data-event-type="kill_random"]::after {
-            content: "⚔️ Tấn công: Tiêu diệt 1 đến 5 người chơi ngẫu nhiên";
+            content: "❎ Tấn công: Tiêu diệt 1 đến 5 người chơi ngẫu nhiên";
         }
 
         .cell[data-event-type="kill_nearest"]::after {
-            content: "⚔️ Tấn công: Tiêu diệt 1 đến 5 người chơi gần nhất";
+            content: "✳️ Tấn công: Tiêu diệt 1 đến 5 người chơi gần nhất";
         }
 
         .cell[data-event-type="bomb_row"]::after {
-            content: "💣 Tấn công: Bom hàng ngang - Người chơi cùng hàng bị tiêu diệt hết";
+            content: "👽 Tấn công: Bom hàng ngang - Người chơi cùng hàng bị tiêu diệt hết";
         }
 
         .cell[data-event-type="bomb_col"]::after {
-            content: "💣 Tấn công: Bom hàng dọc - Người chơi cùng cột bị tiêu diệt hết";
+            content: "👽 Tấn công: Bom hàng dọc - Người chơi cùng cột bị tiêu diệt hết";
         }
 
         .cell[data-event-type="bomb_cross"]::after {
-            content: "💥 Tấn công: Bom chữ thập - Người chơi cùng hàng và cột bị tiêu diệt hết";
+            content: "❇️ Tấn công: Bom chữ thập - Người chơi cùng hàng và cột bị tiêu diệt hết";
         }
 
         .cell[data-event-type="cleanse"]::after {
@@ -478,8 +494,8 @@
         }
 
         .cell.current {
-            box-shadow: 0 0 20px #00ff00;
-            border-color: #00ff00;
+            box-shadow: 0 0 5px 5px #ffd700;
+            border-color: #ffd700;
             z-index: 10;
         }
 
@@ -627,6 +643,15 @@
             gap: 8px;
             flex: 1;
             overflow-y: auto;
+        }
+
+        #stagesContainer::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        #stagesContainer::-webkit-scrollbar-thumb {
+            background: rgba(255,255,255,0.3);
+            border-radius: 3px;
         }
 
         .stage-item {
@@ -832,6 +857,15 @@
             padding: 12px;
             max-height: 200px;
             overflow-y: auto;
+        }
+
+        .event-info-section::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .event-info-section::-webkit-scrollbar-thumb {
+            background: rgba(255,255,255,0.3);
+            border-radius: 3px;
         }
 
         .event-info-section h3 {
@@ -1793,15 +1827,15 @@
                 <div id="stagesContainer">
                     <div class="stage-item inactive" id="stage1">
                         <div class="stage-title" id="stage1Title">Giai đoạn 1</div>
-                        <div class="stage-desc">Hiển thị 33% người chơi</div>
+                        <div class="stage-desc">Bắt đầu chỉ hiển thị 33% người chơi</div>
                     </div>
                     <div class="stage-item inactive" id="stage2">
                         <div class="stage-title" id="stage2Title">Giai đoạn 2</div>
-                        <div class="stage-desc">Thêm 33% người chơi (tổng 66%)</div>
+                        <div class="stage-desc">Ở lượt 5, thêm 33% người chơi nữa (tổng 66%)</div>
                     </div>
                     <div class="stage-item inactive" id="stage3">
                         <div class="stage-title" id="stage3Title">Giai đoạn 3</div>
-                        <div class="stage-desc">Thêm phần còn lại (tổng 100%)</div>
+                        <div class="stage-desc">Ở lượt 10, thêm phần còn lại (tổng 100%)</div>
                     </div>
                     <div class="stage-item inactive" id="stageLucky">
                         <div class="stage-title" id="stageLuckyTitle">Người chơi may mắn</div>
@@ -1833,13 +1867,13 @@
                 <div class="event-info-item movement">⬇️ Di chuyển: Lùi x ô (lùi ở lần gieo xí ngầu tiếp theo)</div>
                 <div class="event-info-item movement">⬇️ Di chuyển: Nhảy xuống hàng dọc: Nhảy xuống hàng dưới</div>
                 <div class="event-info-item attack">💀 Tấn công: Giẫm đạp - Những ô đi qua trong lượt đổ xí ngầu tiếp theo sẽ tiêu diệt những người chơi bị giẫm qua</div>
-                <div class="event-info-item movement">🌀 Di chuyển: Portal - Đi tắt sang portal ngẫu nhiên (5 portal trên bản đồ)</div>
-                <div class="event-info-item attack">⚔️ Tấn công: Tiêu diệt 1 đến 5 người chơi ngẫu nhiên</div>
-                <div class="event-info-item attack">⚔️ Tấn công: Tiêu diệt 1 đến 5 người chơi gần nhất</div>
-                <div class="event-info-item attack">💣 Tấn công: Bom hàng ngang</div>
-                <div class="event-info-item attack">💣 Tấn công: Bom hàng dọc</div>
-                <div class="event-info-item attack">💥 Tấn công: Bom chữ thập (ngang + dọc)</div>
-                <div class="event-info-item attack">💣💥 Tấn công: Bom nảy - nổ x lần mỗi 2-3 ô</div>
+                <div class="event-info-item movement">🧫 Di chuyển: Portal - Đi tắt sang portal ngẫu nhiên (5 portal trên bản đồ)</div>
+                <div class="event-info-item attack">❎ Tấn công: Tiêu diệt 1 đến 5 người chơi ngẫu nhiên</div>
+                <div class="event-info-item attack">✳️ Tấn công: Tiêu diệt 1 đến 5 người chơi gần nhất</div>
+                <div class="event-info-item attack">👽 Tấn công: Bom hàng ngang</div>
+                <div class="event-info-item attack">👽 Tấn công: Bom hàng dọc</div>
+                <div class="event-info-item attack">❇️ Tấn công: Bom chữ thập (ngang + dọc)</div>
+                <div class="event-info-item attack">👽 Tấn công: Bom nảy - nổ x lần mỗi 2-3 ô</div>
                 <div class="event-info-item attack">✨ Tấn công: Thanh tẩy - Làm trống ngẫu nhiên x ô (x: 3-10)</div>
             </div>
             
@@ -1897,41 +1931,41 @@
             
             <div class="rules-section">
                 <h3>🎮 Cách Chơi</h3>
-                <p>Bạn cần điền danh sách người chơi và danh sách phần thưởng sau đó bấm <strong>Bắt đầu</strong> để tạo màn chơi.</p>
-                <p>Có thể <strong>Upload ảnh</strong> quân cờ nếu cần thiết để tùy chỉnh hình ảnh quân cờ trên bàn chơi.</p>
-                <p>Quân cờ sẽ xuất hiện ở <strong>ô số 1</strong> (góc trên bên trái) và di chuyển từ trái sang phải theo số lượt đổ <strong>xí ngầu D21</strong> (Xí ngầu 21 mặt).</p>
-                <p>Bấm nút <strong>🎲 Nhân Phẩm 🎲</strong> để gieo xí ngầu D21 và di chuyển quân cờ.</p>
-                <p>Khi quân cờ di chuyển vào ô có người chơi thì sẽ trao phần thưởng cho người chơi đó. Trò chơi kết thúc khi đã trao hết tất cả phần thưởng.</p>
+                <p>📝 Bạn cần điền danh sách người chơi và danh sách phần thưởng sau đó bấm <strong>▶️ Bắt đầu</strong> để tạo màn chơi.</p>
+                <p>🖼️ Có thể <strong>Upload ảnh</strong> quân cờ nếu cần thiết để tùy chỉnh hình ảnh quân cờ trên bàn chơi.</p>
+                <p>🎯 Quân cờ sẽ xuất hiện ở <strong>ô số 1</strong> (góc trên bên trái) và di chuyển từ trái sang phải theo số lượt đổ <strong>🎲 xí ngầu D21</strong> (Xí ngầu 21 mặt).</p>
+                <p>🎲 Bấm nút <strong>🎲 Nhân Phẩm 🎲</strong> để gieo xí ngầu D21 và di chuyển quân cờ.</p>
+                <p>🎁 Khi quân cờ di chuyển vào ô có người chơi thì sẽ trao phần thưởng cho người chơi đó. Trò chơi kết thúc khi đã trao hết tất cả phần thưởng.</p>
             </div>
 
             <div class="rules-section">
                 <h3>🎯 Các Giai Đoạn</h3>
                 <p style="font-style: italic; color: rgba(255,255,255,0.8); margin-bottom: 10px; font-size: 13px;">Các Giai Đoạn được chia ra để tránh trường hợp kết thúc quá nhanh hoặc kéo dài quá lâu.</p>
-                <p><strong>Giai đoạn 1:</strong> Ban đầu chỉ hiển thị 33% người chơi (làm tròn xuống)</p>
-                <p><strong>Giai đoạn 2:</strong> Sau 5 lượt gieo xí ngầu, thêm 33% người chơi nữa (tổng 66%)</p>
-                <p><strong>Giai đoạn 3:</strong> Sau 10 lượt gieo xí ngầu, thêm phần còn lại (tổng 100%)</p>
-                <p><strong>Người chơi may mắn:</strong> Từ sau lượt 10, sau mỗi 7 lượt gieo xí ngầu, 25% người chơi may mắn sẽ được thêm vào các ô trống!</p>
+                <p><strong>1️⃣ Giai đoạn 1:</strong> Bắt đầu chỉ hiển thị 33% người chơi (làm tròn xuống)</p>
+                <p><strong>2️⃣ Giai đoạn 2:</strong> Sau 5 lượt gieo xí ngầu, thêm 33% người chơi nữa (tổng 66%)</p>
+                <p><strong>3️⃣ Giai đoạn 3:</strong> Sau 10 lượt gieo xí ngầu, thêm phần còn lại (tổng 100%)</p>
+                <p><strong>🍀 Người chơi may mắn:</strong> Từ sau lượt 10, sau mỗi 7 lượt gieo xí ngầu, 25% người chơi may mắn sẽ được thêm vào các ô trống!</p>
             </div>
 
             <div class="rules-section">
                 <h3>📋 Các Sự Kiện</h3>
                 
                 <h4 style="color: #4fc3f7; margin-top: 15px; margin-bottom: 8px;">⬆️ Di chuyển:</h4>
-                <p>• <strong>Tiến thêm 1-5 ô:</strong> Quân cờ tiến thêm số ô ngẫu nhiên (sang phải)</p>
-                <p>• <strong>Lùi x ô:</strong> Lùi x ô ở lần gieo xí ngầu tiếp theo (x là số xúc xắc, sang trái)</p>
-                <p>• <strong>Nhảy xuống hàng dọc:</strong> Nhảy xuống hàng dưới</p>
-                <p>• <strong>Nhảy lên hàng dọc:</strong> Nhảy lên hàng trên</p>
-                <p>• <strong>Portal:</strong> Đi tắt sang portal ngẫu nhiên (5 portal trên bản đồ)</p>
+                <p>• <strong>➡️ Tiến thêm 1-5 ô:</strong> Quân cờ tiến thêm số ô ngẫu nhiên (sang phải)</p>
+                <p>• <strong>⬅️ Lùi x ô:</strong> Lùi x ô ở lần gieo xí ngầu tiếp theo (x là số xúc xắc, sang trái)</p>
+                <p>• <strong>⬇️ Nhảy xuống hàng dọc:</strong> Nhảy xuống hàng dưới</p>
+                <p>• <strong>⬆️ Nhảy lên hàng dọc:</strong> Nhảy lên hàng trên</p>
+                <p>• <strong>🧫 Portal:</strong> Đi tắt sang portal ngẫu nhiên (5 portal trên bản đồ)</p>
                 
                 <h4 style="color: #ef5350; margin-top: 15px; margin-bottom: 8px;">⚔️ Tấn công:</h4>
-                <p>• <strong>Tiêu diệt 1 đến 5 người chơi ngẫu nhiên</strong></p>
-                <p>• <strong>Tiêu diệt 1 đến 5 người chơi gần nhất</strong></p>
-                <p>• <strong>Bom hàng ngang:</strong> Tất cả người chơi cùng hàng bị tiêu diệt</p>
-                <p>• <strong>Bom hàng dọc:</strong> Tất cả người chơi cùng cột bị tiêu diệt</p>
-                <p>• <strong>Bom chữ thập:</strong> Tất cả người chơi cùng hàng và cột bị tiêu diệt</p>
-                <p>• <strong>Bom nảy:</strong> Nổ x lần mỗi 2-3 ô, tiêu diệt người chơi tại các vị trí đó</p>
-                <p>• <strong>Giẫm đạp:</strong> Những ô đi qua trong lượt đổ xí ngầu tiếp theo sẽ tiêu diệt những người chơi bị giẫm qua</p>
-                <p>• <strong>Thanh tẩy:</strong> Làm trống ngẫu nhiên x ô (x từ 3 đến 10), các ô kể cả người chơi lẫn sự kiện sẽ thành ô trống</p>
+                <p>• <strong>❎ Tiêu diệt 1 đến 5 người chơi ngẫu nhiên</strong></p>
+                <p>• <strong>✳️ Tiêu diệt 1 đến 5 người chơi gần nhất</strong></p>
+                <p>• <strong>👽 Bom hàng ngang:</strong> Tất cả người chơi cùng hàng bị tiêu diệt</p>
+                <p>• <strong>👽 Bom hàng dọc:</strong> Tất cả người chơi cùng cột bị tiêu diệt</p>
+                <p>• <strong>❇️ Bom chữ thập:</strong> Tất cả người chơi cùng hàng và cột bị tiêu diệt</p>
+                <p>• <strong>👽 Bom nảy:</strong> Nổ x lần mỗi 2-3 ô, tiêu diệt người chơi tại các vị trí đó</p>
+                <p>• <strong>💀 Giẫm đạp:</strong> Những ô đi qua trong lượt đổ xí ngầu tiếp theo sẽ tiêu diệt những người chơi bị giẫm qua</p>
+                <p>• <strong>✨ Thanh tẩy:</strong> Làm trống ngẫu nhiên x ô (x từ 3 đến 10), các ô kể cả người chơi lẫn sự kiện sẽ thành ô trống</p>
             </div>
 
             <div class="rules-section" style="margin-top: 30px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.3);">
@@ -1974,6 +2008,8 @@
         let portalList = []; // Lưu danh sách 5 portal
         let hasTeleported = false; // Flag để tránh portal teleport lặp lại
         let shouldKillOnPath = false; // Flag để giết người chơi khi đi qua trong lượt tiếp theo
+        let activatedEventsInTurn = new Set(); // Set để lưu các ô event đã kích hoạt trong lượt này (tránh vòng lặp)
+        let jumpCountInTurn = 0; // Đếm số lần nhảy trong lượt này (tránh vòng lặp vô tận)
         let playerWinners = new Set(); // Lưu danh sách player đã trúng thưởng (cellKey)
         let winnersPlayerIndices = new Set(); // Lưu danh sách playerIndex đã trúng thưởng
         let originalPlayers = []; // Lưu danh sách player gốc
@@ -2173,21 +2209,16 @@
                 ];
                 
                 // Tấn công - tăng gấp đôi tần suất bằng cách duplicate
-                const attackEvents = [
-                    { type: 'kill_random', icon: '⚔️', desc: 'Tiêu diệt 1 đến 5 người chơi ngẫu nhiên', category: 'attack' },
-                    { type: 'kill_nearest', icon: '⚔️', desc: 'Tiêu diệt 1 đến 5 người chơi gần nhất', category: 'attack' },
-                    { type: 'bomb_row', icon: '💣', desc: 'Bom hàng ngang', category: 'attack' },
-                    { type: 'bomb_col', icon: '💣', desc: 'Bom hàng dọc', category: 'attack' },
-                    { type: 'bomb_cross', icon: '💥', desc: 'Bom chữ thập (ngang + dọc)', category: 'attack' },
-                    { type: 'bouncing_bomb', icon: '💣💥', desc: 'Bom nảy - nổ x lần mỗi 2-3 ô', category: 'attack' },
-                    // Duplicate để tăng gấp đôi tần suất
-                    { type: 'kill_random', icon: '⚔️', desc: 'Tiêu diệt 1 đến 5 người chơi ngẫu nhiên', category: 'attack' },
-                    { type: 'kill_nearest', icon: '⚔️', desc: 'Tiêu diệt 1 đến 5 người chơi gần nhất', category: 'attack' },
-                    { type: 'bomb_row', icon: '💣', desc: 'Bom hàng ngang', category: 'attack' },
-                    { type: 'bomb_col', icon: '💣', desc: 'Bom hàng dọc', category: 'attack' },
-                    { type: 'bomb_cross', icon: '💥', desc: 'Bom chữ thập (ngang + dọc)', category: 'attack' },
-                    { type: 'bouncing_bomb', icon: '💣💥', desc: 'Bom nảy - nổ x lần mỗi 2-3 ô', category: 'attack' }
+                const baseAttackEvents = [
+                    { type: 'kill_random', icon: '❎', desc: 'Tiêu diệt 1 đến 5 người chơi ngẫu nhiên', category: 'attack' },
+                    { type: 'kill_nearest', icon: '✳️', desc: 'Tiêu diệt 1 đến 5 người chơi gần nhất', category: 'attack' },
+                    { type: 'bomb_row', icon: '👽', desc: 'Bom hàng ngang', category: 'attack' },
+                    { type: 'bomb_col', icon: '👽', desc: 'Bom hàng dọc', category: 'attack' },
+                    { type: 'bomb_cross', icon: '❇️', desc: 'Bom chữ thập (ngang + dọc)', category: 'attack' },
+                    { type: 'bouncing_bomb', icon: '👽', desc: 'Bom nảy - nổ x lần mỗi 2-3 ô', category: 'attack' }
                 ];
+                
+                const attackEvents = [...baseAttackEvents, ...baseAttackEvents];
                 
                 // Thêm sự kiện Thanh tẩy vào nhóm tấn công
                 attackEvents.push(
@@ -2235,7 +2266,7 @@
                     let eventInfo;
                     if (portalList.includes(idx)) {
                         // Portal
-                        eventInfo = { type: 'portal', icon: '🌀', desc: 'Portal - Đi tắt sang portal ngẫu nhiên', category: 'movement' };
+                        eventInfo = { type: 'portal', icon: '🧫', desc: 'Portal - Đi tắt sang portal ngẫu nhiên', category: 'movement' };
                     } else if (cleanseIndices.includes(idx)) {
                         // Thanh tẩy
                         eventInfo = { type: 'cleanse', icon: '✨', desc: 'Thanh tẩy - Làm trống ngẫu nhiên x ô (x: 3-10)', category: 'attack' };
@@ -2589,6 +2620,9 @@
                     
                     // Thêm vào lịch sử (tăng lượt)
                     addToHistory(`🎲 Gieo xúc xắc: ${diceValue}`, true);
+                    // Reset các flag để tránh vòng lặp
+                    activatedEventsInTurn.clear();
+                    jumpCountInTurn = 0;
                     playSound('dice');
                     
                     // Cập nhật countdown
@@ -2952,15 +2986,15 @@
                     ];
                     
                     const attackEvents = [
-                        { type: 'kill_random', icon: '⚔️', desc: 'Tiêu diệt 1 đến 5 người chơi ngẫu nhiên', category: 'attack' },
-                        { type: 'kill_nearest', icon: '⚔️', desc: 'Tiêu diệt 1 đến 5 người chơi gần nhất', category: 'attack' },
+                        { type: 'kill_random', icon: '❎', desc: 'Tiêu diệt 1 đến 5 người chơi ngẫu nhiên', category: 'attack' },
+                        { type: 'kill_nearest', icon: '✳️', desc: 'Tiêu diệt 1 đến 5 người chơi gần nhất', category: 'attack' },
                         { type: 'bomb_row', icon: '💣', desc: 'Bom hàng ngang', category: 'attack' },
                         { type: 'bomb_col', icon: '💣', desc: 'Bom hàng dọc', category: 'attack' },
                         { type: 'bomb_cross', icon: '💥', desc: 'Bom chữ thập (ngang + dọc)', category: 'attack' },
                         { type: 'bouncing_bomb', icon: '💣💥', desc: 'Bom nảy - nổ x lần mỗi 2-3 ô', category: 'attack' },
                         // Duplicate để tăng gấp đôi tần suất
-                        { type: 'kill_random', icon: '⚔️', desc: 'Tiêu diệt 1 đến 5 người chơi ngẫu nhiên', category: 'attack' },
-                        { type: 'kill_nearest', icon: '⚔️', desc: 'Tiêu diệt 1 đến 5 người chơi gần nhất', category: 'attack' },
+                        { type: 'kill_random', icon: '❎', desc: 'Tiêu diệt 1 đến 5 người chơi ngẫu nhiên', category: 'attack' },
+                        { type: 'kill_nearest', icon: '✳️', desc: 'Tiêu diệt 1 đến 5 người chơi gần nhất', category: 'attack' },
                         { type: 'bomb_row', icon: '💣', desc: 'Bom hàng ngang', category: 'attack' },
                         { type: 'bomb_col', icon: '💣', desc: 'Bom hàng dọc', category: 'attack' },
                         { type: 'bomb_cross', icon: '💥', desc: 'Bom chữ thập (ngang + dọc)', category: 'attack' },
@@ -3012,7 +3046,7 @@
                     newEventIndices.forEach(idx => {
                         let eventInfo;
                         if (portalList.includes(idx)) {
-                            eventInfo = { type: 'portal', icon: '🌀', desc: 'Portal - Đi tắt sang portal ngẫu nhiên', category: 'movement' };
+                            eventInfo = { type: 'portal', icon: '🧫', desc: 'Portal - Đi tắt sang portal ngẫu nhiên', category: 'movement' };
                         } else if (cleanseIndices.includes(idx)) {
                             // Thanh tẩy
                             eventInfo = { type: 'cleanse', icon: '✨', desc: 'Thanh tẩy - Làm trống ngẫu nhiên x ô (x: 3-10)', category: 'attack' };
@@ -3207,7 +3241,19 @@
                     return;
 
                 case 'jump_row':
+                    // Kiểm tra xem đã kích hoạt event này trong lượt này chưa (tránh vòng lặp)
+                    if (activatedEventsInTurn.has(position) || jumpCountInTurn >= 3) {
+                        message = `⬇️ ${eventInfo.desc} - Đã đạt giới hạn nhảy trong lượt này!`;
+                        showEvent(message);
+                        setTimeout(() => {
+                            isMoving = false;
+                            diceBtn.disabled = false;
+                        }, 1500);
+                        return;
+                    }
                     // Nhảy xuống hàng dọc (GRID_COLS ô) - xuống hàng dưới
+                    activatedEventsInTurn.add(position);
+                    jumpCountInTurn++;
                     message = `⬇️ ${eventInfo.desc}`;
                     showEvent(message);
                     setTimeout(() => {
@@ -3217,7 +3263,19 @@
                     return;
 
                 case 'jump_row_up':
+                    // Kiểm tra xem đã kích hoạt event này trong lượt này chưa (tránh vòng lặp)
+                    if (activatedEventsInTurn.has(position) || jumpCountInTurn >= 3) {
+                        message = `⬆️ ${eventInfo.desc} - Đã đạt giới hạn nhảy trong lượt này!`;
+                        showEvent(message);
+                        setTimeout(() => {
+                            isMoving = false;
+                            diceBtn.disabled = false;
+                        }, 1500);
+                        return;
+                    }
                     // Nhảy lên hàng dọc (-GRID_COLS ô) - lên hàng trên
+                    activatedEventsInTurn.add(position);
+                    jumpCountInTurn++;
                     message = `⬆️ ${eventInfo.desc}`;
                     showEvent(message);
                     setTimeout(() => {
@@ -3243,7 +3301,7 @@
                     // Bom nảy - nổ x lần mỗi 2 hoặc 3 ô
                     const bombTimes = Math.floor(Math.random() * 3) + 2; // 2-4 lần
                     const bombInterval = Math.random() < 0.5 ? 2 : 3; // 2 hoặc 3 ô
-                    message = `💣💥 Bom nảy - nổ ${bombTimes} lần mỗi ${bombInterval} ô!`;
+                    message = `👽 Bom nảy - nổ ${bombTimes} lần mỗi ${bombInterval} ô!`;
                     showEvent(message);
                     playSound('event');
                     
@@ -3277,11 +3335,11 @@
                             });
                             
                             if (killed && affectedCellNumbers.length > 0) {
-                                const historyMessage = `💣💥 Bom nảy - nổ ${bombTimes} lần mỗi ${bombInterval} ô (các ô ${affectedCellNumbers.join(', ')})`;
+                                const historyMessage = `👽 Bom nảy - nổ ${bombTimes} lần mỗi ${bombInterval} ô (các ô ${affectedCellNumbers.join(', ')})`;
                                 addToHistory(historyMessage, false);
                             } else {
                                 // Nếu không trúng, thêm vào lịch sử
-                                addToHistory('💣💥 Bom nảy không trúng người chơi nào!', false);
+                                addToHistory('👽 Bom nảy không trúng người chơi nào!', false);
                             }
                             
                             checkAndRevivePlayers();
@@ -3290,8 +3348,8 @@
                         });
                     } else {
                         setTimeout(() => {
-                            showEvent('💣💥 Bom nảy không trúng người chơi nào!');
-                            addToHistory('💣💥 Bom nảy không trúng người chơi nào!', false);
+                            showEvent('👽 Bom nảy không trúng người chơi nào!');
+                            addToHistory('👽 Bom nảy không trúng người chơi nào!', false);
                             isMoving = false;
                             diceBtn.disabled = false;
                         }, 1500);
@@ -3302,7 +3360,7 @@
                     // Portal - đi tắt sang portal ngẫu nhiên (tránh lặp lại)
                     if (hasTeleported) {
                         // Đã teleport rồi, không teleport nữa
-                        message = `🌀 ${eventInfo.desc}`;
+                        message = `🧫 ${eventInfo.desc}`;
                         showEvent(message);
                         playSound('event');
                         isMoving = false;
@@ -3310,7 +3368,7 @@
                         return;
                     }
                     
-                    message = `🌀 ${eventInfo.desc}`;
+                    message = `🧫 ${eventInfo.desc}`;
                     showEvent(message);
                     playSound('event');
                     setTimeout(() => {
@@ -3328,7 +3386,7 @@
                             cells[currentPosition].appendChild(gamePiece);
                             cells[currentPosition].classList.add('current');
                             cells[currentPosition].scrollIntoView({ behavior: 'smooth', block: 'center' });
-                            showEvent(`🌀 Đã dịch chuyển đến ô ${randomPortal + 1}!`);
+                            showEvent(`🧫 Đã dịch chuyển đến ô ${randomPortal + 1}!`);
                             
                             // Kiểm tra ô đích, nếu không phải portal thì mới xử lý landing
                             setTimeout(() => {
@@ -3354,7 +3412,7 @@
 
                 // === TẤN CÔNG ===
                 case 'kill_random':
-                    message = `⚔️ ${eventInfo.desc}`;
+                    message = `❎ ${eventInfo.desc}`;
                     showEvent(message);
                     playSound('event');
                     
@@ -3384,7 +3442,7 @@
                             });
                             
                             if (selected.length > 0) {
-                                addToHistory(`⚔️ Đã tiêu diệt ${selected.length} người chơi ngẫu nhiên!`, false);
+                                addToHistory(`❎ Đã tiêu diệt ${selected.length} người chơi ngẫu nhiên!`, false);
                             }
                             
                             checkAndRevivePlayers();
@@ -3400,7 +3458,7 @@
                     return;
 
                 case 'kill_nearest':
-                    message = `⚔️ ${eventInfo.desc}`;
+                    message = `✳️ ${eventInfo.desc}`;
                     showEvent(message);
                     playSound('event');
                     
@@ -3438,7 +3496,7 @@
                             });
                             
                             if (selected.length > 0) {
-                                addToHistory(`⚔️ Đã tiêu diệt ${selected.length} người chơi gần nhất!`, false);
+                                addToHistory(`✳️ Đã tiêu diệt ${selected.length} người chơi gần nhất!`, false);
                             }
                             
                             checkAndRevivePlayers();
@@ -3454,7 +3512,7 @@
                     return;
 
                 case 'bomb_row':
-                    message = `💣 ${eventInfo.desc}`;
+                    message = `👽 ${eventInfo.desc}`;
                     showEvent(message);
                     playSound('event');
                     
@@ -3480,14 +3538,14 @@
                             affectedRowPlayers.forEach(({ playerIndex, cellIndex }) => {
                                 if (killPlayer(playerIndex, cellIndex)) killed = true;
                             });
-                            if (!killed) showEvent('💣 Không có người chơi nào trong hàng!');
+                            if (!killed) showEvent('👽 Không có người chơi nào trong hàng!');
                             checkAndRevivePlayers();
                             isMoving = false;
                             diceBtn.disabled = false;
                         });
                     } else {
                         setTimeout(() => {
-                            showEvent('💣 Không có người chơi nào trong hàng!');
+                            showEvent('👽 Không có người chơi nào trong hàng!');
                             isMoving = false;
                             diceBtn.disabled = false;
                         }, 1500);
@@ -3495,7 +3553,7 @@
                     return;
 
                 case 'bomb_col':
-                    message = `💣 ${eventInfo.desc}`;
+                    message = `👽 ${eventInfo.desc}`;
                     showEvent(message);
                     playSound('event');
                     
@@ -3519,14 +3577,14 @@
                             affectedColPlayers.forEach(({ playerIndex, cellIndex }) => {
                                 if (killPlayer(playerIndex, cellIndex)) killed = true;
                             });
-                            if (!killed) showEvent('💣 Không có người chơi nào trong cột!');
+                            if (!killed) showEvent('👽 Không có người chơi nào trong cột!');
                             checkAndRevivePlayers();
                             isMoving = false;
                             diceBtn.disabled = false;
                         });
                     } else {
                         setTimeout(() => {
-                            showEvent('💣 Không có người chơi nào trong cột!');
+                            showEvent('👽 Không có người chơi nào trong cột!');
                             isMoving = false;
                             diceBtn.disabled = false;
                         }, 1500);
@@ -3534,7 +3592,7 @@
                     return;
 
                 case 'bomb_cross':
-                    message = `💥 ${eventInfo.desc}`;
+                    message = `❇️ ${eventInfo.desc}`;
                     showEvent(message);
                     playSound('event');
                     
@@ -4191,8 +4249,23 @@
                             eventCells.forEach(idx => {
                                 if (cells[idx] && eventData[idx]) {
                                     const eventInfo = eventData[idx];
+                                    let restoredIcon = eventInfo.icon;
+                                    if (eventInfo.type === 'kill_random') {
+                                        restoredIcon = '❎';
+                                    } else if (eventInfo.type === 'kill_nearest') {
+                                        restoredIcon = '✳️';
+                                    } else if (eventInfo.type === 'bomb_cross') {
+                                        restoredIcon = '❇️';
+                                    } else if (eventInfo.type === 'bomb_row' || eventInfo.type === 'bomb_col') {
+                                        restoredIcon = '👽';
+                                    } else if (eventInfo.type === 'bouncing_bomb') {
+                                        restoredIcon = '👽';
+                                    } else if (eventInfo.type === 'portal') {
+                                        restoredIcon = '🧫';
+                                    }
+                                    eventInfo.icon = restoredIcon;
                                     cells[idx].className = `cell event ${eventInfo.category}`;
-                                    cells[idx].textContent = eventInfo.icon;
+                                    cells[idx].textContent = restoredIcon;
                                     cells[idx].dataset.type = 'event';
                                     cells[idx].dataset.eventType = eventInfo.type;
                                     cells[idx].dataset.tooltip = eventInfo.desc;
@@ -4333,6 +4406,8 @@
                 eventData = {};
                 playerCellMap = new Map();
                 isMoving = false;
+                activatedEventsInTurn = new Set();
+                jumpCountInTurn = 0;
                 
                 // Xóa quân cờ nếu có
                 if (gamePiece) {
