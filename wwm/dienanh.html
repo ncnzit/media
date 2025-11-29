@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thanh Hà Ký Sự - Hồ Sơ Điền Anh</title>
+    <title>Thanh Hà Ký Sự - Tuyến Ngầm Điền Anh</title>
     <!-- Font chữ báo chí cổ điển -->
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
         :root {
             --paper-bg: #f4e4bc;
             --ink-black: #1a1a1a;
-            --highlight-red: #8e2218; /* Đỏ sẫm hơn cho hợp kiếm hiệp */
+            --highlight-red: #8e2218;
             --sepia-border: #8b7355;
             --old-paper-texture: url('https://www.transparenttextures.com/patterns/aged-paper.png');
         }
@@ -23,15 +23,16 @@
             margin: 0;
             padding: 20px;
             color: var(--ink-black);
-            line-height: 1.6;
+            line-height: 1.8; /* Tăng khoảng cách dòng */
+            font-size: 20px; /* Tăng size chữ cơ bản lên 20px */
         }
 
         .container {
-            max-width: 1100px;
+            max-width: 1100px; /* Chiều rộng 1100px */
             margin: 0 auto;
             background-color: var(--paper-bg);
             background-image: var(--old-paper-texture);
-            padding: 40px;
+            padding: 60px;
             box-shadow: 0 0 50px rgba(0,0,0,0.5);
             position: relative;
         }
@@ -49,32 +50,34 @@
         /* Header báo */
         header {
             text-align: center;
-            border-bottom: 3px double var(--ink-black);
-            margin-bottom: 40px;
-            padding-bottom: 20px;
+            border-bottom: 4px double var(--ink-black);
+            margin-bottom: 60px;
+            padding-bottom: 30px;
             position: relative;
             z-index: 2;
         }
 
         h1 {
             font-family: 'Cinzel', serif;
-            font-size: 3.5rem;
+            font-size: 4.5rem; /* Tăng tiêu đề lớn */
             margin: 0;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 3px;
             line-height: 1.2;
+            color: #000;
         }
 
         .sub-headline {
             font-family: 'Roboto Mono', monospace;
-            font-size: 1.1rem;
+            font-size: 1.3rem; /* Tăng tiêu đề phụ */
             text-transform: uppercase;
-            border-top: 1px solid var(--ink-black);
-            border-bottom: 1px solid var(--ink-black);
-            padding: 5px 0;
-            margin-top: 10px;
+            border-top: 2px solid var(--ink-black);
+            border-bottom: 2px solid var(--ink-black);
+            padding: 15px 0;
+            margin-top: 20px;
             display: flex;
             justify-content: space-between;
+            font-weight: bold;
         }
 
         /* Timeline CSS */
@@ -88,21 +91,21 @@
         .timeline::after {
             content: '';
             position: absolute;
-            width: 4px;
+            width: 6px;
             background-color: var(--ink-black);
             top: 0;
             bottom: 0;
             left: 50%;
-            margin-left: -2px;
+            margin-left: -3px;
             opacity: 0.8;
         }
 
         .entry {
-            padding: 10px 40px;
+            padding: 10px 80px; /* Tăng khoảng cách hai bên */
             position: relative;
             background-color: inherit;
             width: 50%;
-            margin-bottom: 30px;
+            margin-bottom: 50px;
         }
 
         .entry.left { left: 0; text-align: right; }
@@ -112,94 +115,100 @@
         .entry::after {
             content: '';
             position: absolute;
-            width: 20px;
-            height: 20px;
-            right: -10px;
+            width: 30px; /* Tăng chấm tròn */
+            height: 30px;
+            right: -15px;
             background-color: var(--paper-bg);
-            border: 4px solid var(--highlight-red);
-            top: 25px;
+            border: 6px solid var(--highlight-red);
+            top: 35px;
             border-radius: 50%;
             z-index: 1;
         }
 
         .entry.right::after {
-            left: -10px;
+            left: -15px;
         }
 
         .content-box {
-            padding: 20px;
-            background-color: rgba(255,255,255,0.4);
-            border: 1px solid var(--sepia-border);
+            padding: 40px; /* Tăng padding trong hộp nội dung */
+            background-color: rgba(255,255,255,0.5);
+            border: 2px solid var(--sepia-border);
             position: relative;
             transition: transform 0.3s ease;
         }
 
         .content-box:hover {
-            transform: scale(1.02);
-            background-color: rgba(255,255,255,0.7);
-            box-shadow: 5px 5px 15px rgba(0,0,0,0.1);
+            transform: scale(1.01);
+            background-color: rgba(255,255,255,0.8);
+            box-shadow: 5px 5px 20px rgba(0,0,0,0.15);
         }
 
         .date {
             font-family: 'Roboto Mono', monospace;
             font-weight: bold;
             color: var(--highlight-red);
-            font-size: 1.1rem;
-            margin-bottom: 5px;
+            font-size: 1.6rem;
+            margin-bottom: 10px;
             display: block;
+            border-bottom: 1px solid var(--highlight-red);
+            padding-bottom: 5px;
+            display: inline-block;
         }
 
         .location {
             font-style: italic;
             font-weight: bold;
-            color: #555;
-            font-size: 0.9rem;
+            color: #444;
+            font-size: 1.2rem;
             text-transform: uppercase;
+            display: block;
+            margin-bottom: 15px;
         }
 
         h2 {
-            margin-top: 0;
-            font-size: 1.5rem;
-            margin-bottom: 10px;
+            margin-top: 5px;
+            font-size: 2.2rem;
+            margin-bottom: 20px;
             font-weight: bold;
+            line-height: 1.3;
+            color: #222;
         }
 
-        p { margin-bottom: 10px; font-size: 1.1rem; text-align: justify; }
+        p { 
+            margin-bottom: 20px; 
+            font-size: 1.25rem; /* Cỡ chữ nội dung khoảng 20px */
+            text-align: justify; 
+        }
+
+        p:last-child {
+            margin-bottom: 0;
+        }
         
-        /* Chữ ký hoặc trích dẫn */
-        .quote {
-            font-style: italic;
-            border-left: 3px solid var(--highlight-red);
-            padding-left: 10px;
-            margin-top: 10px;
-            color: #444;
-        }
-
         /* Mobile Responsive */
-        @media screen and (max-width: 600px) {
-            .timeline::after { left: 31px; }
-            .entry { width: 100%; padding-left: 70px; padding-right: 25px; }
+        @media screen and (max-width: 900px) {
+            .timeline::after { left: 40px; }
+            .entry { width: 100%; padding-left: 100px; padding-right: 20px; }
             .entry.left, .entry.right { left: 0; text-align: left; }
-            .entry.left::after, .entry.right::after { left: 21px; }
-            h1 { font-size: 2rem; }
-            .container { padding: 15px; }
+            .entry.left::after, .entry.right::after { left: 25px; }
+            h1 { font-size: 3rem; }
+            .container { padding: 20px; }
             .content-box p { text-align: left; }
         }
         
         /* Con dấu */
         .stamp {
             position: absolute;
-            top: 20px;
-            right: 20px;
-            border: 3px solid var(--highlight-red);
+            top: 40px;
+            right: 40px;
+            border: 5px solid var(--highlight-red);
             color: var(--highlight-red);
-            padding: 5px 10px;
+            padding: 15px 30px;
             text-transform: uppercase;
             font-weight: bold;
             font-family: 'Courier New', Courier, monospace;
             transform: rotate(-15deg);
-            opacity: 0.7;
-            font-size: 1.2rem;
+            opacity: 0.6;
+            font-size: 2rem;
             pointer-events: none;
             z-index: 3;
         }
@@ -209,184 +218,286 @@
 <body>
 
 <div class="container">
-    <div class="stamp">TUYỆT MẬT</div>
+    <div class="stamp">HỒ SƠ MẬT</div>
     <header>
-        <h1>THANH HÀ KÝ SỰ</h1>
+        <h1>TUYẾN NGẦM THANH HÀ</h1>
         <div class="sub-headline">
-            <span>Niên đại: Ngũ Đại Thập Quốc</span>
-            <span>Hồ sơ nhân vật: Điền Anh</span>
-            <span>Tình trạng: Mất tích</span>
+            <span>Nửa đầu đời của Điền Anh</span>
+            <span>Ghi chép toàn bộ quá trình</span>
         </div>
-        <p style="font-style: italic; margin-top: 15px;">"Nửa đời phiêu bạt, kiếm gãy mộng tàn. Từ thiếu niên loạn thế đến sát thủ vô danh."</p>
     </header>
 
     <div class="timeline">
         
-        <!-- 936 -->
+        <!-- NĂM 936 -->
         <div class="entry left">
             <div class="content-box">
                 <span class="date">Năm 936</span>
-                <br>
                 <span class="location">📍 Hồ Bão Sơn, Thanh Hà</span>
                 <h2>Thiếu Niên Loạn Thế</h2>
-                <p>Sau khi Thạch Kính Đường cắt nhượng 16 châu Yên Vân cho Khiết Đan, chiến sự lan tràn. Điền Anh dẫn em trai Điền Tề chạy nạn đến thôn trang bên bờ hồ Bão Sơn. Tại đây, hai anh em được cha của Yến Đại Thiết - một thợ rèn tốt bụng - thu nhận làm công. Ước nguyện duy nhất của Điền Anh lúc này chỉ là được ăn no bụng, chấm dứt những ngày tháng phiêu bạt.</p>
+                <p>​Năm 936, sau khi Thạch Kính Đường cắt nhượng 16 châu Yên Vân cho Khiết Đan, Trung Nguyên chiến sự liên miên, bách tính lưu lạc khắp nơi.</p>
+                <p>​Thiếu niên Điền Anh dẫn theo em trai Điền Tề chạy nạn, đến một thôn trang vẫn còn được xem là yên bình bên bờ hồ Bão Sơn thuộc Thanh Hà. Họ được một thợ rèn tốt bụng, cũng chính là cha của Yến Đại Thiết thu nhận, làm công trong tiệm rèn để sống qua ngày. Khi đó, ước muốn của Điền Anh chỉ đơn giản là được ăn no bụng, không còn phải phiêu bạt nữa.</p>
             </div>
         </div>
 
-        <!-- 946 -->
+        <!-- NĂM 946 (BLOCK 1) -->
         <div class="entry right">
             <div class="content-box">
                 <span class="date">Năm 946</span>
-                <br>
-                <span class="location">📍 Thanh Hà (Sơn Trại)</span>
-                <h2>Chiến Hỏa & Vị Cứu Tinh Bạch Y</h2>
-                <p>Quân Khiết Đan xâm lược lần thứ ba, Hậu Tấn diệt vong. Chiến hỏa lan đến Thanh Hà, biến thôn xóm thành phế tích. Yến Đại Thiết cùng anh em Điền Anh bị lừa ép lên núi làm thảo khẩu, thực chất là làm cường đạo.</p>
-                <p>Khi cả ba định bỏ trốn thì sơn trại hỗn loạn. Một đại hiệp mặc bạch y (sau này biết là một trong Thập Lục Anh Kiệt Huyền Kiếm) xuất hiện dẹp loạn. Tên đầu sỏ bắt Điền Anh làm con tin, nhưng cậu dũng cảm tạo sơ hở giúp đại hiệp bắt sống hắn. Từ đó, vị đại hiệp trở thành ánh sáng cứu rỗi đời cậu.</p>
+                <span class="location">📍 Trung Nguyên - Thanh Hà</span>
+                <h2>Chiến Hỏa Lan Rộng</h2>
+                <p>Cuộc sống cứ vậy yên ổn trôi qua, cho đến năm 946, quân Khiết Đan lần thứ ba xâm lược Trung Nguyên. Tướng lĩnh Hậu Tấn Vương Thanh tuẫn quốc trong trận huyết chiến ở Trung Độ, quân Khiết Đan thừa thế tiến xuống phía Nam, thẳng đến Biện Lương. Hậu Tấn Xuất Đế Thạch Trọng Quý buộc phải đầu hàng, Hậu Tấn diệt vong.</p>
+                <p>Gia Luật Đức Quang lên ngôi tại Biện Lương, đổi quốc hiệu là Liêu, với ý đồ chính thức thống trị Trung Nguyên. Quân Khiết Đan thì ở khắp Trung Nguyên tùy ý đốt phá, tàn sát cướp bóc, khiến dân chúng lầm than.</p>
+                <p>​Chiến hỏa lan rộng đến vùng Thanh Hà, dân làng hoặc chết hoặc phải bỏ chạy, thôn xóm yên bình trước đây chỉ còn lại phế tích.</p>
             </div>
         </div>
 
-        <!-- 951-952 -->
+        <!-- NĂM 946 (BLOCK 2 - CÙNG BÊN PHẢI) -->
+        <div class="entry right">
+            <div class="content-box">
+                <span class="date">Năm 946</span>
+                <span class="location">📍 Sơn Trại (Thanh Hà)</span>
+                <h2>Ánh Sáng Cứu Rỗi</h2>
+                <p>​Yến Đại Thiết cùng hai anh em Điền Anh không còn nơi nương tựa, bị người khác lừa gạt rồi ép lên núi, trở thành thảo khẩu. Lúc đầu họ cứ ngỡ mình sẽ làm lục lâm hảo hán, chuyên cướp của người giàu chia cho người nghèo. Nào ngờ chỉ là làm những trò cướp bóc của bọn cường đạo.</p>
+                <p>Khi ba người lén lút bàn bạc tìm cách thoát thân, trong trại bất ngờ dậy lên một trận hỗn loạn. Một đại hiệp mặc bạch y xuất hiện, thanh trường kiếm phát ra ánh cầu vồng, đánh cho đám cường tặc tan tác, không còn khả năng chống cự.</p>
+                <p>​Tên đầu sỏ thấy tình thế nguy cấp, vội kẹp Điền Anh làm con tin, định liều chết chống cự. Nhưng Điền Anh nói không cần quan tâm mình, tự chớp thời cơ tạo ra sơ hở giúp bắt sống được tên đầu sỏ. Kể từ đó, vị đại hiệp này trở thành ánh sáng cứu rỗi trong lòng thiếu niên Điền Anh.</p>
+            </div>
+        </div>
+
+        <!-- NĂM 951-952 -->
         <div class="entry left">
             <div class="content-box">
                 <span class="date">Năm 951 - 952</span>
-                <br>
                 <span class="location">📍 Xuân Thu Biệt Quán & Làng Phong Hòa</span>
-                <h2>Hành Trình Lưu Vong</h2>
-                <p>Sài Vinh và Ngụy Nhân Phổ đưa dân lưu vong Yên Vân về Biệt Quán. Anh em Điền Anh và Yến Đại Thiết gia nhập đoàn người, được học văn võ và phát hiện ra thân phận Huyền Kiếm của vị ân nhân năm xưa. Sau khi giúp dân định cư tại làng Phong Hòa, Điền Anh theo thương đoàn lên phương Bắc cầu học, bắt đầu hành trình mới.</p>
+                <h2>Hành Trình Mới</h2>
+                <p>Năm 951, Quách Uy lên ngôi, lập ra Hậu Chu. Năm 952, Sài Vinh và Ngụy Nhân Phổ Bắc hành Yên Vân, tận mắt chứng kiến cảnh thảm thương của những người dân lưu vong Yên Vân. Sài Vinh quyết định đưa hơn trăm người này về Biệt Quán để sắp xếp nơi ăn chốn ở, và dạy họ văn chương võ học.</p>
+                <p>Hai anh em Điền Anh cùng Yến Đại Thiết theo dòng lưu vong đến Xuân Thu Biệt Quán, lúc này mới hay vị đại hiệp mặc bạch y cứu họ năm xưa chính là một trong Thập Lục Anh Kiệt Huyền Kiếm. ​Họ ở đây học võ luyện nghệ, tài năng của Điền Anh cũng từ đó dần bộc lộ.</p>
+                <p>Sau đó, họ lại tiếp tục cùng dân lưu vong đến làng Phong Hòa. Nhờ sự giúp đỡ của Huyền Kiếm, Yến Đại Thiết và những người lưu vong khác đã yên ổn định cư tại đây. Riêng Điền Anh thì tìm được cơ duyên theo thương đoàn đi lên phương Bắc cầu học, chính thức bắt đầu một hành trình mới.</p>
             </div>
         </div>
 
-        <!-- Tháng 2, 952 -->
+        <!-- BỐI CẢNH (Làng Tiểu Lộc) -->
         <div class="entry right">
             <div class="content-box">
-                <span class="date">Tháng 2, 952</span>
-                <br>
+                <span class="date">Hồi Ức: 920 - 936</span>
                 <span class="location">📍 Làng Tiểu Lộc</span>
-                <h2>Thảm Kịch Tân Nương Mù</h2>
-                <p>Trên đường lên Bắc, Điền Anh ghé làng Tiểu Lộc ăn cưới đúng lúc lời nguyền bùng phát. Tân lang hóa điên chém tân nương, dân làng chém giết lẫn nhau. Điền Anh xông vào cứu tân nương mù, đưa cô thanh đoản kiếm:</p>
-                <div class="quote">"Cô không sinh ra để chịu tủi nhục. Cầm lấy kiếm này, hãy tự giành lấy sinh mạng của mình đi."</div>
-                <p>Hắn đã ba lần đến Huỳnh Uyên tìm Lộc Tiên (Liễu Thanh Y) để giải lời nguyền nhưng vô vọng vì bà đã mất tích từ 16 năm trước.</p>
+                <h2>Lời Nguyền Làng Tiểu Lộc</h2>
+                <p>​Làng Tiểu Lộc vốn chỉ là một làng nhỏ vô danh ở Thanh Hà, nhưng đột nhiên phải gánh chịu một lời nguyền quỷ dị. Người dân trong làng liên tiếp mắc phải bệnh lạ, thân thể từ từ hóa đá, rồi mất hết cảm xúc. Thầy thuốc trong làng tìm kiếm thuốc giải, thậm chí mô phỏng cổ thư dùng cả thịt người làm thuốc, nhưng mọi nỗ lực đều vô ích.</p>
+                <p>Bước ngoặt của thảm kịch này, phải bắt đầu từ khoảng năm 920. Lúc đó, Lý Tộ ở Huỳnh Uyên đã gặp Liễu Thanh Y.</p>
+                <p>​Thần trí của Liễu Thanh Y dần mất đi do Trùng Cổ Trường Sinh phát tác. Lý Tộ vội mời Thủy Nguyệt tiên sinh đến cứu giúp, Liễu Thanh Y tạm thời khôi phục lại thần trí.</p>
+                <p>Sau khi tỉnh lại, Liễu Thanh Y biết được nỗi khổ của dân làng Tiểu Lộc, nên thường xuyên đến làng hành y, bệnh dịch của họ cũng theo đó dần dần thuyên giảm. Vì cô luôn đeo mặt nạ đầu hươu, nên mọi người tôn cô là Lộc Tiên cứu đời.</p>
+                <p>Nào ngờ đến năm 936, Lộc Tiên bỗng dưng biến mất. Dân làng nghĩ mình bị tiên nhân bỏ rơi, lại một lần nữa hoang mang sợ hãi, nhưng không ai hay biết, sau khi Lộc Tiên đi, lời nguyền khủng khiếp kia đã âm thầm quay lại. Dẫu vậy, mọi người vẫn sinh hoạt như bình thường, tiếp tục cuộc sống điền viên tưởng chừng yên ả.</p>
+                <p>Còn về nguồn gốc của trận dịch bệnh ban đầu đó, e rằng khó thoát khỏi mối liên hệ với Huỳnh Uyên và thí nghiệm của Tôn Bất Khí.</p>
             </div>
         </div>
 
-        <!-- 952-953 -->
+        <!-- NĂM 952 (Tháng Hai) -->
         <div class="entry left">
             <div class="content-box">
-                <span class="date">Năm 952 - 953</span>
-                <br>
-                <span class="location">📍 Văn Tân Quán</span>
-                <h2>"Điền Tam Trang" & Huyền Kiếm</h2>
-                <p>Điền Anh tìm được "Thập Tướng Tuyệt Học" thất truyền, được Phùng Đạo thu nhận làm đệ tử Văn Tân Quán. Hắn có biệt danh "Điền Tam Trang" vì thói quen đọc sách kỳ lạ để tìm con đường riêng.</p>
-                <p>Cuối cùng, hắn ngộ ra chân lý từ Ngụy Nhân Phổ: "Lấy thân mình làm ngọn đuốc". Năm 953, Ngụy Nhân Phổ mời hắn gia nhập Huyền Kiếm, Điền Anh đồng ý và rời khỏi Văn Tân Quán.</p>
+                <span class="date">Tháng Hai Âm Lịch, 952</span>
+                <span class="location">📍 Làng Tiểu Lộc</span>
+                <h2>Tân Nương Mù</h2>
+                <p>Tháng Hai âm lịch năm 952, nhiều hộ dân ở làng Tiểu Lộc muốn kết tình thông gia. Tất cả trai gái đến tuổi lập gia đình trong làng đều chọn một ngày lành để cùng làm lễ cưới. Trưởng làng còn mua một cô gái mù từ nơi khác về, để “cầu may” cho đứa con trai ốm yếu lâu năm của mình.</p>
+                <p>​Điền Anh theo thương đoàn lên phương Bắc cầu học, được bạn đồng hành mời tiện đường ghé qua làng Tiểu Lộc uống rượu mừng, không ngờ lại chứng kiến một thảm kịch đẫm máu.</p>
+                <p>​Giữa tiếng chiêng trống mừng vui, tân lang ốm yếu lâu năm đột nhiên phát bệnh, điên cuồng vung dao chém tân nương. Nhiều người dân dự tiệc cũng phát rồ, cầm dao chém người loạn xạ. Trong lúc hỗn loạn, trưởng làng đã lỡ tay sát hại chính con trai ruột của mình.</p>
+                <p>Điền Anh vội vàng xông vào đám đông, che mắt tân nương lại rồi đưa cô vào chỗ tối. Hắn lấy ra thanh đoản kiếm bên người đưa cho cô và nói: “Cô không sinh ra để chịu tủi nhục. Cầm lấy kiếm này, hãy tự giành lấy sinh mạng của mình đi.” Cô gái nhỏ run rẩy cầm kiếm, máu tươi đã nhuộm bộ giá y xanh lục của cô thành màu đỏ thẫm.</p>
+                <p>Qua đêm kinh hoàng đó, người dân mới chợt nhận ra lời nguyền đã quay lại. Lão trưởng làng đau buồn khẩn cầu Điền Anh đến Huỳnh Uyên tìm kiếm Lộc Tiên mất tích, nhưng Điền Anh đi ba lần đều tay trắng trở về. Vì tính đến lúc này đã là 16 năm kể từ khi Liễu Thanh Y tự sát tạ tội.</p>
             </div>
         </div>
 
-        <!-- 954 -->
+        <!-- SAU NĂM 952 -->
+        <div class="entry left">
+            <div class="content-box">
+                <span class="date">Sau Năm 952</span>
+                <span class="location">📍 Văn Tân Quán</span>
+                <h2>Thập Tướng Tuyệt Học</h2>
+                <p>Dù có tiếc nuối, Điền Anh vẫn phải tiếp tục hành trình lên phương Bắc. Bất ngờ là hắn lại tìm thấy tung tích của Thập Tướng Tuyệt Học tại nơi này. Đây vốn là điển tịch của Văn Tân Quán đã thất truyền từ sau tai họa Bạch Mã Dịch năm 905.</p>
+                <p>Điền Anh vượt qua muôn vàn gian khó để mang sách từ phương Bắc về. Nhờ việc này, hắn được tiên sư Văn Tân Quá là Phùng Đạo trọng dụng, thu nhận làm đệ tử. Sau khi vào Văn Tân Quán, Điền Anh nhanh chóng bộc lộ tài năng nhờ thiên phú hơn người.</p>
+                <p>Nghe nói hắn đã lật xem hết tất cả sách lưu trữ của Văn Tân Quán, nhưng cũng nghe nói mỗi cuốn hắn chỉ lật xem ba trang. Biệt danh Điền Tam Trang dần dần truyền đến tai Phùng Đạo. Có lẽ là vì tiếc nuối nhân tài, hoặc không hài lòng với hành vi này, Phùng Đạo liền gọi Điền Anh đến hỏi.</p>
+                <p>Điền Anh đáp: “Ta không có ý theo đuổi học thuật, chỉ muốn tìm một con đường riêng cho mình thông qua sách.” không ai biết con đường hắn muốn tìm trong sách là gì. Có lẽ ngay cả bản thân hắn cũng không rõ, ​hắn cứ thế vùi mình vào biển sách khổng lồ, không ngừng tìm kiếm lời giải đáp.</p>
+                <p>Về sau, con đường mà Điền Anh tìm kiếm cuối cùng đã xuất hiện, nhưng không phải trong sách vở, mà là từ vị Ngụy tiên sinh kia. Ngụy tiên sinh nói rằng: “Trên Xuân Thu không tồn tại nhân, nghĩa, trung, dũng. Mà đó là từ những người lấy thân mình làm ngọn đuốc, đã gặp rồi thì sẽ khắc cốt ghi tâm. Cuối cùng sẽ đi theo người đó để tự thắp lên ngọn lửa của chính mình.”</p>
+                <p>Năm 953, Ngụy Nhân Phổ đích thân viết thư mời Điền Anh gia nhập Huyền Kiếm, Điền Anh tìm thấy được con đường cho riêng mình, đồng ý gia nhập, cùng Ngụy tiên sinh rời khỏi Văn Tân Quán.</p>
+            </div>
+        </div>
+
+        <!-- NĂM 954 -->
         <div class="entry right">
             <div class="content-box">
                 <span class="date">Năm 954</span>
-                <br>
                 <span class="location">📍 Tháp Chuông Thái Bình</span>
-                <h2>Âm Dương Bí Thuật & Sự Chia Ly</h2>
-                <p>Điền Anh mắc bệnh nan y, cùng em trai ẩn cư dưới tháp chuông. Ngụy Nhân Phổ truyền dạy bí thuật Thái Cực Âm Dương để trị bệnh. Điền Anh sáng tạo ra "Càn Khôn Nhất Khí". Điền Tề nhận ra anh trai luyện võ để đối đầu kẻ thù mạnh chứ không phải để tiêu dao, nên đã để lại thư rồi bỏ đi. Điền Anh gửi bí thuật về làng Tiểu Lộc hòng cứu vãn, nhưng làng đã hóa thành "Làng Hoang Hồn" và bị thiêu rụi trong biển lửa.</p>
+                <h2>Âm Dương Bí Thuật</h2>
+                <p>Năm 954, Quách Uy qua đời, Sài Vinh kế vị. Sau khi Sài Vinh lên ngôi, ông đã cho xây dựng tháp chuông Thái Bình để cầu phúc cho dân chúng.</p>
+                <p>Điền Anh liền dẫn theo em trai Điền Tề ẩn cư trong hang động bên dưới tháp chuông Thái Bình. Đây cũng chính là nơi hai anh em từng nương náu khi chạy nạn lưu vong lúc nhỏ.</p>
+                <p>Điền Tề cứ đinh ninh rằng ngày trước anh trai rời khỏi Văn Tân Quán là vì không muốn bị triều đình ràng buộc, một lòng hướng về cuộc sống tự do tự tại nơi giang hồ. Dù sao thì môn quy ở Văn Tân Quán cực kỳ nghiêm khắc, mà tính cách Điền Anh lại phóng khoáng, không chịu khuôn phép. Giờ đây ẩn cư dưới lòng đất nơi sơn thủy này, dường như rất hợp với ý nguyện của anh.</p>
+                <p>Khi đó Điền Anh mắc bệnh nan y khó chữa, nên Ngụy Nhân Phổ đã đặc biệt truyền dạy cho hắn bí thuật Thái Cực Âm Dương nằm trong Thập Tướng Tuyệt Học, Ngụy Nhân Phổ nói rằng pháp môn này có thể điều hòa khí tức, bồi dưỡng thân thể, biết đâu sẽ giúp làm thuyên giảm bệnh tình. Vậy nên Điền Anh cả ngày miệt mài nghiên cứu những cuốn sách mang ra từ Văn Tân Quán, chuyên tâm nâng cao võ nghệ.</p>
+                <p>Tuy Điền Tề không hiểu rõ nội dung những cuốn sách đó, nhưng cũng mơ hồ nhận ra ý định thực sự của anh trai. Quả nhiên, sau mấy tháng trời dày công nghiên cứu, Điền Anh đã sáng tạo ra Càn Khôn Nhất Khí dựa trên cơ sở chiêu thức Thái Cực, uy lực còn mạnh hơn xưa. Mãi đến lúc này, Điền Tề mới vỡ lẽ: Anh trai ẩn mình dưới lòng đất hoàn toàn không phải vì thích sống tự do tự tại giữa núi sông, mà là để luyện thành chiêu thức này hòng đánh bại kẻ địch mạnh.</p>
+                <p>Điền Tề chợt ngộ ra mình chưa bao giờ thực sự hiểu được lý tưởng của anh trai. Dù đã theo anh nhiều năm, nhưng cả hai từ lâu luôn đi trên những con đường hoàn toàn khác biệt. Không muốn làm trở ngại của anh trai, Điền Tề để lại một bức thư, rồi âm thầm rời đi.</p>
+                <p>Điền Anh vẫn luôn canh cánh trong lòng nỗi tiếc nuối mỗi khi nhớ về chuyện cũ ở làng Tiểu Lộc. Thế là hắn gửi công pháp Âm Dương Bí Thuật kèm theo một bức thư tới trưởng làng Tiểu Lộc, với hy vọng có thể giúp vơi bớt phần nào khổ nạn của dân làng.</p>
+                <p>Nhưng Lộc Tiên đã sớm không còn, số phận của làng Tiểu Lộc chẳng thể nào thay đổi được nữa. Những người dân lương thiện ở đây chỉ còn cách phong tỏa hết mọi tai ương, đau khổ tại làng, rồi thêu dệt nên những truyền thuyết rùng rợn để dọa người ngoài không dám bén mảng đến. Cứ vậy ngày qua ngày, làng Tiểu Lộc dần bị mọi người gọi là làng Hoang Hồn.</p>
+                <p>Cuối cùng, những người dân còn lại không còn lựa chọn nào khác, đành phải cùng cả ngôi làng hóa thành tro tàn trong biển lửa.</p>
             </div>
         </div>
 
-        <!-- 955 -->
+        <!-- NĂM 955 -->
         <div class="entry left">
             <div class="content-box">
                 <span class="date">Năm 955</span>
-                <br>
                 <span class="location">📍 Hậu Chu</span>
-                <h2>Hóa Thân Diệu Thiện - Hộ Pháp Diệt Phật</h2>
-                <p>Sài Vinh muốn hủy tượng Phật đúc tiền để cứu quốc khố, nhưng sợ mang tội phỉ báng thần linh. Điền Anh tình nguyện gánh lấy tội danh này, so sánh mình với Điền Quang khích lệ Kinh Kha.</p>
-                <p>Điền Anh biến mất, thế gian xuất hiện thiền sư Diệu Thiện, giúp triều đình thực hiện chính sách cấm Phật đầy máu và nước mắt.</p>
+                <h2>Hỗ Trợ Diệt Phật</h2>
+                <p>Năm 955, Sài Vinh nói với Điền Anh: “Có một đại sự, nếu làm thành công sẽ lợi quốc lợi dân, nhưng cũng có thể sẽ vạn kiếp bất phục.”</p>
+                <p>Lúc bấy giờ, người dân rất sùng bái Phật giáo, nhưng nhiều kẻ lại mượn danh tăng nhân để trốn thuế, né lao dịch, thậm chí còn mượn danh Phật pháp để làm điều ác. Đại sự đó chính là cấm Phật, phá hủy chùa chiền, và thanh trừng những sư sãi giả mạo, tà đạo đang làm loạn.</p>
+                <p>Nhưng một khi phá đi hàng vạn kim thân tượng Phật, chính là xúc phạm thần linh, chắc chắn sẽ bị người đời nguyền thóa mạ. Một việc mạo phạm thần Phật như vậy, ngươi có sẵn lòng làm không?</p>
+                <p>Điền Anh đáp: “Sẵn lòng.”</p>
+                <p>Sài Vinh lại hỏi: “Xưa kia, Điền Quang đã dùng cái chết để khích lệ Kinh Kha ám sát vua Tần. Còn đối với đại sự lần này, ngươi sẵn lòng đánh đổi đến mức nào?”</p>
+                <p>Điền Anh đáp: “Thần cũng có thể như Điền Quang mà từ bỏ tất cả, bao gồm cả thân xác này.”</p>
+                <p>Kể từ đó Điền Anh hoàn toàn biến mất, thay vào đó, thế gian có một thiền sư tên là Diệu Thiện. Dù chưa bao giờ thật lòng tin Phật, nhưng hắn vẫn nguyện noi theo tinh thần Bồ Tát xả thân nuôi hổ trong Phật môn, không hề tiếc mạng sống của mình.</p>
+                <p>Sài Vinh nghe xong lời đó liền cười lớn và nói: “Ngươi đã có Phật tâm.”</p>
             </div>
         </div>
 
-        <!-- 959 - Bồ Đề -->
-        <div class="entry right">
-            <div class="content-box">
-                <span class="date">Đầu Năm 959</span>
-                <br>
-                <span class="location">📍 Bồ Đề Khổ Hải & Tháp Tội Nghiệp</span>
-                <h2>Bóng Ma Chiến Tranh & Phật Quang Ngọc</h2>
-                <p>Tướng Diệp Vạn Sơn phát điên vì Bắc phạt bị hoãn, ra lệnh Thiên Hổ Quân tàn sát dân thường để ép triều đình. Điền Anh (Diệu Thiện) xây tháp Tội Nghiệp giam giữ những kẻ gây án để sám hối.</p>
-                <p>Hắn chia đôi Phật Quang Ngọc: một nửa Âm Khắc giao Diệp Vạn Sơn (niềm tin Bắc phạt), một nửa Dương Khắc giấu tại Ẩn Long Uyên. Sau khi Điền Anh đi, Diệp Vạn Sơn và tù nhân lại phát điên, phá ngục gây ra thảm sát đẫm máu lần nữa.</p>
-            </div>
-        </div>
-
-        <!-- 959 - Sứ Thần -->
+        <!-- 955-959 -->
         <div class="entry left">
             <div class="content-box">
-                <span class="date">Giữa Năm 959</span>
-                <br>
-                <span class="location">📍 Thanh Hà & Núi Bích Tuyền</span>
-                <h2>Mưu Kế Chặn Sứ Thần</h2>
-                <p>Điền Anh mượn ngựa Dạ Lộ Phi Quang, lên kế hoạch giết sứ thần Khiết Đan để phá liên minh với Nam Đường. Sứ thần bị hiệp sĩ vây đánh, Điền Anh buộc phải cầu cứu Nguyệt Thần (Lê Trăn Trăn) và đổi lấy đôi mắt của mình làm thù lao. Nguyệt Thần dùng Phật Quang tạo thần tích giả để cứu sứ thần, đưa hắn an toàn đến trạm dịch Thanh Phong.</p>
+                <span class="date">Năm 955 - 959</span>
+                <span class="location">📍 Chiến Trường Thống Nhất</span>
+                <h2>Đại Nghiệp Thống Nhất</h2>
+                <p>Sài Vinh đã triển khai chính sách hủy tượng Phật đúc tiền, giúp Hậu Chu giải quyết hiệu quả tình trạng khó khăn của quốc khố</p>
+                <p>Ông áp dụng chiến lược trước dễ sau khó, trước Nam sau Bắc từng bước thúc đẩy đại nghiệp thống nhất.</p>
+                <p>Công Nguyên năm 955, Sài Vinh chinh phạt phía Tây Hậu Thục, trong khoảng năm 956 đến 958 ông lại ba lần tự mình cầm quân chinh phạt Nam Đường, luôn đánh đâu thắng đó.</p>
+                <p>Năm 959, Sài Vinh huy động đại quân Bắc phạt Khiết Đan, chỉ dùng 42 ngày đã đánh hạ liên tiếp ba cửa ải, thu phục ba châu mười bảy huyện. Vua Khiết Đan Gia Luật Cảnh để xoay chuyển tình thế, liền phái gấp cậu mình là Tiêu thị sang Nam Đường làm sứ thần. Một là để hưởng ứng lời thỉnh cầu liên minh mưu đồ Trung Nguyên đã có từ lâu của Nam Đường, hai là toan tính phối hợp đánh gọng kiềm từ hai phía Nam Bắc, để rửa đi nỗi nhục mất đất.</p>
+                <p>Tháng Năm, Sài Vinh dự định thừa thắng tiến quân vào U Châu, triệt để thu phục toàn bộ Yên Vân, nhưng lại đột ngột lâm trọng bệnh, đành bất đắc dĩ hạ lệnh rút quân, quá trình Bắc phạt buộc phải gián đoạn.</p>
             </div>
         </div>
 
-        <!-- 959 - Nguyệt Thần -->
+        <!-- BỒ ĐỀ KHỔ HẢI (Quay lại 946 - 959) -->
         <div class="entry right">
+            <div class="content-box">
+                <span class="date">Năm 946 - 959</span>
+                <span class="location">📍 Định Châu & Bồ Đề Khổ Hải</span>
+                <h2>Bồ Đề Khổ Hải</h2>
+                <p>Năm 946, sau khi thất bại trong trận chiến Trung Độ Kiều, đại quân Khiết Đan thừa thắng xâm lược xuống phía Nam, Định Châu là nơi chịu đòn đầu tiên.</p>
+                <p>Vợ con của tướng giữ thành Diệp Vạn Sơn bị quân Khiết Đan bắt đi, đối phương uy hiếp ông mở cổng thành, nhưng ông vẫn kiên quyết không chịu khuất phục. Dẫu cho tan cửa nát nhà, người thân ly tán, ông vẫn dốc hết sức lực liều chết giữ thành, nhưng Định Châu cuối cùng vẫn thất thủ.</p>
+                <p>Sau khi thành thất thủ, Diệp Vạn Sơn chỉ đành lui về ở ẩn tại một tòa thành nhỏ, chờ đợi quân chủ lực triều đình tiến lên phía Bắc. Cái chờ đợi này đã kéo dài suốt 13 năm ròng, 13 năm sống trong ác mộng triền miên ngày đêm.</p>
+                <p>Năm 959, Diệp Vạn Sơn nghe tin Thế Tông Bắc phạt lại bị bỏ dở nửa chừng, liền mất hết lý trí. Ông ta khăng khăng rằng triều đình vì khiếp sợ Khiết Đan nên mới không dám tiếp tục tiến lên phía Bắc, thậm chí còn ra lệnh cho Thiên Hổ Quân dưới trướng giả mạo người Khiết Đan, tàn sát sạch những người dân do chính ông từng bảo vệ.</p>
+                <p>Ông ta muốn dùng máu tươi của bách tính trong một thành, ép buộc triều đình khởi động lại cuộc Bắc phạt. Đêm đó, cả tòa thành nhỏ biến thành lò sát sinh. Bách tính chết thảm, ngay cả những binh lính như Thiên Hổ Quân tham gia tàn sát cũng từ đó sống trong những cơn ác mộng vô tận.</p>
+                <p>Sau khi sự việc xảy ra, Điền Anh dưới danh nghĩa Diệu Thiện, đã cùng chúng đệ tử xây dựng một tòa tháp Tội Nghiệp ở sâu bên trong Bồ Đề Khổ Hải.</p>
+                <p>Hắn để Diệp Vạn Sơn dẫn hơn trăm tinh nhuệ Thiên Hổ Quân từng tham gia cuộc tàn sát, vào Vĩnh Phúc thiền viện nằm sâu trong Khổ Hải để tĩnh tu chuộc tội. Bên ngoài tháp, tiếng chuông tiếng trống ngân vang không dứt ngày đêm, mọi người tự xiềng mình bằng xích sắt, mong nhờ tiếng thiền mà gột rửa hết nghiệp chướng trong lòng.</p>
+                <p>Để giữ kín bí mật của Phật Quang, Điền Anh đã tìm ra một cách thức cất giữ Phật Quang Ngọc. Hắn sai Dương Đạo Tín ở Từ Tâm Trấn chia đôi viên Phật Quang Ngọc.</p>
+                <p>Hắn đã đưa nửa phần Ngọc Âm Khắc cho Diệp Vạn Sơn mượn, nói rằng ngọc này có thể tĩnh tâm ngưng thần giúp ông sớm ngày trở lại chiến trường. Nhưng kỳ thực, đó là ngụ ý cuộc Bắc phạt vẫn còn hy vọng. Còn nửa phần Ngọc Dương Khắc kia, hắn giấu kỹ trong đầu rồng dưới đáy Ẩn Long Uyên của Xuân Thu Biệt Quán, và dặn dò Tiểu Thập Thất phải bảo vệ cẩn thận. Việc xong xuôi, Điền Anh liền lên đường đến Nam Đường để thực hiện nhiệm vụ ám sát sứ thần Khiết Đan.</p>
+                <p>Nhưng sau khi Điền Anh rời đi, sự hối hận và không cam lòng trong lòng Diệp Vạn Sơn cuối cùng đã nhấn chìm ông hoàn toàn vào cơn ác mộng do chấp niệm dệt nên. Những người bị giam giữ tại Khổ Hải không thể vượt qua tâm ma, lại lần nữa phát cuồng. Họ phá vỡ xiềng xích, ra tay sát hại khắp nơi, khiến các thiền sư niệm Phật bên ngoài chùa, và cả những thợ điêu khắc tượng Phật ở Từ Tâm Trấn vừa đúng lúc ghé thăm, tất cả đều chết thảm tại đây.</p>
+            </div>
+        </div>
+
+        <!-- NĂM 959 (CHUỖI SỰ KIỆN - CÙNG BÊN TRÁI) -->
+        <div class="entry left">
             <div class="content-box">
                 <span class="date">Năm 959</span>
-                <br>
-                <span class="location">📍 Nguyệt Hồ & Tháp Chuông</span>
-                <h2>Lạc Thần Chi Thư & Cái Chết Oan Khuất</h2>
-                <p>Lê Trăn Trăn bị giang hồ gọi là Ma Nữ bán nước, bị vây giết và chết oan ức mà không biện minh. Cùng lúc đó, tại tiệc rượu Biệt Quán, Điền Anh trộm "Lạc Thần Chi Thư" từ Hàn Hương Tầm. Trong khi Hàn Hương Tầm và Chử Thanh Tuyền đại chiến kinh thiên động địa, Điền Anh mang chương "Đoạn" xuống phía Nam, còn Chử Thanh Tuyền mang chương "Tục" lên phía Bắc.</p>
+                <span class="location">📍 Thanh Hà & Núi Bích Tuyền</span>
+                <h2>Chém Sứ Thần</h2>
+                <p>Đối với việc Khiết Đan cử sứ thần đến cầu liên minh với Nam Đường, chiến lược của Huyền Kiếm là trước tiên tiêu diệt sứ thần, sau đó dùng kế gián điệp đối phó với Khiết Đan.</p>
+                <p>Điểm then chốt của kế sách này là sứ thần Khiết Đan nhất định chết ngay trên đất Nam Đường. Chỉ có như vậy, hiệp ước liên minh giữa hai quốc gia mới có thể hoàn toàn đổ vỡ.</p>
+                <p>Vài ngày trước khi đoàn sứ giả đặt chân đến Thanh Hà, Điền Anh đã lấy cớ ám sát sứ thần Khiết Đan để mượn con danh mã Dạ Lộ Phi Quang từ Kỳ Phi Tuấn ở Phục Mã Trang.</p>
+                <p>Nào ngờ đoàn sứ thần Khiết Đan vừa đặt chân đến Thanh Hà, thì bị các hiệp sĩ giang hồ địa phương chặn đánh. Tình hình thay đổi quá nhanh, Điền Anh buộc phải tìm đến  Nguyệt Thần cầu xin giúp đỡ. Hắn lấy việc đổi mắt làm thù lao, nhờ cô bí mật đưa sứ thần rời khỏi Hậu Chu một cách an toàn.</p>
+                <p>Khi đoàn sứ thần nghỉ qua đêm tại trạm dịch Lâm Giang, thì lại bị hiệp sĩ Thanh Hà vây đánh lần nữa. Họ thương vong gần hết, chỉ còn sứ thần Tiêu thị và vài người thừa lúc hỗn loạn chạy thoát lên núi Bích Tuyền. Các hiệp sĩ truy đuổi ráo riết đến rừng cây hoang dã trên núi Bích Tuyền, trong cuộc giao tranh, toàn bộ sứ đoàn đều bỏ mạng, chỉ duy nhất Tiêu thị một mình sống sót. Giữa lúc nguy cấp, trên đỉnh Phật Quang lại xuất hiện thần tích Phật Quang, Nguyệt Thần hiện thân từ trong Phật Quang. Vài thanh đoản kiếm vút ra xé gió, chỉ trong chớp mắt toàn bộ hiệp sĩ đều bị giết.</p>
+                <p>Sau đó, Nguyệt Thần đưa Tiêu thị trốn vào tháp Phật Quang, bên trong tháp, Diệu Thiện nói với Tiêu thị: “Con đường phía trước tuy hiểm nguy, nhưng có Phật Quang che chở. Chỉ cần chọn trạm dịch Thanh Phong làm nơi dừng chân, nhất định sẽ hóa nguy thành an.” Sau đó, hắn tặng con ngựa Dạ Lộ Phi Quang kia cho Tiêu thị, giúp hắn đi về phía Nam.</p>
+                <p>Tiêu thị vốn đã tín Phật, sau khi tận mắt thấy thần tích thì lại càng thêm tin tưởng tuyệt đối vào lời của Diệu Thiện. Sáng sớm hôm sau, hắn phi ngựa rời đi, hướng thẳng đến trạm dịch Thanh Phong ở Nam Đường.</p>
+                <p>Còn Điền Anh thì loan tin ra ngoài rằng Diệu Thiện sắp du hành khắp nơi. Chờ đến khi Phật Quang lần thứ ba xuất hiện, tự khắc sẽ quay về dẹp yên loạn lạc ở Thanh Hà.</p>
             </div>
         </div>
 
-        <!-- Mùa mưa 959 -->
         <div class="entry left">
             <div class="content-box">
-                <span class="date">Mùa Mưa, 959</span>
-                <br>
-                <span class="location">📍 Trạm Dịch Thanh Phong (Nam Đường)</span>
-                <h2>Đêm Mưa Máu - Chém Đầu Sứ Thần</h2>
-                <p>Điền Anh đợi Nguyệt Thần 3 ngày không thấy, liền phi ngựa bất kể ngày đêm đến Nam Đường. Trong đêm mưa gió, hắn ám sát sứ thần Khiết Đan ngay tại tiệc rượu, đầu lìa khỏi cổ. Liên minh Khiết Đan - Nam Đường tan vỡ.</p>
+                <span class="date">Năm 959</span>
+                <span class="location">📍 Nguyệt Hồ</span>
+                <h2>Cái Chết Của Nguyệt Thần</h2>
+                <p>Sau vụ việc ở trạm dịch Lâm Giang, người trong giới giang hồ vô cùng phỉ nhổ hành động của Nguyệt Thần Lê Trăn Trăn. Họ gọi cô là Ma Nữ, tố cáo cô thông đồng với Khiết Đan và ra tay sát hại đồng tộc. Hay tin ba ngày sau cô sẽ đi Nam Đường, toàn bộ hiệp sĩ giang hồ quyết định lợi dụng đêm tối để trả thù.</p>
+                <p>Phong Năng Kỳ còn đưa cho bọn họ bản vẽ sơ đồ cơ quan nơi ở của Nguyệt Thần, do chính tay mình xây dựng. Lê Trăn Trăn còn chưa kịp thu dọn hành lý, nhiều hiệp sĩ giang hồ đã xông vào Nguyệt Hồ.</p>
+                <p>Cho đến lúc chết, Lê Trăn Trăn hoàn toàn không có lấy một lời nào để biện minh.</p>
             </div>
         </div>
 
-        <!-- 959-962 -->
+        <div class="entry left">
+            <div class="content-box">
+                <span class="date">Năm 959</span>
+                <span class="location">📍 Xuân Thu Biệt Quán</span>
+                <h2>Lạc Thần Chi Thư</h2>
+                <p>Để Chử Thanh Tuyền thâm nhập vào Khiết Đan làm nội ứng, Huyền Kiếm đã mời Lạc Thần Hàn Hương Tầm thi triển phép đổi mặt cho hắn ta. Nhưng Hàn Hương Tầm vì lo lắng cho sự an nguy của Chử Thanh Tuyền nên đã từ chối.</p>
+                <p>Huyền Kiếm sau đó liền tổ chức yến tiệc tại Xuân Thu Biệt Quán mời Hàn Hương Tầm đến, đồng thời bí mật cử Điền Anh mang theo bản đồ xâm nhập bờ Nhược Thủy, nhằm trộm lấy Lạc Thần Chi Thư.</p>
+                <p>Giữa bữa tiệc, đầu bếp của Biệt Quán đã lén bỏ thuốc mê vào món gà nướng giòn, Hàn Hương Tầm chỉ liếc mắt một cái là nhận ra ngay, bà đứng dậy định rời đi nhưng Chử Thanh Tuyền vẫn cố giữ lại.</p>
+                <p>Hai người đánh nhau không nghỉ từ Biệt Quán lên đến đỉnh núi Ẩn Nguyệt, rồi lại đại chiến ròng rã ba ngày ba đêm ngay tại tháp chuông Thái Bình. Chuông Thái Bình bị nội lực của họ làm cho vỡ vụn, tiếng chuông vang dội đã gây chấn thương cho những người dân sống ở Thần Tiên Độ gần đó.</p>
+                <p>Hồng Tuyến còn nhỏ mà đã tận mắt chứng kiến cảnh tượng kinh thiên động địa này, cô bé đã kể lại cho chúng ta nghe. Giấc mộng trở thành song hiệp giang hồ lừng danh của hai người cũng từ đó mà bắt đầu.</p>
+                <p>Hàn Hương Tầm và Chử Thanh Tuyền cũng tuyệt giao từ đó, thề độc rằng dù sống hay chết cũng không bao giờ gặp lại.</p>
+                <p>Mà lúc này, Điền Anh cũng nhân lúc hỗn loạn đã trộm được Lạc Thần Chi Thư và mang theo chương Đoạn xuống phía Nam, chuẩn bị ám sát sứ thần Khiết Đan. Còn Chử Thanh Tuyền thì mang theo chương Tục quay lại phương Bắc, chờ đợi được đổi mặt.</p>
+            </div>
+        </div>
+
+        <div class="entry left">
+            <div class="content-box">
+                <span class="date">Mùa Mưa, Năm 959</span>
+                <span class="location">📍 Trạm Dịch Thanh Phong (Nam Đường)</span>
+                <h2>Biến Cố Tại Trạm Dịch Thanh Phong</h2>
+                <p>Điền Anh chờ Lê Trăn Trăn ba ngày không thấy đâu, đành cưỡi ngựa phi thẳng đến trạm dịch Thanh Phong ở Nam Đường, hắn vượt đường xá ngày đêm, thay liền ba con ngựa và không hề chợp mắt, chỉ để kịp có mặt tại bữa tiệc do chính hắn tự tay sắp đặt.</p>
+                <p>Đang là mùa mưa ở Giang Nam, những cơn mưa kéo dài triền miên, màn mưa như trút nước đã xóa sạch mọi dấu vết và khí tức của hắn trên đường đi. Đây chính là thời khắc định mệnh của một sát thủ. Dù thân thể ướt sũng, lấm lem bùn đất, lòng hắn vẫn rực cháy một niềm nhiệt huyết. Hắn đã coi nhẹ sống chết từ lâu. Trong mắt hắn chỉ có duy nhất một mục tiêu, và vì nó, hắn nguyện chết vạn lần cũng không hối hận.</p>
+                <p>Sự kiện này chỉ được ghi chép vỏn vẹn một câu trong sử sách thế này: Người Đường mở tiệc đêm chiêu đãi sứ thần Khiết Đan tại trạm dịch Thanh Phong. Đương lúc rượu ngon, sứ thần đứng dậy đi thay y phục, nhưng đi mãi không về. Khi vào xem thì thấy đầu lìa khỏi cổ rồi. </p>
+                <p>Sau việc sứ thần Khiết Đan bị ám sát tại trạm dịch Thanh Phong, liên minh giữa Khiết Đan và Nam Đường hoàn toàn tan vỡ. Nam Đường lập tức phong tỏa toàn bộ lãnh thổ, Điền Anh cũng bị kẹt lại. Vua Nam Đường Lý Cảnh phái Tú Kim Lâu dốc toàn lực truy bắt Điền Anh, nhưng cuối cùng không thành công.</p>
+                <p>Để che giấu thân phận, hắn giả dạng làm trọng phạm ẩn náu trong ngục tù Nam Đường, âm thầm chờ cơ hội thoát thân. Trong thời gian này, hắn vô tình nghe được Nam Đường muốn khởi động lại kế hoạch Mộng Khôi, bèn liều chết chuyển mật thư cho Ngụy Nhân Phổ.</p>
+            </div>
+        </div>
+
+        <!-- 27/7/959 -->
         <div class="entry right">
             <div class="content-box">
-                <span class="date">Năm 959 - 962</span>
-                <br>
-                <span class="location">📍 Ngục Tù Nam Đường</span>
-                <h2>Phong Vân Đột Biến - Kế Hoạch Sụp Đổ</h2>
-                <p>Nam Đường phong tỏa, Điền Anh bị kẹt lại và phải ẩn náu trong ngục tù suốt 3 năm. Trong thời gian này, Sài Vinh qua đời, Bắc phạt chấm dứt, Bắc Tống thành lập, Huyền Kiếm tan rã. Kế hoạch hội quân cùng Diệp Vạn Sơn Bắc phạt hoàn toàn phá sản. Hắn nghe tin Nam Đường tái khởi động "Mộng Khôi" nên liều chết gửi mật thư cho Ngụy Nhân Phổ.</p>
+                <span class="date">27 Tháng 7, 959</span>
+                <span class="location">📍 Khai Phong</span>
+                <h2>Phong Vân Đột Biến</h2>
+                <p>Ngày 27 tháng 7 năm 959, Sài Vinh qua đời vì bạo bệnh tại Khai Phong, Huyền Kiếm tan rã.</p>
+                <p>Sau khi nhận được mật thư từ Điền Anh, Ngụy Nhân Phổ không còn lựa chọn nào khác ngoài việc viết thư cầu cứu Giang Yến giúp đỡ. Trong thư, ông báo cho Giang Yến hai tin: thứ nhất, Mộng Khôi của Nam Đường sắp trở lại; thứ hai, ông khẩn thiết nhờ Giang Yến ra tay cứu Điền Anh.</p>
+                <p>Giang Yến sau khi nhận được thư liền rời khỏi Trúc Ẩn Cư, suốt ba năm sau đó hoàn toàn bặt vô âm tín.</p>
+                <p>Kế hoạch ban đầu của Điền Anh là sau khi ám sát sứ thần xong sẽ quay về Thanh Hà ngay lập tức. Trương Ẩn Mang sẽ đánh ba hồi trống trận của Thiên Hổ Quân vào ban ngày để dụ Diệp Vạn Sơn ra khỏi tháp. Diệp Vạn Sơn sau đó sẽ mang theo Phật Quang Ngọc hội hợp với các thành viên Huyền Kiếm, triệu hồi Phật Quang lần thứ ba, rồi cùng nhau lên phía Bắc chi viện cho cuộc Bắc phạt của Sài Vinh.</p>
+                <p>Nhưng vì mắc kẹt ở Nam Đường suốt ba năm, nên kế hoạch đã có biến cố lớn ngoài dự tính.</p>
+                <p>Diệp Vạn Sơn lún sâu vào tâm ma không tài nào dứt ra được, Sài Vinh thì đột ngột qua đời ngay trên đường Bắc phạt, Triệu Khuông Dận lên ngôi hoàng đế, lập ra triều Bắc Tống, Xuân Thu Biệt Quán cũng đã đóng cửa, các hiệp khách Huyền Kiếm đều biệt tăm.</p>
             </div>
         </div>
 
-        <!-- 962 -->
-        <div class="entry left">
+        <!-- NĂM 962 -->
+        <div class="entry right">
             <div class="content-box">
                 <span class="date">Năm 962</span>
-                <br>
-                <span class="location">📍 Nguyệt Hồ, Thanh Hà</span>
-                <h2>Nguyệt Lạc Sơn Không - Sự Trở Về Muộn Màng</h2>
-                <p>Lệnh phong tỏa nới lỏng, Điền Anh trở về Thanh Hà. Hắn mang theo đôi mắt được bảo quản trong hộp ngọc để trả lại cho Nguyệt Thần như lời hứa. Nhưng khi lặn xuống đáy Nguyệt Hồ, hắn chỉ tìm thấy xác của nàng trong bộ giá y lạnh lẽo. Hắn đã về quá muộn.</p>
+                <span class="location">📍 Nguyệt Hồ (Thanh Hà)</span>
+                <h2>Nguyệt Lạc Sơn Không</h2>
+                <p>Năm 962, lệnh phong tỏa của Nam Đường dần nới lỏng, Điền Anh cuối cùng đã có thể trở về Thanh Hà. Đã phí hoài ba năm trời, kế hoạch không thể chần chừ thêm được nữa.</p>
+                <p>Nhưng trước đó vẫn còn một việc chưa hoàn thành. Hắn thu đao gọn gàng, rảy sạch máu, rồi cẩn thận lau khô đôi mắt còn ẩm và ấm nóng trong lòng bàn tay, đặt vào chiếc hộp ngọc lạnh, giấu kỹ vào trong ngực.</p>
+                <p>Hắn nhớ lại ngày lập lời hẹn ước ba năm trước. Cô giúp hắn bảo vệ người, hắn giúp cô tìm đôi mắt. Chỉ tiếc là đã chậm mất ba năm, hy vọng cô sẽ không trách cứ.</p>
+                <p>Điền Anh cuối cùng cũng đến được Nguyệt Hồ, nhìn vào mặt hồ vẫn trong vắt. Hắn bất giác đưa tay chỉnh lại mái tóc của mình, sương gió bụi trần, trông lôi thôi quá.</p>
+                <p>Khi lặn xuống sâu xuống đáy Nguyệt Hồ, người hắn nhìn thấy lại là Lê Trăn Trăn đã chết 3 năm trước, đang mặc trên người bộ giá y. Cuối cùng hắn cũng chậm một bước, hay phải nói là đã chậm rất nhiều bước.</p>
             </div>
         </div>
 
-        <!-- Hồi kết -->
-        <div class="entry right">
+        <!-- SAU ĐÓ (CHUỖI KẾT) -->
+        <div class="entry left">
+            <div class="content-box">
+                <span class="date">Sau Năm 962</span>
+                <span class="location">📍 Thanh Hà</span>
+                <h2>Tú Kim Lâu Xâm Nhập</h2>
+                <p>​Sau biến cố trạm dịch Thanh Phong, vị thế của Tú Kim Lâu ở Nam Đường tăng vọt, thậm chí có thể thao túng tình hình triều chính. Điền Anh chỉ vừa mới trở về Thanh Hà, thì Tú Kim Lâu đã đánh hơi thấy mà kéo đến ngay. Mục đích của chúng không chỉ là lấy đầu của Điền Anh cùng danh sách các nghĩa sĩ đổi mặt để hàn gắn liên minh với Khiết Đan, mà còn nhân cơ hội này điên cuồng mở rộng thế lực tại Thanh Hà.</p>
+                <p>Đúng lúc này, Giang Yến biến mất suốt ba năm cũng quay về Thanh Hà. Để đảm bảo an toàn cho chúng ta, Giang Yến dùng thân phận kẻ bịt mặt cướp đi Trấn Quan Ngọc, rồi sau đó lại biến mất, không để lại bất cứ dấu vết nào.</p>
+            </div>
+        </div>
+
+        <div class="entry left">
             <div class="content-box">
                 <span class="date">Hồi Kết</span>
-                <br>
                 <span class="location">📍 Đỉnh Phật Quang</span>
-                <h2>Màn Kịch Cuối Cùng & Lê Trung Đoài</h2>
-                <p>Tú Kim Lâu tràn vào Thanh Hà truy sát Điền Anh. Giang Yến tái xuất cướp Trấn Quan Ngọc để bảo vệ mọi người. Khi "chúng ta" hợp nhất 2 mảnh Phật Quang Ngọc, Điền Anh lộ diện và giao chiến. Nhận ra kiếm pháp của Giang Yến, Điền Anh tương kế tựu kế, giả chết chìm xuống hồ.</p>
-                <p>Sau đó, hắn đổi tên thành <strong>Lê Trung Đoài</strong>, thay đổi dung mạo, một mình thâm nhập vào Khiết Đan để tiếp tục thực hiện kế hoạch còn dang dở.</p>
+                <h2>Phật Quang Lần Thứ Ba</h2>
+                <p>Trong quá trình khám phá Thanh Hà chúng ta sẽ vô tình tập hợp đủ hai khối Phật Quang Ngọc. Khi hợp hai khối ngọc làm một và triệu hồi Phật Quang lần thứ ba trên đỉnh Phật Quang, Điền Anh sẽ lộ diện. Thấy người đến không phải là Diệp Vạn Sơn, hắn ta ngay lập tức tấn công. Tuy nhiên, chỉ vừa chạm trán đã nhận ra kiếm pháp vô danh của chúng ta mang dấu ấn truyền thừa của Giang Yến, và nhờ đó biết được thân phận thật của chúng ta. Nhân cơ hội này Điền Anh nảy sinh ý định giả chết để thoát thân. Trận chiến giằng co càng lúc càng ác liệt, chúng ta và Điền Anh cùng rơi xuống hồ. Giữa làn nước cuộn trào, Điền Anh biến mất không tăm hơi.</p>
+                <p>Sau đó, hắn lần nữa thay đổi dung mạo chỉ để hoàn thành kế hoạch Hậu Kiến Khiết Đan còn dang dở ba năm trước. Đổi tên thành Lê Trung Đoài, thâm nhập vào Khiết Đan và tiềm phục lâu dài tại đó.</p>
             </div>
         </div>
 
     </div>
     
-    <div style="text-align: center; margin-top: 40px; border-top: 1px solid #333; padding-top: 20px;">
-        <p><em>Nguồn: https://www.facebook.com/profile.php?id=61578541042685</em></p>
+    <div style="text-align: center; margin-top: 40px; border-top: 2px solid #333; padding-top: 20px;">
+        <p><em>Hết ghi chép.</em></p>
     </div>
 </div>
 
